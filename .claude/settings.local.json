@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bunx create-next-app:*)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(for item in elite-realty-temp/*)",
+      "Bash(do cp -r \"$item\" \"ALEX/\")",
+      "Bash(done)",
+      "Bash(npx tsc:*)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "mcp__Sanity__list_projects",
+      "mcp__Sanity__get_context",
+      "mcp__Sanity__get_schema",
+      "Bash(npx sanity:*)",
+      "Bash(NEXT_PUBLIC_SANITY_PROJECT_ID=6ostes35 NEXT_PUBLIC_SANITY_DATASET=production npx sanity schema deploy:*)",
+      "Bash(NEXT_PUBLIC_SANITY_PROJECT_ID=6ostes35 NEXT_PUBLIC_SANITY_DATASET=production npx sanity login:*)",
+      "Bash(SANITY_API_TOKEN=skktG46SFMzZnm5toNzPG3aAzLqGwdL2fHEoDllnNneLmiRAfCzFDwL1iawlcAk20X9MvPXLjtWpptDt9mBp1hqttkkDkaBR38w4PO9QuR6U7ZQo2TC33aSPl2a431SaNXiPf9YKPYQDvWQx45bgHQOd66QJUZ6Xr7K0OhHqoKQjPAbRQGzu npx tsx scripts/upload-properties.ts --test 5)",
+      "Bash(SANITY_API_TOKEN=skktG46SFMzZnm5toNzPG3aAzLqGwdL2fHEoDllnNneLmiRAfCzFDwL1iawlcAk20X9MvPXLjtWpptDt9mBp1hqttkkDkaBR38w4PO9QuR6U7ZQo2TC33aSPl2a431SaNXiPf9YKPYQDvWQx45bgHQOd66QJUZ6Xr7K0OhHqoKQjPAbRQGzu npx tsx scripts/upload-properties.ts)",
+      "Bash(SANITY_API_TOKEN=skktG46SFMzZnm5toNzPG3aAzLqGwdL2fHEoDllnNneLmiRAfCzFDwL1iawlcAk20X9MvPXLjtWpptDt9mBp1hqttkkDkaBR38w4PO9QuR6U7ZQo2TC33aSPl2a431SaNXiPf9YKPYQDvWQx45bgHQOd66QJUZ6Xr7K0OhHqoKQjPAbRQGzu npx tsx scripts/convert-and-upload-heic.ts)",
+      "WebSearch",
+      "WebFetch(domain:ritapellens.com)",
+      "WebFetch(domain:www.luxurypresence.com)",
+      "WebFetch(domain:eseospace.com)",
+      "Bash(npm run build:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git reset:*)",
+      "Bash(git rm:*)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git checkout:*)",
+      "mcp__Sanity__query_documents",
+      "Bash(npm run dev:*)",
+      "Bash(timeout:*)"
+    ]
+  }
+}

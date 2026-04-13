@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Doulos SIL";
+  src: local("Doulos SIL"), local("Doulos SIL Regular"), url("/fonts/DoulosSILR.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* Dark theme color palette */
+:root {
+  --color-black: #0a0a0a;
+  --color-dark: #1a1a1a;
+  --color-dark-elevated: #252525;
+  --color-gray-dark: #2d2d2d;
+  --color-gray-500: #6b6b6b;
+  --color-gray-400: #8a8a8a;
+  --color-gray-300: #b0b0b0;
+  --color-gray-light: #a0a0a0;
+  --color-white: #ffffff;
+  --color-white-muted: #e0e0e0;
+  --color-gold: #d4af37;
+  --color-gold-light: #ecc94b;
+  --color-gold-muted: #b7791f;
+  --color-success: #38a169;
+  --color-error: #e53e3e;
+}
+
+@theme inline {
+  /* Colors */
+  --color-background: var(--color-black);
+  --color-foreground: var(--color-white);
+
+  /* Fonts */
+  --font-display: var(--font-cormorant);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-cormorant);
+
+  /* Custom colors for Tailwind classes */
+  --color-black: #0a0a0a;
+  --color-dark: #1a1a1a;
+  --color-dark-elevated: #252525;
+  --color-gray-dark: #2d2d2d;
+  --color-gray-light: #a0a0a0;
+  --color-gold: #d4af37;
+  --color-gold-light: #ecc94b;
+  --color-gold-muted: #b7791f;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  color: var(--color-white);
+}
+
+/* Prose (PortableText) — force sans-serif for body text */
+.prose p, .prose li, .prose blockquote, .prose a, .prose strong {
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Ensure font-serif class works */
+.font-serif {
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif !important;
+}
+
+/* Times New Roman serif alternative */
+.font-serif-times {
+  font-family: "Times New Roman", Times, serif !important;
+}
+
+.font-doulos {
+  font-family: "Doulos SIL", "Cormorant Garamond", Georgia, serif !important;
+}
+
+/* Reduced font size for single-line titles */
+.text-title-compact {
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.4;
+}
+
+/* Component classes */
+@layer components {
+  .btn-primary {
+    background-color: var(--color-white);
+    color: var(--color-black);
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: background-color 200ms, color 200ms;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-gold);
+    color: var(--color-black);
+  }
+
+  .btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-black), 0 0 0 4px var(--color-gold);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-white);
+    border: 1px solid var(--color-white);
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: background-color 200ms, color 200ms;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-white);
+    color: var(--color-black);
+  }
+
+  .btn-secondary:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-black), 0 0 0 4px var(--color-white);
+  }
+}
