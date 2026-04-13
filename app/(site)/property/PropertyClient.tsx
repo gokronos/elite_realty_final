@@ -29,11 +29,11 @@ function PropertyClientContent({ properties }: PropertyClientProps) {
     setStatus(s ?? "all");
   }, [searchParams]);
 
-  // Open modal if property ID is in URL query
+  // Open modal if property slug is in URL query
   useEffect(() => {
-    const propertyId = searchParams.get("property");
-    if (propertyId) {
-      const property = properties.find((p) => p._id === propertyId);
+    const propertySlug = searchParams.get("property");
+    if (propertySlug) {
+      const property = properties.find((p) => p.slug?.current === propertySlug);
       if (property) {
         setSelectedProperty(property);
       }

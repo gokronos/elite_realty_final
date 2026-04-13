@@ -28,10 +28,10 @@ function getStatusLabel(status: string): string {
   }
 }
 
-function handleShare(e: React.MouseEvent, title: string, id: string) {
+function handleShare(e: React.MouseEvent, title: string, slug: string) {
   e.preventDefault();
   e.stopPropagation();
-  const url = `${window.location.origin}/property?property=${id}`;
+  const url = `${window.location.origin}/property?property=${slug}`;
   if (navigator.share) {
     navigator.share({ title, url }).catch(() => {});
   } else {
@@ -51,9 +51,10 @@ export function PropertyCard({ property, className, titleClassName }: PropertyCa
   const hasBaths = fullProperty.bathrooms !== undefined;
   const hasSqft  = fullProperty.sqft      !== undefined;
   const hasSpecs = hasBeds || hasBaths || hasSqft;
+  const propertySlug = property.slug?.current || property._id;
 
   return (
-    <Link href={`/property?property=${property._id}`}>
+    <Link href={`/property?property=${propertySlug}`}>
       <article
         className={cn(
           "group cursor-pointer rounded-sm overflow-hidden",
@@ -87,7 +88,7 @@ export function PropertyCard({ property, className, titleClassName }: PropertyCa
 
           {/* Share button — top right */}
           <button
-            onClick={(e) => handleShare(e, property.title, property._id)}
+            onClick={(e) => handleShare(e, property.title, propertySlug)}
             className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-black/60 backdrop-blur-sm hover:bg-[#d4af37] hover:text-black text-white transition-colors duration-200 rounded-sm"
             aria-label="Compartir propiedad"
           >

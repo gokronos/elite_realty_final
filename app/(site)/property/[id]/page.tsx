@@ -11,13 +11,13 @@ import { formatPrice } from "@/lib/utils";
 import { urlFor } from "@/lib/sanity/image";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { getPropertyById } from "@/lib/sanity/queries";
+import { getPropertyBySlug } from "@/lib/sanity/queries";
 import type { Property } from "@/types";
 
 export default function PropertyDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const propertyId = params.id as string;
+  const propertySlug = params.id as string;
   
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
@@ -25,9 +25,9 @@ export default function PropertyDetailPage() {
 
   useEffect(() => {
     const fetchProperty = async () => {
-      if (!propertyId) return;
+      if (!propertySlug) return;
       try {
-        const data = await getPropertyById(propertyId);
+        const data = await getPropertyBySlug(propertySlug);
         setProperty(data);
       } catch (error) {
         console.error("Error fetching property:", error);
@@ -37,7 +37,7 @@ export default function PropertyDetailPage() {
     };
 
     fetchProperty();
-  }, [propertyId]);
+  }, [propertySlug]);
 
   if (loading) {
     return (
