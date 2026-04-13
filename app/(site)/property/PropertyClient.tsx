@@ -33,7 +33,9 @@ function PropertyClientContent({ properties }: PropertyClientProps) {
   useEffect(() => {
     const propertySlug = searchParams.get("property");
     if (propertySlug) {
-      const property = properties.find((p) => p.slug?.current === propertySlug);
+      const property = properties.find(
+        (p) => p.slug?.current === propertySlug || p._id === propertySlug
+      );
       if (property) {
         setSelectedProperty(property);
       }

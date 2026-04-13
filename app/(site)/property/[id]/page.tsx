@@ -11,7 +11,6 @@ import { formatPrice } from "@/lib/utils";
 import { urlFor } from "@/lib/sanity/image";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { getPropertyBySlug } from "@/lib/sanity/queries";
 import type { Property } from "@/types";
 
 export default function PropertyDetailPage() {
@@ -27,7 +26,12 @@ export default function PropertyDetailPage() {
     const fetchProperty = async () => {
       if (!propertySlug) return;
       try {
-        const data = await getPropertyBySlug(propertySlug);
+        const response = await fetch(`/api/property/${encodeURIComponent(propertySlug)}`);
+        if (!response.ok) {
+          setProperty(null);
+          return;
+        }
+        const data = (await response.json()) as Property;
         setProperty(data);
       } catch (error) {
         console.error("Error fetching property:", error);

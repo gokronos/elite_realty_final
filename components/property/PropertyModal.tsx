@@ -236,7 +236,8 @@ export function PropertyModal({ property, isOpen, onClose }: PropertyModalProps)
               <Button 
                 variant="primary"
                 onClick={() => {
-                  router.push(`/property/${property.slug.current}`);
+                  const propertyPath = property.slug?.current || property._id;
+                  router.push(`/property/${propertyPath}`);
                   onClose();
                 }}
               >
