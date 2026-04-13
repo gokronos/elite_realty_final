@@ -42,3 +42,7 @@ _staging/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local duplicate project folders
+/elite_realty_3-main-2026/
+/elite_realty_final/
