@@ -5,6 +5,7 @@ const neighborhoodOptions = [
   { title: "Dorado (PR)", value: "Dorado" },
   { title: "Guaynabo (PR)", value: "Guaynabo" },
   { title: "Miramar (PR)", value: "Miramar" },
+  { title: "Bayamón (PR)", value: "Bayamón" },
   { title: "Santurce (PR)", value: "Santurce" },
   { title: "Hato Rey (PR)", value: "Hato Rey" },
   { title: "Ocean Park (PR)", value: "Ocean Park" },

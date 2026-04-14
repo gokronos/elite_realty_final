@@ -78,6 +78,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "dorado",
     "guaynabo",
     "miramar",
+    "bayamon",
     "hato-rey",
     "santurce",
     "ocean-park",

@@ -518,6 +518,7 @@ export function generateLocationsListSchema() {
     { name: "Dorado", region: "Puerto Rico", slug: "dorado" },
     { name: "Guaynabo", region: "Puerto Rico", slug: "guaynabo" },
     { name: "Miramar", region: "Puerto Rico", slug: "miramar" },
+    { name: "Bayamón", region: "Puerto Rico", slug: "bayamon" },
     { name: "Hato Rey", region: "Puerto Rico", slug: "hato-rey" },
     { name: "Santurce", region: "Puerto Rico", slug: "santurce" },
     { name: "Ocean Park", region: "Puerto Rico", slug: "ocean-park" },
