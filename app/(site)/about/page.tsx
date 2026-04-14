@@ -24,7 +24,7 @@ export default function AboutPage() {
             {/* Alexandra Photo - Static Image */}
             <div className="aspect-[3/4] bg-[#1a1a1a] border border-[#2d2d2d] relative overflow-hidden">
               <Image
-                src="/images/alexandra.png"
+                src="/images/alexandra2.png"
                 alt="Alexandra Lugo - Luxury Real Estate Broker"
                 fill
                 className="object-cover object-top"
