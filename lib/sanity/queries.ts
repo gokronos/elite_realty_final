@@ -220,6 +220,25 @@ export const soldPropertiesQuery = groq`
   }
 `;
 
+/** Rented properties (most recent) */
+export const rentedPropertiesQuery = groq`
+  *[_type == "property" && status == "rented"] | order(yearTransacted desc, _createdAt desc) [0...12] {
+    _id,
+    title,
+    slug,
+    status,
+    price,
+    priceType,
+    location,
+    yearTransacted,
+    "featuredImage": featuredImage {
+      asset->,
+      alt
+    },
+    "featuredImageUrl": featuredImage.asset->url
+  }
+`;
+
 /** Properties by neighborhood */
 export const propertiesByNeighborhoodQuery = groq`
   *[_type == "property" && location.neighborhood in $neighborhoods] | order(status asc, _createdAt desc) {
@@ -455,6 +474,16 @@ export async function getSoldProperties(): Promise<FeaturedProperty[]> {
   return fetchWithFallback(
     "getSoldProperties",
     soldPropertiesQuery,
+    [],
+    {},
+    { next: { revalidate: revalidateSeconds } }
+  );
+}
+
+export async function getRentedProperties(): Promise<FeaturedProperty[]> {
+  return fetchWithFallback(
+    "getRentedProperties",
+    rentedPropertiesQuery,
     [],
     {},
     { next: { revalidate: revalidateSeconds } }

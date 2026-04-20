@@ -16,6 +16,9 @@ export interface PropertyCardProps {
   property: PropertyCardType | Property | PropertyWithImageUrl;
   className?: string;
   titleClassName?: string;
+  disableLink?: boolean;
+  hidePrice?: boolean;
+  hideShare?: boolean;
 }
 
 function getStatusLabel(status: string): string {
@@ -39,7 +42,14 @@ function handleShare(e: React.MouseEvent, title: string, slug: string) {
   }
 }
 
-export function PropertyCard({ property, className, titleClassName }: PropertyCardProps) {
+export function PropertyCard({
+  property,
+  className,
+  titleClassName,
+  disableLink = false,
+  hidePrice = false,
+  hideShare = false,
+}: PropertyCardProps) {
   const propertyWithUrl = property as PropertyWithImageUrl;
   const imageUrl =
     urlFor(property.featuredImage)?.width(800).height(600).url() ||
@@ -53,16 +63,17 @@ export function PropertyCard({ property, className, titleClassName }: PropertyCa
   const hasSpecs = hasBeds || hasBaths || hasSqft;
   const propertySlug = property.slug?.current || property._id;
 
-  return (
-    <Link href={`/property?property=${propertySlug}`}>
-      <article
-        className={cn(
-          "group cursor-pointer rounded-sm overflow-hidden",
-          "bg-[#111111] border border-[#1e1e1e]",
-          "hover:border-[#d4af37]/30 transition-all duration-300",
-          className
-        )}
-      >
+  const cardContent = (
+    <article
+      className={cn(
+        "group rounded-sm overflow-hidden",
+        "bg-[#111111] border border-[#1e1e1e]",
+        disableLink
+          ? "cursor-default"
+          : "cursor-pointer hover:border-[#d4af37]/30 transition-all duration-300",
+        className
+      )}
+    >
         {/* Image */}
         <div className="aspect-[4/3] overflow-hidden relative">
           {imageUrl ? (
@@ -70,7 +81,10 @@ export function PropertyCard({ property, className, titleClassName }: PropertyCa
               src={imageUrl}
               alt={property.featuredImage?.alt || property.title}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className={cn(
+                "object-cover transition-transform duration-500",
+                !disableLink && "group-hover:scale-105"
+              )}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           ) : (
@@ -87,13 +101,15 @@ export function PropertyCard({ property, className, titleClassName }: PropertyCa
           </div>
 
           {/* Share button — top right */}
-          <button
-            onClick={(e) => handleShare(e, property.title, propertySlug)}
-            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-black/60 backdrop-blur-sm hover:bg-[#d4af37] hover:text-black text-white transition-colors duration-200 rounded-sm"
-            aria-label="Compartir propiedad"
-          >
-            <Share2 className="w-3.5 h-3.5" />
-          </button>
+          {!hideShare && (
+            <button
+              onClick={(e) => handleShare(e, property.title, propertySlug)}
+              className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-black/60 backdrop-blur-sm hover:bg-[#d4af37] hover:text-black text-white transition-colors duration-200 rounded-sm"
+              aria-label="Compartir propiedad"
+            >
+              <Share2 className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
 
         {/* Content */}
@@ -108,19 +124,21 @@ export function PropertyCard({ property, className, titleClassName }: PropertyCa
           <h3 className={cn(
             titleClassName,
             "font-doulos text-lg font-normal !text-[#a5a4a4] leading-snug mb-3",
-            "group-hover:!text-[#d4af37] transition-colors duration-200"
+            !disableLink && "group-hover:!text-[#d4af37] transition-colors duration-200"
           )}
           style={{ fontFamily: '"Doulos SIL", "Cormorant Garamond", Georgia, serif' }}>
             {property.title}
           </h3>
 
           {/* Price */}
-          <p className="text-2xl font-bold font-sans text-[#d4af37] mb-4">
-            {formatPrice(property.price)}
-            {property.priceType === "rent" && (
-              <span className="text-sm text-[#a0a0a0] font-normal ml-1">/mo</span>
-            )}
-          </p>
+          {!hidePrice && (
+            <p className="text-2xl font-bold font-sans text-[#d4af37] mb-4">
+              {formatPrice(property.price)}
+              {property.priceType === "rent" && (
+                <span className="text-sm text-[#a0a0a0] font-normal ml-1">/mo</span>
+              )}
+            </p>
+          )}
 
           {/* Specs */}
           {hasSpecs && (
@@ -140,13 +158,18 @@ export function PropertyCard({ property, className, titleClassName }: PropertyCa
               {hasSqft && (
                 <span className="flex items-center gap-1.5">
                   <Ruler className="w-3.5 h-3.5 text-[#6b6b6b]" />
-                  {fullProperty.sqft?.toLocaleString()} SF
+                  {new Intl.NumberFormat("en-US").format(fullProperty.sqft ?? 0)} SF
                 </span>
               )}
             </div>
           )}
         </div>
-      </article>
-    </Link>
+    </article>
   );
+
+  if (disableLink) {
+    return cardContent;
+  }
+
+  return <Link href={`/property?property=${propertySlug}`}>{cardContent}</Link>;
 }

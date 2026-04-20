@@ -2,9 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { PropertyCard } from "@/components/property/PropertyCard";
+import { InformativePropertyCarousel } from "@/components/property/InformativePropertyCarousel";
 import { LocationCard } from "@/components/ui/LocationCard";
 import { HeroBackground } from "@/components/hero/HeroBackground";
-import { getPropertiesForSale, getSoldProperties, getPropertiesForRent } from "@/lib/sanity/queries";
+import {
+  getPropertiesForSale,
+  getSoldProperties,
+  getPropertiesForRent,
+  getRentedProperties,
+} from "@/lib/sanity/queries";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { generateHomePageSchema } from "@/lib/schema";
 
@@ -18,10 +24,11 @@ const locations = [
 ];
 
 export default async function HomePage() {
-  const [propertiesForSale, propertiesForRent, soldProperties] = await Promise.all([
+  const [propertiesForSale, propertiesForRent, soldProperties, rentedProperties] = await Promise.all([
     getPropertiesForSale(),
     getPropertiesForRent(),
     getSoldProperties(),
+    getRentedProperties(),
   ]);
   const schemaData = generateHomePageSchema();
 
@@ -209,7 +216,7 @@ export default async function HomePage() {
       </section>
 
       {/* ========================================
-          SECTION 5: SOLD
+          SECTION 5: SOLD (INFORMATIVE)
           ======================================== */}
       <section className="py-24 lg:py-32 px-4 bg-[#1a1a1a]">
         <div className="container mx-auto">
@@ -220,35 +227,48 @@ export default async function HomePage() {
             </h2>
           </div>
 
-          {/* Property Grid */}
+          {/* Informative carousel */}
           {soldProperties.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {soldProperties.slice(0, 6).map((property) => (
-                <PropertyCard
-                  key={property._id}
-                  property={property}
-                />
-              ))}
-            </div>
+            <InformativePropertyCarousel
+              properties={soldProperties}
+              ariaLabel="Sold properties carousel"
+            />
           ) : (
             <div className="text-center py-12">
               <p className="text-[#6b6b6b]">No sold properties to display.</p>
-            </div>
-          )}
-
-          {/* View All Button */}
-          {soldProperties.length > 6 && (
-            <div className="text-center mt-12">
-              <Link href="/property?status=sold">
-                <Button variant="secondary">View All</Button>
-              </Link>
             </div>
           )}
         </div>
       </section>
 
       {/* ========================================
-          SECTION 6: LOCATIONS
+          SECTION 6: RENTED (INFORMATIVE)
+          ======================================== */}
+      <section className="py-24 lg:py-32 px-4 bg-[#0a0a0a]">
+        <div className="container mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-wide">
+              RENTED
+            </h2>
+          </div>
+
+          {/* Informative carousel */}
+          {rentedProperties.length > 0 ? (
+            <InformativePropertyCarousel
+              properties={rentedProperties}
+              ariaLabel="Rented properties carousel"
+            />
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-[#6b6b6b]">No rented properties to display.</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ========================================
+          SECTION 7: LOCATIONS
           ======================================== */}
       <section className="bg-[#0a0a0a]">
         {/* Section Header */}
@@ -272,7 +292,7 @@ export default async function HomePage() {
       </section>
 
       {/* ========================================
-          SECTION 7: CONTACT CTA
+          SECTION 8: CONTACT CTA
           ======================================== */}
       <section className="py-24 lg:py-32 px-4 bg-[#1a1a1a]">
         <div className="container mx-auto text-center">
