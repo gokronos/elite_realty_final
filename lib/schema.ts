@@ -161,16 +161,19 @@ export function generatePropertySchema(property: Property) {
     "@type": schemaType,
     "@id": propertyUrl,
     name: property.title,
-    description: `${property.title} - ${getPropertyTypeLabel(property.propertyType)} in ${property.location?.neighborhood || property.location?.city}, ${property.location?.state}`,
+    description: `${property.title} - ${getPropertyTypeLabel(property.propertyType)}${property.location?.neighborhood || property.location?.city || property.location?.state ? ` in ${[property.location?.neighborhood, property.location?.city, property.location?.state].filter(Boolean).join(", ")}` : ""}`,
     url: propertyUrl,
     image: imageUrl,
-    address: {
+  };
+
+  if (property.location?.city || property.location?.state) {
+    schema.address = {
       "@type": "PostalAddress",
       addressLocality: property.location?.city,
       addressRegion: property.location?.state,
       addressCountry: property.location?.state === "FL" ? "US" : "PR",
-    },
-  };
+    };
+  }
 
   // Add geo if we have city data
   if (property.location?.city) {

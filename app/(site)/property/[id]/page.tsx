@@ -7,7 +7,7 @@ import { useRouter, useParams } from "next/navigation";
 import { ChevronLeft, ChevronRight, Bed, Bath, Maximize, ArrowLeft, Phone, Mail } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 import { cn } from "@/lib/utils";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, formatPropertyLocation, formatWholeNumber } from "@/lib/utils";
 import { urlFor } from "@/lib/sanity/image";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -192,8 +192,7 @@ export default function PropertyDetailPage() {
                 </h1>
 
                 <p className="font-sans text-sm text-[#a0a0a0] uppercase tracking-widest mb-6">
-                  {property.location.neighborhood && `${property.location.neighborhood}, `}
-                  {property.location.city}, {property.location.state}
+                  {formatPropertyLocation(property.location)}
                 </p>
 
                 <p className="font-sans text-3xl lg:text-4xl text-white font-semibold mb-4">
@@ -235,7 +234,7 @@ export default function PropertyDetailPage() {
                         <Maximize className="w-5 h-5 text-[#d4af37]" />
                         <span className="text-[#a0a0a0]">Square Feet</span>
                       </div>
-                      <p className="text-white text-2xl font-semibold">{property.sqft.toLocaleString()}</p>
+                      <p className="text-white text-2xl font-semibold">{formatWholeNumber(property.sqft)}</p>
                     </div>
                   )}
                 </div>

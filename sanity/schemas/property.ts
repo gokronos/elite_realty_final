@@ -69,6 +69,15 @@ export const property = defineType({
     }),
 
     defineField({
+      name: "historicalRecord",
+      title: "Historical Record / Partial Data",
+      type: "boolean",
+      description: "Enable for older sold/rented properties when only partial information is available.",
+      group: "basic",
+      initialValue: false,
+    }),
+
+    defineField({
       name: "propertyType",
       title: "Property Type",
       type: "string",
@@ -168,7 +177,11 @@ export const property = defineType({
           name: "city",
           title: "City",
           type: "string",
-          validation: (Rule) => Rule.required().error("City is required"),
+          validation: (Rule) =>
+            Rule.custom((value, context) => {
+              if (context.document?.historicalRecord) return true;
+              return value ? true : "City is required";
+            }),
         },
         {
           name: "state",
@@ -181,7 +194,11 @@ export const property = defineType({
             ],
             layout: "radio",
           },
-          validation: (Rule) => Rule.required().error("State is required"),
+          validation: (Rule) =>
+            Rule.custom((value, context) => {
+              if (context.document?.historicalRecord) return true;
+              return value ? true : "State is required";
+            }),
         },
         {
           name: "neighborhood",
@@ -278,7 +295,7 @@ export const property = defineType({
       };
       return {
         title: title,
-        subtitle: `${statusLabels[status] || status} • ${city || "No location"}`,
+        subtitle: `${statusLabels[status] || status} • ${city || "Location on file"}`,
         media: media,
       };
     },

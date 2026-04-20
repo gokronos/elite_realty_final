@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Bed, Bath, Ruler, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, formatPropertyLocation, formatWholeNumber } from "@/lib/utils";
 import { urlFor } from "@/lib/sanity/image";
 import type { Property, PropertyCard as PropertyCardType } from "@/types";
 
@@ -116,8 +116,7 @@ export function PropertyCard({
         <div className="px-4 pt-4 pb-5">
           {/* Location */}
           <p className="text-[10px] uppercase tracking-[0.2em] text-[#8a8a8a] font-sans mb-2">
-            {property.location.neighborhood && `${property.location.neighborhood}, `}
-            {property.location.city}, {property.location.state}
+            {formatPropertyLocation(property.location)}
           </p>
 
           {/* Title */}
@@ -158,7 +157,7 @@ export function PropertyCard({
               {hasSqft && (
                 <span className="flex items-center gap-1.5">
                   <Ruler className="w-3.5 h-3.5 text-[#6b6b6b]" />
-                  {new Intl.NumberFormat("en-US").format(fullProperty.sqft ?? 0)} SF
+                  {formatWholeNumber(fullProperty.sqft)} SF
                 </span>
               )}
             </div>

@@ -119,8 +119,8 @@ export type PortableTextContent = (PortableTextBlock | SanityImageWithCaption)[]
 /** Property location details */
 export interface PropertyLocation {
   address?: string;
-  city: string;
-  state: State;
+  city?: string;
+  state?: State;
   neighborhood?: string;
 }
 
@@ -133,6 +133,7 @@ export interface Property extends Pick<SanityDocument, "_id" | "_createdAt"> {
   title: string;
   slug: SanitySlug;
   status: PropertyStatus;
+  historicalRecord?: boolean;
   propertyType?: PropertyType;
   price?: number;
   priceType?: PriceType;

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { X, ExternalLink, Bed, Bath, Maximize, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, formatPropertyLocation, formatWholeNumber } from "@/lib/utils";
 import { urlFor } from "@/lib/sanity/image";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -198,8 +198,7 @@ export function PropertyModal({ property, isOpen, onClose }: PropertyModalProps)
             </h2>
 
             <p className="font-sans text-sm text-[#a0a0a0] uppercase tracking-widest mb-6">
-              {property.location.neighborhood && `${property.location.neighborhood}, `}
-              {property.location.city}, {property.location.state}
+              {formatPropertyLocation(property.location)}
             </p>
 
             <p className="font-sans text-2xl text-white mb-8">
@@ -226,7 +225,7 @@ export function PropertyModal({ property, isOpen, onClose }: PropertyModalProps)
               {property.sqft && (
                 <div className="flex items-center gap-2 text-[#a0a0a0] font-sans">
                   <Maximize className="w-5 h-5" />
-                  <span>{property.sqft.toLocaleString()} sqft</span>
+                  <span>{formatWholeNumber(property.sqft)} sqft</span>
                 </div>
               )}
             </div>
