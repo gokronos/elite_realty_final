@@ -61,8 +61,7 @@ export function InformativePropertyCarousel({
       {/* Scrollable track — no snap to allow reliable programmatic scroll */}
       <div
         ref={containerRef}
-        className="flex gap-6 overflow-x-auto pb-3"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        className="no-scrollbar flex gap-6 overflow-x-auto pb-3"
         aria-label={ariaLabel}
       >
         {properties.map((property) => (

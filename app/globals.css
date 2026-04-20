@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Hide scrollbar across all browsers */
+.no-scrollbar {
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE / Edge */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;               /* Chrome / Safari / Opera */
+}
+
 @font-face {
   font-family: "Doulos SIL";
   src: local("Doulos SIL"), local("Doulos SIL Regular"), url("/fonts/DoulosSILR.ttf") format("truetype");
