@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import Image from "next/image";
 
 export interface SlideMedia {
   video?: string;
@@ -117,21 +116,9 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
     }
   }, [currentIndex, isClient]);
 
-  // Show fallback image during SSR
+  // Show dark background during SSR (prevents beach image flash)
   if (!isClient) {
-    return (
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/hero-beach.jpg"
-          alt=""
-          fill
-          className="object-cover"
-          priority
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-black/60" />
-      </div>
-    );
+    return <div className="absolute inset-0 z-0 bg-[#0a0a0a]" />;
   }
 
   return (
@@ -156,25 +143,16 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
               <video
                 ref={(el) => { videoRefs.current[index] = el; }}
                 src={slide.video}
-                poster={slide.poster}
                 muted
                 loop
                 playsInline
+                preload={index === 0 ? "auto" : "none"}
                 className="absolute inset-0 w-full h-full object-cover"
               />
             )}
 
-            {/* Fallback image behind video */}
-            <div className="absolute inset-0 -z-10">
-              <Image
-                src={slide.image}
-                alt=""
-                fill
-                className="object-cover"
-                priority={index === 0}
-                sizes="100vw"
-              />
-            </div>
+            {/* Dark background while video loads */}
+            <div className="absolute inset-0 -z-10 bg-[#0a0a0a]" />
           </div>
         );
       })}
