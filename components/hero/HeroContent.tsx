@@ -27,17 +27,17 @@ export function HeroContent({ slides, fadeDuration }: HeroContentProps) {
   }, [nextSlide]);
 
   return (
-    <div className="relative w-full mx-auto px-4 sm:px-6 max-w-5xl" style={{ minHeight: "260px" }}>
+    <div className="relative w-full mx-auto px-4 sm:px-6 max-w-5xl">
       {slides.map((slide, index) => {
         const isActive = index === currentIndex;
         return (
           <div
             key={index}
-            className="absolute inset-0 flex flex-col items-center justify-center transition-all duration-700 text-center"
+            className="flex flex-col items-center transition-all duration-700 text-center"
             style={{
               opacity: isActive ? (isTransitioning ? 0 : 1) : 0,
               transform: isActive && !isTransitioning ? "translateY(0)" : "translateY(12px)",
-              pointerEvents: isActive ? "auto" : "none",
+              display: isActive ? "flex" : "none",
             }}
           >
             <p className="text-xs uppercase tracking-[0.25em] text-white/80 mb-3 sm:mb-6">
