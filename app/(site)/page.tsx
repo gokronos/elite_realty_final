@@ -43,21 +43,18 @@ export default async function HomePage() {
         {/* Background Video/Image */}
         <HeroBackground />
 
-        {/* Content */}
-        <div className="relative z-20 mt-48 sm:mt-56">
-          {/* Two buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/property">
-              <Button variant="secondary" size="lg">
-                View Properties
-              </Button>
-            </Link>
-            <Link href="/contact">
-              <Button variant="primary" size="lg">
-                Contact Us
-              </Button>
-            </Link>
-          </div>
+        {/* Buttons — fixed at bottom of hero */}
+        <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 z-20 flex flex-col sm:flex-row gap-4 justify-center w-full px-4">
+          <Link href="/property">
+            <Button variant="secondary" size="lg">
+              View Properties
+            </Button>
+          </Link>
+          <Link href="/contact">
+            <Button variant="primary" size="lg">
+              Contact Us
+            </Button>
+          </Link>
         </div>
       </section>
 

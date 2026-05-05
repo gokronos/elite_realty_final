@@ -184,13 +184,13 @@ export function HeroBackground() {
       <div className="absolute inset-0 bg-black/60 z-10" />
 
       {/* Slide Text Content */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center pointer-events-none">
+      <div className="absolute inset-x-0 z-20 flex flex-col items-center px-4 text-center pointer-events-none" style={{ top: "50%", transform: "translateY(-65%)" }}>
         {slides.map((slide, index) => {
           const isActive = index === currentIndex;
           return (
             <div
               key={index}
-              className="absolute transition-all duration-700"
+              className="absolute w-full transition-all duration-700"
               style={{
                 opacity: isActive ? (isTransitioning ? 0 : 1) : 0,
                 transform: isActive && !isTransitioning ? "translateY(0)" : "translateY(12px)",
