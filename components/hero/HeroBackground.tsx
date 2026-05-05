@@ -53,9 +53,21 @@ const FADE_DURATION = 1500; // 1.5 seconds
 export function HeroBackground() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isMobile, setIsMobile] = useState(false); // Default to desktop (videos)
-  const [isClient, setIsClient] = useState(false);
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const [preloadedVideos, setPreloadedVideos] = useState<Set<number>>(new Set([0])); // Preload first video on mount
+
+  // Preload next videos when user navigates
+  useEffect(() => {
+    const nextIndex = (currentIndex + 1) % slides.length;
+    const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
+    
+    setPreloadedVideos(prev => {
+      const updated = new Set(prev);
+      updated.add(currentIndex);
+      updated.add(nextIndex);
+      updated.add(prevIndex);
+      return updated;
+    });
+  }, [currentIndex]);
 
   // Check if mobile on mount
   useEffect(() => {
@@ -138,8 +150,8 @@ export function HeroBackground() {
               zIndex: isActive ? 1 : 0,
             }}
           >
-            {/* Desktop: Video */}
-            {!isMobile && slide.video && (
+            {/* Desktop: Video - only render if preloaded */}
+            {!isMobile && slide.video && preloadedVideos.has(index) && (
               <video
                 ref={(el) => { videoRefs.current[index] = el; }}
                 src={slide.video}
