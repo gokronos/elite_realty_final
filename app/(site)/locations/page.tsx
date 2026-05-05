@@ -85,6 +85,13 @@ const locations = {
       description:
         "Iconic oceanfront living with Art Deco charm and world-famous beaches.",
     },
+    {
+      name: "Edgewater",
+      slug: "edgewater",
+      image: "/images/locations/edgewater.jpg",
+      description:
+        "Trendy waterfront neighborhood along Biscayne Bay, known for luxury high-rises and vibrant arts culture.",
+    },
   ],
 };
 

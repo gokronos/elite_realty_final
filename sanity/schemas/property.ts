@@ -12,6 +12,7 @@ const neighborhoodOptions = [
   { title: "Coral Gables (FL)", value: "Coral Gables" },
   { title: "Brickell (FL)", value: "Brickell" },
   { title: "Miami Beach (FL)", value: "Miami Beach" },
+  { title: "Edgewater (FL)", value: "Edgewater" },
   { title: "Key Biscayne (FL)", value: "Key Biscayne" },
   { title: "Coconut Grove (FL)", value: "Coconut Grove" },
 ];

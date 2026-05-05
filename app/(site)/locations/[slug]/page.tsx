@@ -78,6 +78,13 @@ const locationData: Record<string, { name: string; description: string; neighbor
     city: "Miami Beach",
     state: "FL",
   },
+  "edgewater": {
+    name: "Edgewater",
+    description: "Trendy waterfront neighborhood along Biscayne Bay, known for luxury high-rises and vibrant arts culture.",
+    neighborhoods: ["Edgewater"],
+    city: "Miami",
+    state: "FL",
+  },
 };
 
 interface LocationPageProps {
