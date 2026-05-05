@@ -143,6 +143,7 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
               <video
                 ref={(el) => { videoRefs.current[index] = el; }}
                 src={slide.video}
+                autoPlay
                 muted
                 loop
                 playsInline
