@@ -60,6 +60,7 @@ export const navLinks: NavLink[] = [
           { href: "/locations/coral-gables", label: "Coral Gables" },
           { href: "/locations/brickell", label: "Brickell" },
           { href: "/locations/miami-beach", label: "Miami Beach" },
+          { href: "/locations/edgewater", label: "Edgewater" },
           { href: "/locations/key-biscayne", label: "Key Biscayne" },
           { href: "/locations/coconut-grove", label: "Coconut Grove" },
         ],
