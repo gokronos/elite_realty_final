@@ -15,6 +15,7 @@ interface MobileMenuProps {
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const [openDropdowns, setOpenDropdowns] = useState<Record<string, boolean>>({});
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({});
+  const [openSubSubmenus, setOpenSubSubmenus] = useState<Record<string, boolean>>({});
 
   const toggleDropdown = (label: string) => {
     setOpenDropdowns((prev) => ({ ...prev, [label]: !prev[label] }));
@@ -24,6 +25,10 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     setOpenSubmenus((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const toggleSubSubmenu = (key: string) => {
+    setOpenSubSubmenus((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -31,6 +36,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       document.body.style.overflow = "";
       setOpenDropdowns({});
       setOpenSubmenus({});
+      setOpenSubSubmenus({});
     }
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
@@ -105,17 +111,49 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                   )}
                                 />
                               </button>
-                              <div
+                            <div
                                 className={cn(
                                   "overflow-hidden transition-all duration-300",
-                                  openSubmenus[`${link.label}-${item.label}`] ? "max-h-72 mb-1" : "max-h-0"
+                                  openSubmenus[`${link.label}-${item.label}`] ? "max-h-96 mb-1" : "max-h-0"
                                 )}
                               >
-                                {item.children.map((child) => (
-                                  <Link key={child.href} href={child.href} onClick={onClose} className="block pl-8 py-1.5 text-sm uppercase tracking-[0.1em] text-white/60 hover:text-[#d4af37] transition-colors">
-                                    {child.label}
-                                  </Link>
-                                ))}
+                                {item.children.map((child) =>
+                                  child.subChildren ? (
+                                    <div key={child.label}>
+                                      <button
+                                        onClick={() => toggleSubSubmenu(`${link.label}-${item.label}-${child.label}`)}
+                                        className={cn(
+                                          "flex items-center justify-between w-full pl-8 py-1.5 text-sm uppercase tracking-[0.1em] transition-colors",
+                                          openSubSubmenus[`${link.label}-${item.label}-${child.label}`] ? "text-[#d4af37]" : "text-white/60 hover:text-[#d4af37]"
+                                        )}
+                                      >
+                                        {child.label}
+                                        <ChevronDown
+                                          className={cn(
+                                            "w-3 h-3 mr-1 transition-transform duration-200",
+                                            openSubSubmenus[`${link.label}-${item.label}-${child.label}`] && "rotate-180"
+                                          )}
+                                        />
+                                      </button>
+                                      <div
+                                        className={cn(
+                                          "overflow-hidden transition-all duration-300",
+                                          openSubSubmenus[`${link.label}-${item.label}-${child.label}`] ? "max-h-40 mb-1" : "max-h-0"
+                                        )}
+                                      >
+                                        {child.subChildren.map((sub) => (
+                                          <Link key={sub.href} href={sub.href} onClick={onClose} className="block pl-12 py-1.5 text-xs uppercase tracking-[0.1em] text-white/50 hover:text-[#d4af37] transition-colors">
+                                            {sub.label}
+                                          </Link>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <Link key={child.href} href={child.href!} onClick={onClose} className="block pl-8 py-1.5 text-sm uppercase tracking-[0.1em] text-white/60 hover:text-[#d4af37] transition-colors">
+                                      {child.label}
+                                    </Link>
+                                  )
+                                )}
                               </div>
                             </div>
                           ) : (

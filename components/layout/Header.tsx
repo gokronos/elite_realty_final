@@ -6,7 +6,8 @@ import Image from "next/image";
 import { Menu, ChevronDown, ChevronRight } from "lucide-react";
 import { MobileMenu } from "./MobileMenu";
 
-export type DropdownChild = { href: string; label: string };
+export type DropdownSubChild = { href: string; label: string };
+export type DropdownChild = { href: string | null; label: string; subChildren?: DropdownSubChild[] };
 export type DropdownItem = {
   label: string;
   href: string | null;
@@ -29,8 +30,22 @@ export const navLinks: NavLink[] = [
         label: "Active",
         href: null,
         children: [
-          { href: "/property?status=active-sale", label: "For Sale" },
-          { href: "/property?status=active-rental", label: "For Rent" },
+          {
+            href: null,
+            label: "For Sale",
+            subChildren: [
+              { href: "/property?status=active-sale&type=residential", label: "Residential" },
+              { href: "/property?status=active-sale&type=commercial", label: "Commercial" },
+            ],
+          },
+          {
+            href: null,
+            label: "For Rent",
+            subChildren: [
+              { href: "/property?status=active-rental&type=residential", label: "Residential" },
+              { href: "/property?status=active-rental&type=commercial", label: "Commercial" },
+            ],
+          },
         ],
       },
       { label: "Sold",   href: "/property?status=sold",   children: null },
@@ -120,15 +135,37 @@ export function Header() {
                               {/* Level-2 sub-menu (appears to the right) */}
                               <div className="absolute left-full top-0 ml-px opacity-0 pointer-events-none group-hover/sub:opacity-100 group-hover/sub:pointer-events-auto transition-opacity duration-200">
                                 <div className="bg-[#111111] border border-[#2d2d2d] min-w-[150px] py-2 shadow-2xl">
-                                  {item.children.map((child) => (
-                                    <Link
-                                      key={child.href}
-                                      href={child.href}
-                                      className="block px-5 py-2.5 text-sm uppercase tracking-[0.08em] text-white hover:text-[#d4af37] hover:bg-[#1a1a1a] transition-colors"
-                                    >
-                                      {child.label}
-                                    </Link>
-                                  ))}
+                                  {item.children.map((child) =>
+                                    child.subChildren ? (
+                                      <div key={child.label} className="relative group/sub2">
+                                        <button className="flex items-center justify-between w-full px-5 py-2.5 text-sm uppercase tracking-[0.08em] whitespace-nowrap text-white hover:text-[#d4af37] hover:bg-[#1a1a1a] transition-colors">
+                                          {child.label}
+                                          <ChevronRight className="w-3.5 h-3.5 ml-4 text-[#a0a0a0]" />
+                                        </button>
+                                        <div className="absolute left-full top-0 ml-px opacity-0 pointer-events-none group-hover/sub2:opacity-100 group-hover/sub2:pointer-events-auto transition-opacity duration-200">
+                                          <div className="bg-[#111111] border border-[#2d2d2d] min-w-[150px] py-2 shadow-2xl">
+                                            {child.subChildren.map((sub) => (
+                                              <Link
+                                                key={sub.href}
+                                                href={sub.href}
+                                                className="block px-5 py-2.5 text-sm uppercase tracking-[0.08em] text-white hover:text-[#d4af37] hover:bg-[#1a1a1a] transition-colors"
+                                              >
+                                                {sub.label}
+                                              </Link>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <Link
+                                        key={child.href}
+                                        href={child.href!}
+                                        className="block px-5 py-2.5 text-sm uppercase tracking-[0.08em] text-white hover:text-[#d4af37] hover:bg-[#1a1a1a] transition-colors"
+                                      >
+                                        {child.label}
+                                      </Link>
+                                    )
+                                  )}
                                 </div>
                               </div>
                             </div>

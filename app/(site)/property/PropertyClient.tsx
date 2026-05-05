@@ -16,17 +16,22 @@ function PropertyClientContent({ properties }: PropertyClientProps) {
 
   // Initialize status filter from URL ?status= param
   const urlStatus = searchParams.get("status") as PropertyStatus | null;
+  const urlType = searchParams.get("type") as PropertyType | null;
   const [status, setStatus] = useState<PropertyStatus | "all">(
     urlStatus ?? "all"
   );
-  const [propertyType, setPropertyType] = useState<PropertyType | "all">("all");
+  const [propertyType, setPropertyType] = useState<PropertyType | "all">(
+    urlType ?? "all"
+  );
   const [state, setState] = useState<State | "all">("all");
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
 
-  // Sync status filter when URL param changes (e.g. clicking nav dropdown)
+  // Sync status and type filters when URL params change
   useEffect(() => {
     const s = searchParams.get("status") as PropertyStatus | null;
+    const t = searchParams.get("type") as PropertyType | null;
     setStatus(s ?? "all");
+    setPropertyType(t ?? "all");
   }, [searchParams]);
 
   // Open modal if property slug is in URL query
