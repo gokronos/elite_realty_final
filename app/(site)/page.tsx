@@ -44,25 +44,7 @@ export default async function HomePage() {
         <HeroBackground />
 
         {/* Content */}
-        <div className="relative z-20">
-          {/* Small label on top */}
-          <p className="text-sm uppercase tracking-[0.3em] text-white/80 mb-6">
-            Luxury Real Estate
-          </p>
-
-          {/* Main heading - Elite Realty */}
-          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-[-0.02em] leading-[1.1] text-white mb-4">
-            Elite Realty
-          </h1>
-
-          {/* Gold divider */}
-          <div className="w-16 h-0.5 bg-[#d4af37] mx-auto mb-6" />
-
-          {/* Subtitle with Alexandra's name */}
-          <p className="text-lg sm:text-xl text-white/70 mb-10 max-w-xl mx-auto">
-            Passion &middot; Trust &middot; Experience
-          </p>
-
+        <div className="relative z-20 mt-48 sm:mt-56">
           {/* Two buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/property">

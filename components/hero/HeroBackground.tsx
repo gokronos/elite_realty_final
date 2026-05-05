@@ -7,6 +7,9 @@ interface SlideMedia {
   video?: string;
   image: string;
   poster?: string;
+  label: string;
+  heading: string;
+  subheading: string;
 }
 
 const slides: SlideMedia[] = [
@@ -14,16 +17,33 @@ const slides: SlideMedia[] = [
     video: "/videos/hero-1.mp4",
     image: "/images/hero-beach.jpg",
     poster: "/images/hero-beach.jpg",
+    label: "Luxury Real Estate",
+    heading: "Elite Realty",
+    subheading: "Passion · Trust · Experience",
   },
   {
     video: "/videos/hero-2.mp4",
     image: "/images/hero-beach.jpg",
     poster: "/images/hero-beach.jpg",
+    label: "Puerto Rico & Miami",
+    heading: "Luxury Living Redefined",
+    subheading: "Waterfront estates & premium residences",
   },
   {
     video: "/videos/hero-3.mp4",
     image: "/images/hero-beach.jpg",
     poster: "/images/hero-beach.jpg",
+    label: "Act 60 Opportunities",
+    heading: "Invest With Confidence",
+    subheading: "Exclusive markets, extraordinary returns",
+  },
+  {
+    video: "/videos/hero-4.mp4",
+    image: "/images/hero-beach.jpg",
+    poster: "/images/hero-beach.jpg",
+    label: "Personalized Service",
+    heading: "Your Dream Home Awaits",
+    subheading: "Let Alexandra guide you home",
   },
 ];
 
@@ -163,7 +183,35 @@ export function HeroBackground() {
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/60 z-10" />
 
-      {/* Optional: Slide Indicators */}
+      {/* Slide Text Content */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center pointer-events-none">
+        {slides.map((slide, index) => {
+          const isActive = index === currentIndex;
+          return (
+            <div
+              key={index}
+              className="absolute transition-all duration-700"
+              style={{
+                opacity: isActive ? (isTransitioning ? 0 : 1) : 0,
+                transform: isActive && !isTransitioning ? "translateY(0)" : "translateY(12px)",
+              }}
+            >
+              <p className="text-sm uppercase tracking-[0.3em] text-white/80 mb-6">
+                {slide.label}
+              </p>
+              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-[-0.02em] leading-[1.1] text-white mb-4">
+                {slide.heading}
+              </h1>
+              <div className="w-16 h-0.5 bg-[#d4af37] mx-auto mb-6" />
+              <p className="text-lg sm:text-xl text-white/70 max-w-xl mx-auto">
+                {slide.subheading}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
         {slides.map((_, index) => (
           <button
