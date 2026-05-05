@@ -27,7 +27,7 @@ export function HeroContent({ slides, fadeDuration }: HeroContentProps) {
   }, [nextSlide]);
 
   return (
-    <div className="relative w-full mx-auto px-4 sm:px-6 max-w-5xl">
+    <div className="w-full max-w-2xl mx-auto px-2">
       {slides.map((slide, index) => {
         const isActive = index === currentIndex;
         return (
@@ -40,14 +40,14 @@ export function HeroContent({ slides, fadeDuration }: HeroContentProps) {
               display: isActive ? "flex" : "none",
             }}
           >
-            <p className="text-xs uppercase tracking-[0.25em] text-white/80 mb-3 sm:mb-6">
+            <p className="text-xs uppercase tracking-[0.25em] text-white/80 mb-3">
               {slide.label}
             </p>
-            <h1 className="font-serif text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-[-0.02em] leading-[1.15] text-white mb-3 sm:mb-4">
+            <h1 className="font-serif text-[2.25rem] leading-tight sm:text-6xl md:text-7xl font-light text-white mb-3">
               {slide.heading}
             </h1>
-            <div className="w-12 h-0.5 bg-[#d4af37] mx-auto mb-3 sm:mb-6" />
-            <p className="text-sm sm:text-xl text-white/70 px-2">
+            <div className="w-10 h-0.5 bg-[#d4af37] mx-auto mb-3" />
+            <p className="text-sm sm:text-xl text-white/70">
               {slide.subheading}
             </p>
           </div>
