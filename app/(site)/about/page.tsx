@@ -11,13 +11,44 @@ export const metadata: Metadata = {
     "Meet Alexandra Lugo, luxury real estate broker specializing in Puerto Rico and Miami properties.",
 };
 
+const stats = [
+  { value: "10+", label: "Years of Experience" },
+  { value: "96+", label: "Properties Closed" },
+  { value: "2", label: "Markets: PR & FL" },
+  { value: "$100M+", label: "In Transactions" },
+];
+
+const values = [
+  {
+    title: "Discretion",
+    description:
+      "High-net-worth clients trust Alexandra with their most sensitive transactions. Confidentiality is not a policy—it's a principle.",
+  },
+  {
+    title: "Market Expertise",
+    description:
+      "Intimate knowledge of Condado, Dorado, Brickell, and beyond. Every neighborhood has a pulse—Alexandra knows it intimately.",
+  },
+  {
+    title: "Personalized Service",
+    description:
+      "No two clients are alike. Alexandra takes the time to understand your lifestyle, goals, and vision before recommending a single property.",
+  },
+  {
+    title: "Results-Driven",
+    description:
+      "From strategic pricing to skilled negotiation, every step is designed to achieve the best possible outcome for her clients.",
+  },
+];
+
 export default function AboutPage() {
   const schemaData = generateAboutPageSchema();
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <JsonLd data={schemaData} />
-      {/* Hero */}
+
+      {/* ── Hero ── */}
       <section className="pt-16 pb-24 px-4">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -50,12 +81,21 @@ export default function AboutPage() {
                 <p>
                   Her deep understanding of the unique needs of high-net-worth
                   clients, combined with her intimate knowledge of both markets,
-                  allows her to provide an unparalleled level of service.
+                  allows her to provide an unparalleled level of service. Alexandra
+                  is known for her calm approach, sharp instincts, and ability to
+                  navigate even the most complex transactions with grace.
                 </p>
                 <p>
                   Whether you&apos;re seeking a beachfront condo in Condado, a
                   family estate in Dorado, or a sophisticated residence in Brickell,
-                  Alexandra brings the expertise and discretion you deserve.
+                  Alexandra brings the expertise and discretion you deserve. Her
+                  bilingual fluency in English and Spanish allows her to connect
+                  authentically with a diverse clientele across both markets.
+                </p>
+                <p>
+                  Beyond transactions, Alexandra sees herself as a trusted advisor—
+                  someone clients return to not just once, but for every chapter of
+                  their lives.
                 </p>
               </div>
             </div>
@@ -63,10 +103,82 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Markets */}
+      {/* ── Stats ── */}
+      <section className="py-20 px-4 bg-[#1a1a1a] border-y border-[#2d2d2d]">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <p className="font-serif text-4xl md:text-5xl text-[#d4af37] mb-2">
+                  {stat.value}
+                </p>
+                <p className="text-[#a0a0a0] text-sm uppercase tracking-widest">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Philosophy ── */}
+      <section className="py-24 px-4 bg-[#0a0a0a]">
+        <div className="container mx-auto max-w-4xl text-center">
+          <p className="text-sm uppercase tracking-[0.2em] text-[#d4af37] mb-4">
+            Philosophy
+          </p>
+          <h2 className="font-serif text-3xl md:text-4xl font-bold text-white mb-8">
+            Real Estate Is Personal
+          </h2>
+          <p className="text-[#a0a0a0] text-lg leading-relaxed mb-6">
+            Alexandra&apos;s approach to real estate begins long before a listing
+            goes live and extends well after the keys are handed over. She believes
+            that buying or selling a home is one of the most significant decisions
+            a person makes—and that decision deserves a partner who is fully present,
+            deeply informed, and genuinely invested in the outcome.
+          </p>
+          <p className="text-[#a0a0a0] text-lg leading-relaxed">
+            Her philosophy is simple: listen first, advise second, and always put
+            the client&apos;s vision at the center of every strategy. The result is a
+            client experience that feels less like a transaction and more like a
+            collaboration.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Core Values ── */}
       <section className="py-24 px-4 bg-[#1a1a1a]">
         <div className="container mx-auto">
           <div className="text-center mb-16">
+            <p className="text-sm uppercase tracking-[0.2em] text-[#d4af37] mb-4">
+              What Sets Her Apart
+            </p>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-white">
+              The Alexandra Difference
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {values.map((v) => (
+              <div
+                key={v.title}
+                className="p-8 bg-[#0a0a0a] border border-[#2d2d2d] hover:border-[#d4af37] transition-colors duration-300"
+              >
+                <div className="w-8 h-0.5 bg-[#d4af37] mb-4" />
+                <h3 className="font-serif text-xl text-white mb-3">{v.title}</h3>
+                <p className="text-[#a0a0a0] leading-relaxed">{v.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Markets ── */}
+      <section className="py-24 px-4 bg-[#0a0a0a]">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-sm uppercase tracking-[0.2em] text-[#d4af37] mb-4">
+              Coverage
+            </p>
             <h2 className="font-serif text-3xl md:text-4xl font-bold text-white mb-4">
               Markets Served
             </h2>
@@ -75,44 +187,52 @@ export default function AboutPage() {
               markets in the Caribbean and South Florida
             </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Puerto Rico */}
-            <div className="p-8 bg-[#0a0a0a] border border-[#2d2d2d]">
-              <h3 className="font-serif text-2xl text-white mb-4">Puerto Rico</h3>
+            <div className="p-8 bg-[#1a1a1a] border border-[#2d2d2d]">
+              <div className="w-8 h-0.5 bg-[#d4af37] mb-6" />
+              <h3 className="font-serif text-2xl text-white mb-2">Puerto Rico</h3>
+              <p className="text-[#a0a0a0] text-sm mb-6">
+                From the sophisticated streets of Condado to the exclusive golf
+                communities of Dorado, Alexandra is your guide to island luxury.
+              </p>
               <ul className="space-y-2 text-[#a0a0a0]">
-                <li>Condado</li>
-                <li>Dorado</li>
-                <li>Guaynabo</li>
-                <li>Miramar</li>
-                <li>Old San Juan</li>
+                {["Condado", "Dorado", "Guaynabo", "Miramar", "Ocean Park", "Hato Rey", "Santurce"].map((loc) => (
+                  <li key={loc} className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-[#d4af37]" />
+                    {loc}
+                  </li>
+                ))}
               </ul>
             </div>
-
-            {/* Florida */}
-            <div className="p-8 bg-[#0a0a0a] border border-[#2d2d2d]">
-              <h3 className="font-serif text-2xl text-white mb-4">Florida</h3>
+            <div className="p-8 bg-[#1a1a1a] border border-[#2d2d2d]">
+              <div className="w-8 h-0.5 bg-[#d4af37] mb-6" />
+              <h3 className="font-serif text-2xl text-white mb-2">Florida</h3>
+              <p className="text-[#a0a0a0] text-sm mb-6">
+                Navigating Miami&apos;s competitive luxury market with the same
+                precision and care she brings to every client relationship.
+              </p>
               <ul className="space-y-2 text-[#a0a0a0]">
-                <li>Coral Gables</li>
-                <li>Brickell</li>
-                <li>Miami Beach</li>
-                <li>Key Biscayne</li>
-                <li>Coconut Grove</li>
+                {["Coral Gables", "Brickell", "Miami Beach", "Key Biscayne", "Coconut Grove"].map((loc) => (
+                  <li key={loc} className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-[#d4af37]" />
+                    {loc}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-24 px-4 bg-[#0a0a0a]">
+      {/* ── CTA ── */}
+      <section className="py-24 px-4 bg-[#1a1a1a] border-t border-[#2d2d2d]">
         <div className="container mx-auto text-center">
           <h2 className="font-serif text-3xl md:text-4xl font-bold text-white mb-6">
             Let&apos;s Work Together
           </h2>
           <p className="text-[#a0a0a0] text-lg mb-8 max-w-2xl mx-auto">
             Ready to find your perfect property? Get in touch to discuss your
-            real estate goals.
+            real estate goals. Alexandra responds personally to every inquiry.
           </p>
           <Link href="/contact">
             <Button variant="primary" size="lg">
