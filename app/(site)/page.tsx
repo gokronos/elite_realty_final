@@ -40,12 +40,12 @@ export default async function HomePage() {
       {/* ========================================
           SECTION 1: HERO (100vh)
           ======================================== */}
-      <section className="relative min-h-screen px-4">
+      <section className="relative min-h-screen overflow-hidden">
         {/* Background Video/Image */}
         <HeroBackground />
 
         {/* Content: text top, buttons bottom — never overlap */}
-        <div className="relative z-20 flex flex-col justify-between min-h-screen py-28 sm:py-40 text-center items-center">
+        <div className="relative z-20 flex flex-col items-center justify-center min-h-screen gap-8 sm:gap-12 px-4 py-28 sm:py-40 text-center">
           {/* Animated Slide Text */}
           <HeroContent slides={slides} fadeDuration={HERO_FADE_DURATION} />
 

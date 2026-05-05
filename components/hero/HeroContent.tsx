@@ -27,27 +27,27 @@ export function HeroContent({ slides, fadeDuration }: HeroContentProps) {
   }, [nextSlide]);
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto px-6" style={{ minHeight: "260px" }}>
+    <div className="relative w-full mx-auto px-4 sm:px-6 max-w-5xl" style={{ minHeight: "260px" }}>
       {slides.map((slide, index) => {
         const isActive = index === currentIndex;
         return (
           <div
             key={index}
-            className="absolute inset-0 flex flex-col items-center justify-center transition-all duration-700"
+            className="absolute inset-0 flex flex-col items-center justify-center transition-all duration-700 text-center"
             style={{
               opacity: isActive ? (isTransitioning ? 0 : 1) : 0,
               transform: isActive && !isTransitioning ? "translateY(0)" : "translateY(12px)",
               pointerEvents: isActive ? "auto" : "none",
             }}
           >
-            <p className="text-xs sm:text-sm uppercase tracking-[0.3em] text-white/80 mb-4 sm:mb-6">
+            <p className="text-xs uppercase tracking-[0.25em] text-white/80 mb-3 sm:mb-6">
               {slide.label}
             </p>
-            <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-[-0.02em] leading-[1.1] text-white mb-4">
+            <h1 className="font-serif text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-[-0.02em] leading-[1.15] text-white mb-3 sm:mb-4">
               {slide.heading}
             </h1>
-            <div className="w-16 h-0.5 bg-[#d4af37] mx-auto mb-4 sm:mb-6" />
-            <p className="text-base sm:text-xl text-white/70 max-w-xl mx-auto">
+            <div className="w-12 h-0.5 bg-[#d4af37] mx-auto mb-3 sm:mb-6" />
+            <p className="text-sm sm:text-xl text-white/70 px-2">
               {slide.subheading}
             </p>
           </div>
