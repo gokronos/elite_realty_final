@@ -70,9 +70,9 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
 
   // Preload adjacent videos
   useEffect(() => {
-    const next = (currentIndex + 1) % slides.length;
-    const prev = (currentIndex - 1 + slides.length) % slides.length;
-    setPreloadedVideos(prev => new Set([...prev, currentIndex, next, prev]));
+    const nextIdx = (currentIndex + 1) % slides.length;
+    const prevIdx = (currentIndex - 1 + slides.length) % slides.length;
+    setPreloadedVideos(current => new Set([...current, currentIndex, nextIdx, prevIdx]));
   }, [currentIndex]);
 
   // Hydration guard
