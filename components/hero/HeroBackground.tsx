@@ -61,7 +61,6 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [preloadedVideos, setPreloadedVideos] = useState<Set<number>>(new Set([0]));
-  const [isMobile, setIsMobile] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
@@ -77,13 +76,9 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
     setPreloadedVideos(prev => new Set([...prev, currentIndex, next, prev]));
   }, [currentIndex]);
 
-  // Check if mobile on mount
+  // Hydration guard
   useEffect(() => {
     setIsClient(true);
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Rotate slides
@@ -102,7 +97,7 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
 
   // Play current video when it becomes active
   useEffect(() => {
-    if (!isMobile && isClient) {
+    if (isClient) {
       videoRefs.current.forEach((video, index) => {
         if (video) {
           if (index === currentIndex) {
@@ -120,7 +115,7 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
         }
       });
     }
-  }, [currentIndex, isMobile, isClient]);
+  }, [currentIndex, isClient]);
 
   // Show fallback image during SSR
   if (!isClient) {
@@ -156,8 +151,8 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
               zIndex: isActive ? 1 : 0,
             }}
           >
-            {/* Desktop: Video - only render if preloaded */}
-            {!isMobile && slide.video && preloadedVideos.has(index) && (
+            {/* Video (all devices) - only render if preloaded */}
+            {slide.video && preloadedVideos.has(index) && (
               <video
                 ref={(el) => { videoRefs.current[index] = el; }}
                 src={slide.video}
@@ -169,8 +164,8 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
               />
             )}
 
-            {/* Mobile: Image only */}
-            {isMobile && (
+            {/* Fallback image behind video */}
+            <div className="absolute inset-0 -z-10">
               <Image
                 src={slide.image}
                 alt=""
@@ -179,21 +174,7 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
                 priority={index === 0}
                 sizes="100vw"
               />
-            )}
-
-            {/* Fallback image for video (hidden but preloaded) */}
-            {!isMobile && (
-              <div className="absolute inset-0 -z-10">
-                <Image
-                  src={slide.image}
-                  alt=""
-                  fill
-                  className="object-cover"
-                  priority={index === 0}
-                  sizes="100vw"
-                />
-              </div>
-            )}
+            </div>
           </div>
         );
       })}
