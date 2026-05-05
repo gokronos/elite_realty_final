@@ -44,7 +44,7 @@ export default async function HomePage() {
         <HeroBackground />
 
         {/* Buttons — fixed at bottom of hero */}
-        <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 z-20 flex flex-col sm:flex-row gap-4 justify-center w-full px-4">
+        <div className="absolute bottom-20 sm:bottom-24 left-1/2 -translate-x-1/2 z-20 flex flex-col sm:flex-row gap-4 justify-center">
           <Link href="/property">
             <Button variant="secondary" size="lg">
               View Properties
