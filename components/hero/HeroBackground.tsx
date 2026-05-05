@@ -184,7 +184,7 @@ export function HeroBackground() {
       <div className="absolute inset-0 bg-black/60 z-10" />
 
       {/* Slide Text Content */}
-      <div className="absolute inset-x-0 z-20 flex flex-col items-center px-4 text-center pointer-events-none" style={{ top: "50%", transform: "translateY(-65%)" }}>
+      <div className="absolute inset-x-0 z-20 flex flex-col items-center px-4 text-center pointer-events-none" style={{ top: "35%", transform: "translateY(-65%)" }}>
         {slides.map((slide, index) => {
           const isActive = index === currentIndex;
           return (
