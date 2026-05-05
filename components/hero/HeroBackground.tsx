@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 
-interface SlideMedia {
+export interface SlideMedia {
   video?: string;
   image: string;
   poster?: string;
@@ -12,7 +12,7 @@ interface SlideMedia {
   subheading: string;
 }
 
-const slides: SlideMedia[] = [
+export const slides: SlideMedia[] = [
   {
     video: "/videos/hero-1.mp4",
     image: "/images/hero-beach.jpg",
@@ -47,34 +47,40 @@ const slides: SlideMedia[] = [
   },
 ];
 
-const SLIDE_DURATION = 8000; // 8 seconds
-const FADE_DURATION = 1500; // 1.5 seconds
+export const HERO_SLIDE_DURATION = 8000;
+export const HERO_FADE_DURATION = 1500;
 
-export function HeroBackground() {
+const SLIDE_DURATION = HERO_SLIDE_DURATION;
+const FADE_DURATION = HERO_FADE_DURATION;
+
+interface HeroBackgroundProps {
+  onSlideChange?: (index: number, isTransitioning: boolean) => void;
+}
+
+export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [preloadedVideos, setPreloadedVideos] = useState<Set<number>>(new Set([0])); // Preload first video on mount
+  const [preloadedVideos, setPreloadedVideos] = useState<Set<number>>(new Set([0]));
+  const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // Preload next videos when user navigates
+  // Notify parent of slide changes
   useEffect(() => {
-    const nextIndex = (currentIndex + 1) % slides.length;
-    const prevIndex = (currentIndex - 1 + slides.length) % slides.length;
-    
-    setPreloadedVideos(prev => {
-      const updated = new Set(prev);
-      updated.add(currentIndex);
-      updated.add(nextIndex);
-      updated.add(prevIndex);
-      return updated;
-    });
+    onSlideChange?.(currentIndex, isTransitioning);
+  }, [currentIndex, isTransitioning, onSlideChange]);
+
+  // Preload adjacent videos
+  useEffect(() => {
+    const next = (currentIndex + 1) % slides.length;
+    const prev = (currentIndex - 1 + slides.length) % slides.length;
+    setPreloadedVideos(prev => new Set([...prev, currentIndex, next, prev]));
   }, [currentIndex]);
 
   // Check if mobile on mount
   useEffect(() => {
     setIsClient(true);
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
@@ -194,34 +200,6 @@ export function HeroBackground() {
 
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/60 z-10" />
-
-      {/* Slide Text Content */}
-      <div className="absolute inset-x-0 z-20 flex flex-col items-center px-4 text-center pointer-events-none" style={{ top: "30%", transform: "translateY(-65%)" }}>
-        {slides.map((slide, index) => {
-          const isActive = index === currentIndex;
-          return (
-            <div
-              key={index}
-              className="absolute w-full transition-all duration-700"
-              style={{
-                opacity: isActive ? (isTransitioning ? 0 : 1) : 0,
-                transform: isActive && !isTransitioning ? "translateY(0)" : "translateY(12px)",
-              }}
-            >
-              <p className="text-sm uppercase tracking-[0.3em] text-white/80 mb-6">
-                {slide.label}
-              </p>
-              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-[-0.02em] leading-[1.1] text-white mb-4">
-                {slide.heading}
-              </h1>
-              <div className="w-16 h-0.5 bg-[#d4af37] mx-auto mb-6" />
-              <p className="text-lg sm:text-xl text-white/70 max-w-xl mx-auto">
-                {slide.subheading}
-              </p>
-            </div>
-          );
-        })}
-      </div>
 
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">

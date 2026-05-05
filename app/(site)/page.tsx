@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/Button";
 import { PropertyCard } from "@/components/property/PropertyCard";
 import { InformativePropertyCarousel } from "@/components/property/InformativePropertyCarousel";
 import { LocationCard } from "@/components/ui/LocationCard";
-import { HeroBackground } from "@/components/hero/HeroBackground";
+import { HeroBackground, slides, HERO_FADE_DURATION } from "@/components/hero/HeroBackground";
+import { HeroContent } from "@/components/hero/HeroContent";
 import {
   getPropertiesForSale,
   getSoldProperties,
@@ -39,22 +40,28 @@ export default async function HomePage() {
       {/* ========================================
           SECTION 1: HERO (100vh)
           ======================================== */}
-      <section className="relative flex min-h-screen flex-col items-center justify-center px-4 text-center">
+      <section className="relative min-h-screen px-4">
         {/* Background Video/Image */}
         <HeroBackground />
 
-        {/* Buttons — fixed at bottom of hero */}
-        <div className="absolute bottom-40 sm:bottom-48 left-1/2 -translate-x-1/2 z-20 flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/property">
-            <Button variant="secondary" size="lg">
-              View Properties
-            </Button>
-          </Link>
-          <Link href="/contact">
-            <Button variant="primary" size="lg">
-              Contact Us
-            </Button>
-          </Link>
+        {/* Content: text top, buttons bottom — never overlap */}
+        <div className="relative z-20 flex flex-col justify-between min-h-screen py-32 sm:py-40 text-center items-center">
+          {/* Animated Slide Text */}
+          <HeroContent slides={slides} fadeDuration={HERO_FADE_DURATION} />
+
+          {/* Buttons always at the bottom */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/property">
+              <Button variant="secondary" size="lg">
+                View Properties
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button variant="primary" size="lg">
+                Contact Us
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
