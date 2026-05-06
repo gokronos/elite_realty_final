@@ -11,7 +11,10 @@ import {
   getSoldProperties,
   getPropertiesForRent,
   getRentedProperties,
+  getAllBlogPosts,
 } from "@/lib/sanity/queries";
+import { urlFor } from "@/lib/sanity/image";
+import { formatDate } from "@/lib/utils";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { generateHomePageSchema } from "@/lib/schema";
 
@@ -25,11 +28,12 @@ const locations = [
 ];
 
 export default async function HomePage() {
-  const [propertiesForSale, propertiesForRent, soldProperties, rentedProperties] = await Promise.all([
+  const [propertiesForSale, propertiesForRent, soldProperties, rentedProperties, blogPosts] = await Promise.all([
     getPropertiesForSale(),
     getPropertiesForRent(),
     getSoldProperties(),
     getRentedProperties(),
+    getAllBlogPosts(),
   ]);
   const schemaData = generateHomePageSchema();
 
@@ -110,7 +114,88 @@ export default async function HomePage() {
       </section>
 
       {/* ========================================
-          SECTION 3: FOR SALE
+          SECTION 3: JOURNAL
+          ======================================== */}
+      <section className="py-24 lg:py-32 px-4 bg-[#1a1a1a]">
+        <div className="container mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-wide">
+              JOURNAL
+            </h2>
+          </div>
+
+          {/* Blog Posts Grid */}
+          {blogPosts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              {blogPosts.slice(0, 3).map((post) => {
+                const imageUrl = post.featuredImage
+                  ? urlFor(post.featuredImage)?.width(600).height(450).url()
+                  : null;
+
+                return (
+                  <article
+                    key={post._id}
+                    className="group bg-[#0a0a0a] border border-[#2d2d2d] hover:border-[#8a8a8a] transition-colors overflow-hidden"
+                  >
+                    <Link href={`/journal/${post.slug.current}`}>
+                      {/* Image - Taller */}
+                      <div className="aspect-[3/2.2] bg-[#2d2d2d] relative overflow-hidden">
+                        {imageUrl ? (
+                          <Image
+                            src={imageUrl}
+                            alt={post.featuredImage?.alt || post.title}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <p className="text-[#6b6b6b]">No image</p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-6">
+                        <p className="text-xs uppercase tracking-[0.15em] text-[#d4af37] mb-3">
+                          {formatDate(post.publishedAt)}
+                          {post.author?.name && ` · ${post.author.name}`}
+                        </p>
+                        <h3 className="font-serif text-lg sm:text-xl text-white group-hover:text-[#d4af37] transition-colors mb-3">
+                          {post.title}
+                        </h3>
+                        {post.excerpt && (
+                          <p className="text-[#a0a0a0] text-sm line-clamp-2">
+                            {post.excerpt}
+                          </p>
+                        )}
+                      </div>
+                    </Link>
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-[#a0a0a0] text-lg mb-4">No articles yet.</p>
+              <p className="text-[#6b6b6b]">Check back soon for insights on luxury real estate.</p>
+            </div>
+          )}
+
+          {/* View All Button */}
+          {blogPosts.length > 3 && (
+            <div className="text-center mt-12">
+              <Link href="/journal">
+                <Button variant="secondary">View All Articles</Button>
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ========================================
+          SECTION 4: FOR SALE
           ======================================== */}
       <section className="py-24 lg:py-32 px-4 bg-[#1a1a1a]">
         <div className="container mx-auto">
@@ -156,7 +241,7 @@ export default async function HomePage() {
       </section>
 
       {/* ========================================
-          SECTION 4: FOR RENT
+          SECTION 5: FOR RENT
           ======================================== */}
       <section className="py-24 lg:py-32 px-4 bg-[#0a0a0a]">
         <div className="container mx-auto">
@@ -202,7 +287,7 @@ export default async function HomePage() {
       </section>
 
       {/* ========================================
-          SECTION 5: SOLD (INFORMATIVE)
+          SECTION 6: SOLD (INFORMATIVE)
           ======================================== */}
       <section className="py-24 lg:py-32 px-4 bg-[#1a1a1a]">
         <div className="container mx-auto">
@@ -228,7 +313,7 @@ export default async function HomePage() {
       </section>
 
       {/* ========================================
-          SECTION 6: RENTED (INFORMATIVE)
+          SECTION 7: RENTED (INFORMATIVE)
           ======================================== */}
       <section className="py-24 lg:py-32 px-4 bg-[#0a0a0a]">
         <div className="container mx-auto">
@@ -254,7 +339,7 @@ export default async function HomePage() {
       </section>
 
       {/* ========================================
-          SECTION 7: LOCATIONS
+          SECTION 8: LOCATIONS
           ======================================== */}
       <section className="bg-[#0a0a0a]">
         {/* Section Header */}
@@ -278,7 +363,7 @@ export default async function HomePage() {
       </section>
 
       {/* ========================================
-          SECTION 8: CONTACT CTA
+          SECTION 9: CONTACT CTA
           ======================================== */}
       <section className="py-24 lg:py-32 px-4 bg-[#1a1a1a]">
         <div className="container mx-auto text-center">
