@@ -136,7 +136,7 @@ Create `/lib/schema.ts` with JSON-LD generators:
   "name": "Alexandra Lugo",
   "description": "Luxury real estate broker specializing in Puerto Rico and Miami",
   "url": "https://elite-realty.vercel.app",
-  "telephone": "+1-787-555-0123",
+  "telephone": "+1 (787) 308-3982",
   "email": "info@eliterealty.com",
   "address": { "@type": "PostalAddress", "addressLocality": "San Juan", "addressRegion": "PR" },
   "areaServed": ["Puerto Rico", "Miami, FL"],
