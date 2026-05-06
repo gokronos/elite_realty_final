@@ -379,8 +379,8 @@ export default async function HomePage() {
             </a>
           </p>
           <p className="text-[#a0a0a0] mb-8">
-            <a href="mailto:alex@eliterealtypr.com" className="hover:text-[#d4af37] transition-colors">
-              alex@eliterealtypr.com
+            <a href="mailto:info@eliterealtypr.com" className="hover:text-[#d4af37] transition-colors">
+              info@eliterealtypr.com
             </a>
           </p>
           <Link href="/contact">

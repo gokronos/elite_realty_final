@@ -55,10 +55,10 @@ export default function ContactPage() {
                     <div>
                       <p className="text-[#a0a0a0] text-sm mb-1">Email</p>
                       <a
-                        href="mailto:info@eliterealty.com"
+                        href="mailto:info@eliterealtypr.com"
                         className="text-white hover:text-[#d4af37] transition-colors"
                       >
-                        info@eliterealty.com
+                        info@eliterealtypr.com
                       </a>
                     </div>
                   </div>

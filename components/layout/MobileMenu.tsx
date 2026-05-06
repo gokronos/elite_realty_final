@@ -179,7 +179,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         <div className="p-6 border-t border-[#2d2d2d]">
           <div className="space-y-2 mb-6">
             <a href="tel:+17873083982" className="block text-sm text-white hover:text-[#d4af37] transition-colors">(787) 308-3982</a>
-            <a href="mailto:alex@eliterealtypr.com" className="block text-sm text-[#a0a0a0] hover:text-[#d4af37] transition-colors">alex@eliterealtypr.com</a>
+            <a href="mailto:info@eliterealtypr.com" className="block text-sm text-[#a0a0a0] hover:text-[#d4af37] transition-colors">info@eliterealtypr.com</a>
           </div>
           <div className="flex items-center gap-4">
             <a href="https://instagram.com/eliterealtypr" target="_blank" rel="noopener noreferrer" className="text-[#a0a0a0] hover:text-[#d4af37] transition-colors" aria-label="Instagram"><Instagram className="w-5 h-5" /></a>

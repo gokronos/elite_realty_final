@@ -102,7 +102,7 @@ export function generateBusinessSchema() {
     description:
       "Premier luxury real estate brokerage serving Puerto Rico and Miami. Specializing in high-end condos, beachfront properties, and Act 60 investment opportunities.",
     telephone: "+1 (787) 308-3982",
-    email: "info@eliterealty.pr",
+    email: "info@eliterealtypr.com",
     address: {
       "@type": "PostalAddress",
       streetAddress: "123 Ashford Avenue",
@@ -415,7 +415,7 @@ export function generateContactPageSchema() {
       "@id": `${baseUrl}/#agent`,
       name: "Alexandra Lugo",
       telephone: "+1 (787) 308-3982",
-      email: "info@eliterealty.com",
+      email: "info@eliterealtypr.com",
       address: {
         "@type": "PostalAddress",
         addressLocality: "San Juan",
