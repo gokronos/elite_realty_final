@@ -45,7 +45,7 @@ export default function ContactPage() {
             <div className="space-y-12">
               <div>
                 <h2 className="font-serif text-2xl text-white mb-8">
-                  Get in Touch
+                  Available by appointment
                 </h2>
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
