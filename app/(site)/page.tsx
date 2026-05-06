@@ -139,8 +139,8 @@ export default async function HomePage() {
                     className="group bg-[#0a0a0a] border border-[#2d2d2d] hover:border-[#8a8a8a] transition-colors overflow-hidden"
                   >
                     <Link href={`/journal/${post.slug.current}`}>
-                      {/* Image - Taller */}
-                      <div className="aspect-[3/2.2] bg-[#2d2d2d] relative overflow-hidden">
+                      {/* Image - Vertical */}
+                      <div className="aspect-[4/5] bg-[#2d2d2d] relative overflow-hidden">
                         {imageUrl ? (
                           <Image
                             src={imageUrl}
