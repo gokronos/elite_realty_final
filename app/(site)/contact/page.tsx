@@ -70,10 +70,10 @@ export default function ContactPage() {
                     <div>
                       <p className="text-[#a0a0a0] text-sm mb-1">Phone</p>
                       <a
-                        href="tel:+17875550123"
+                        href="tel:+17873083982"
                         className="text-white hover:text-[#d4af37] transition-colors"
                       >
-                        +1 (787) 555-0123
+                        +1 (787) 308-3982
                       </a>
                     </div>
                   </div>
