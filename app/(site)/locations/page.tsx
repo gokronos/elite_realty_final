@@ -16,14 +16,14 @@ const locations = {
     {
       name: "Condado",
       slug: "condado",
-      image: "/images/locations/condado.jpg",
+      image: "/images/locations/condado.png",
       description:
         "San Juan's most prestigious beachfront neighborhood, known for luxury high-rises and vibrant nightlife.",
     },
     {
       name: "Dorado",
       slug: "dorado",
-      image: "/images/locations/dorado.jpg",
+      image: "/images/locations/dorado.png",
       description:
         "Home to world-class golf courses and exclusive gated communities along pristine beaches.",
     },
@@ -37,28 +37,28 @@ const locations = {
     {
       name: "Miramar",
       slug: "miramar",
-      image: "/images/locations/miramar.jpg",
+      image: "/images/locations/miramar.png",
       description:
         "Historic district with stunning architecture and waterfront properties.",
     },
     {
       name: "Hato Rey",
       slug: "hato-rey",
-      image: "/images/locations/hato-rey.jpg",
+      image: "/images/locations/hato-rey.png",
       description:
         "Puerto Rico's financial district with modern high-rises and the Golden Mile.",
     },
     {
       name: "Santurce",
       slug: "santurce",
-      image: "/images/locations/santurce.jpg",
+      image: "/images/locations/santurce.png",
       description:
         "Vibrant arts district with eclectic culture and urban renaissance.",
     },
     {
       name: "Ocean Park",
       slug: "ocean-park",
-      image: "/images/locations/ocean-park.jpg",
+      image: "/images/locations/ocean-park.png",
       description:
         "Laid-back beachfront community with boutique charm near Condado.",
     },
@@ -67,28 +67,28 @@ const locations = {
     {
       name: "Coral Gables",
       slug: "coral-gables",
-      image: "/images/locations/coral-gables.jpg",
+      image: "/images/locations/coral-gables.png",
       description:
         "The City Beautiful, featuring Mediterranean-style estates and tree-lined boulevards.",
     },
     {
       name: "Brickell",
       slug: "brickell",
-      image: "/images/locations/brickell.jpg",
+      image: "/images/locations/brickell.png",
       description:
         "Miami's financial district with sleek high-rise condos and urban sophistication.",
     },
     {
       name: "Miami Beach",
       slug: "miami-beach",
-      image: "/images/locations/miami-beach.jpg",
+      image: "/images/locations/miami-beach.png",
       description:
         "Iconic oceanfront living with Art Deco charm and world-famous beaches.",
     },
     {
       name: "Edgewater",
       slug: "edgewater",
-      image: "/images/locations/edgewater.jpg",
+      image: "/images/locations/edgewater.png",
       description:
         "Trendy waterfront neighborhood along Biscayne Bay, known for luxury high-rises and vibrant arts culture.",
     },

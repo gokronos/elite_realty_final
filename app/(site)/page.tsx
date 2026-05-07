@@ -19,12 +19,12 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { generateHomePageSchema } from "@/lib/schema";
 
 const locations = [
-  { name: "Condado", slug: "condado", image: "/images/locations/condado.jpg" },
-  { name: "Dorado", slug: "dorado", image: "/images/locations/dorado.jpg" },
+  { name: "Condado", slug: "condado", image: "/images/locations/condado.png" },
+  { name: "Dorado", slug: "dorado", image: "/images/locations/dorado.png" },
   { name: "Guaynabo", slug: "guaynabo", image: "/images/locations/guaynabo.jpg" },
-  { name: "Miramar", slug: "miramar", image: "/images/locations/miramar.jpg" },
-  { name: "Ocean Park", slug: "ocean-park", image: "/images/locations/ocean-park.jpg" },
-  { name: "Hato Rey", slug: "hato-rey", image: "/images/locations/hato-rey.jpg" },
+  { name: "Miramar", slug: "miramar", image: "/images/locations/miramar.png" },
+  { name: "Ocean Park", slug: "ocean-park", image: "/images/locations/ocean-park.png" },
+  { name: "Hato Rey", slug: "hato-rey", image: "/images/locations/hato-rey.png" },
 ];
 
 export default async function HomePage() {
