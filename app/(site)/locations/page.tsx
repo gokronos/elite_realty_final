@@ -6,9 +6,31 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { generateLocationsPageSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Locations | Elite Realty",
+  title: "Luxury Real Estate Locations | Puerto Rico & Miami | Elite Realty",
   description:
-    "Explore luxury locations in Puerto Rico and Miami served by Elite Realty.",
+    "Explore prime real estate markets in Puerto Rico (Condado, Dorado, Miramar, Hato Rey, Santurce, Ocean Park, Guaynabo) and Miami (Brickell, Coral Gables, Miami Beach, Edgewater).",
+  keywords: [
+    "Condado real estate",
+    "Dorado real estate",
+    "Miramar condos",
+    "Hato Rey real estate",
+    "Santurce properties",
+    "Guaynabo homes",
+    "Ocean Park real estate",
+    "Brickell condos",
+    "Coral Gables homes",
+    "Miami Beach luxury",
+    "Edgewater Miami condos",
+  ],
+  alternates: {
+    canonical: "https://eliterealtypr.com/locations",
+  },
+  openGraph: {
+    title: "Luxury Real Estate Locations | Puerto Rico & Miami",
+    description:
+      "Prime real estate markets: Condado, Dorado, Miramar, Brickell, Coral Gables, Miami Beach and more.",
+    url: "https://eliterealtypr.com/locations",
+  },
 };
 
 const locations = {

@@ -5,9 +5,24 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { generateContactSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact Alexandra Lugo | Elite Realty",
   description:
-    "Get in touch with Alexandra Lugo for luxury real estate inquiries in Puerto Rico and Miami.",
+    "Contact Alexandra Lugo, luxury real estate broker. Available by appointment in Puerto Rico and Miami. Call +1 (787) 308-3982 or email info@eliterealtypr.com.",
+  keywords: [
+    "contact Elite Realty",
+    "Alexandra Lugo contact",
+    "real estate broker Puerto Rico contact",
+    "luxury real estate appointment",
+  ],
+  alternates: {
+    canonical: "https://eliterealtypr.com/contact",
+  },
+  openGraph: {
+    title: "Contact Alexandra Lugo | Elite Realty",
+    description:
+      "Contact our luxury real estate team. Available by appointment in Puerto Rico and Miami.",
+    url: "https://eliterealtypr.com/contact",
+  },
 };
 
 export default function ContactPage() {

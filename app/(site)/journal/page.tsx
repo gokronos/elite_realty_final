@@ -8,9 +8,25 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { generateJournalPageSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Journal | Elite Realty",
+  title: "Real Estate Journal & Insights | Elite Realty",
   description:
-    "Insights on luxury real estate, market trends, and lifestyle in Puerto Rico and Miami.",
+    "Expert insights on luxury real estate, market trends, investment strategies, and lifestyle in Puerto Rico and Miami. Written by broker Alexandra Lugo.",
+  keywords: [
+    "real estate blog Puerto Rico",
+    "luxury market trends",
+    "Act 60 investment guide",
+    "Puerto Rico real estate news",
+    "Miami luxury real estate insights",
+  ],
+  alternates: {
+    canonical: "https://eliterealtypr.com/journal",
+  },
+  openGraph: {
+    title: "Real Estate Journal & Insights | Elite Realty",
+    description:
+      "Expert insights on luxury real estate markets in Puerto Rico and Miami.",
+    url: "https://eliterealtypr.com/journal",
+  },
 };
 
 export default async function JournalPage() {

@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { client } from "@/lib/sanity/client";
 import { groq } from "next-sanity";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://elite-realty.vercel.app";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://eliterealtypr.com";
 
 // Get all property slugs
 async function getPropertySlugs(): Promise<string[]> {
@@ -47,13 +47,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/portfolio`,
+      url: `${baseUrl}/property`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/neighborhoods`,
+      url: `${baseUrl}/locations`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
@@ -72,23 +72,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // Neighborhood pages
-  const neighborhoods = [
+  // Location pages
+  const locations = [
     "condado",
     "dorado",
     "guaynabo",
     "miramar",
-    "bayamon",
     "hato-rey",
     "santurce",
     "ocean-park",
     "coral-gables",
     "brickell",
     "miami-beach",
+    "edgewater",
   ];
 
-  const neighborhoodPages: MetadataRoute.Sitemap = neighborhoods.map((slug) => ({
-    url: `${baseUrl}/neighborhoods/${slug}`,
+  const locationPages: MetadataRoute.Sitemap = locations.map((slug) => ({
+    url: `${baseUrl}/locations/${slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 0.7,
@@ -97,7 +97,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Property pages (if you have individual property pages)
   const propertySlugs = await getPropertySlugs();
   const propertyPages: MetadataRoute.Sitemap = propertySlugs.map((slug) => ({
-    url: `${baseUrl}/portfolio/${slug}`,
+    url: `${baseUrl}/property/${slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 0.6,
@@ -112,5 +112,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...neighborhoodPages, ...propertyPages, ...blogPages];
+  return [...staticPages, ...locationPages, ...propertyPages, ...blogPages];
 }

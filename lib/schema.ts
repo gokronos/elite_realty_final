@@ -5,7 +5,7 @@
 
 import type { Property, BlogPost, BlogPostCard } from "@/types";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://elite-realty.vercel.app";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://eliterealtypr.com";
 
 // =============================================================================
 // TYPES
@@ -40,7 +40,7 @@ export function generateAgentSchema() {
     description:
       "Luxury real estate broker specializing in premium properties in Puerto Rico and Miami. Expert in Condado, Dorado, Coral Gables, and Act 60 investment properties.",
     telephone: "+1 (787) 308-3982",
-    email: "alexandra@eliterealty.pr", // Update with real email
+    email: "info@eliterealtypr.com",
     address: {
       "@type": "PostalAddress",
       streetAddress: "123 Ashford Avenue", // Update with real address
@@ -98,7 +98,7 @@ export function generateBusinessSchema() {
     alternateName: "Elite Realty PR",
     url: baseUrl,
     logo: `${baseUrl}/logo.png`,
-    image: `${baseUrl}/og-image.jpg`,
+    image: `${baseUrl}/images/alexandra2.png`,
     description:
       "Premier luxury real estate brokerage serving Puerto Rico and Miami. Specializing in high-end condos, beachfront properties, and Act 60 investment opportunities.",
     telephone: "+1 (787) 308-3982",

@@ -8,7 +8,23 @@ import { generateAboutPageSchema } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "About Alexandra Lugo | Elite Realty",
   description:
-    "Meet Alexandra Lugo, luxury real estate broker specializing in Puerto Rico and Miami properties.",
+    "Meet Alexandra Lugo, luxury real estate broker (PR Lic. C-19793 | FL 3507350) specializing in premium properties in Puerto Rico and Miami. Over 10 years of experience and $100M+ in transactions.",
+  keywords: [
+    "Alexandra Lugo real estate broker",
+    "elite realty Puerto Rico",
+    "luxury broker San Juan",
+    "PR license C-19793",
+    "corredora bienes raíces lujo",
+  ],
+  alternates: {
+    canonical: "https://eliterealtypr.com/about",
+  },
+  openGraph: {
+    title: "About Alexandra Lugo | Elite Realty",
+    description:
+      "Luxury real estate broker with 10+ years experience in Puerto Rico and Miami. PR Lic. C-19793 | FL 3507350.",
+    url: "https://eliterealtypr.com/about",
+  },
 };
 
 const stats = [
