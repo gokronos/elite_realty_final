@@ -97,7 +97,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Property pages (if you have individual property pages)
   const propertySlugs = await getPropertySlugs();
   const propertyPages: MetadataRoute.Sitemap = propertySlugs.map((slug) => ({
-    url: `${baseUrl}/property/${slug}`,
+    url: `${baseUrl}/property/${encodeURIComponent(slug)}`,
     lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 0.6,
