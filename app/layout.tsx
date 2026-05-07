@@ -106,7 +106,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    // google: "PASTE_YOUR_GOOGLE_SEARCH_CONSOLE_CODE_HERE",
+    google: "mU255Ib5QRhCfdb32gj-3XqR6N5qLl2ErGH4ZaNf3oM",
   },
   other: {
     "geo.region": "US-PR",
