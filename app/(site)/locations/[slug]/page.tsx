@@ -98,14 +98,45 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: LocationPageProps): Promise<Metadata> {
   const { slug } = await params;
   const data = locationData[slug];
+  const canonicalUrl = `https://eliterealtypr.com/locations/${slug}`;
 
   if (!data) {
-    return { title: "Location Not Found | Elite Realty" };
+    return {
+      title: "Location Not Found | Elite Realty",
+      alternates: {
+        canonical: canonicalUrl,
+      },
+    };
   }
 
+  const title = `${data.name} Properties | Elite Realty`;
+
   return {
-    title: `${data.name} Properties | Elite Realty`,
+    title,
     description: data.description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      type: "website",
+      url: canonicalUrl,
+      title,
+      description: data.description,
+      images: [
+        {
+          url: "https://eliterealtypr.com/images/alexandra2.png",
+          width: 1200,
+          height: 1200,
+          alt: `${data.name} real estate | Elite Realty`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: data.description,
+      images: ["https://eliterealtypr.com/images/alexandra2.png"],
+    },
   };
 }
 

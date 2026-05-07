@@ -95,7 +95,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // Property pages (if you have individual property pages)
-  const propertySlugs = await getPropertySlugs();
+  const propertySlugs = [...new Set(await getPropertySlugs())];
   const propertyPages: MetadataRoute.Sitemap = propertySlugs.map((slug) => ({
     url: `${baseUrl}/property/${encodeURIComponent(slug)}`,
     lastModified: new Date(),
@@ -104,7 +104,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // Blog post pages
-  const blogPosts = await getBlogPosts();
+  const blogPosts = [...new Map((await getBlogPosts()).map((post) => [post.slug, post])).values()];
   const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${baseUrl}/journal/${post.slug}`,
     lastModified: post.publishedAt ? new Date(post.publishedAt) : new Date(),

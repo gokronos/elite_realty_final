@@ -24,16 +24,52 @@ export async function generateMetadata({
 }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = await getBlogPostBySlug(slug);
+  const canonicalUrl = `https://eliterealtypr.com/journal/${slug}`;
+  const title = post
+    ? `${post.title} | Elite Realty Journal`
+    : "Post Not Found | Elite Realty";
+  const description = post?.excerpt || `Read ${post?.title || "this article"} on Elite Realty Journal`;
+  const ogImage = post?.featuredImage
+    ? urlFor(post.featuredImage)?.width(1200).height(630).url()
+    : "https://eliterealtypr.com/images/alexandra2.png";
 
   if (!post) {
     return {
-      title: "Post Not Found | Elite Realty",
+      title,
+      alternates: {
+        canonical: canonicalUrl,
+      },
     };
   }
 
   return {
-    title: `${post.title} | Elite Realty Journal`,
-    description: post.excerpt || `Read ${post.title} on Elite Realty Journal`,
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      type: "article",
+      url: canonicalUrl,
+      title,
+      description,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+      publishedTime: post.publishedAt,
+      authors: post.author?.name ? [post.author.name] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+    },
   };
 }
 
