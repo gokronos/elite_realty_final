@@ -72,7 +72,7 @@ export default async function HomePage() {
       {/* ========================================
           SECTION 2: MEET ALEXANDRA
           ======================================== */}
-      <section className="py-24 lg:py-32 px-4 bg-[#0a0a0a]">
+      <section className="py-20 lg:py-24 px-4 bg-[#0a0a0a]">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Image - Left */}
@@ -116,10 +116,10 @@ export default async function HomePage() {
       {/* ========================================
           SECTION 3: JOURNAL
           ======================================== */}
-      <section className="py-24 lg:py-32 px-4 bg-[#1a1a1a]">
+      <section className="py-20 lg:py-24 px-4 bg-[#1a1a1a]">
         <div className="container mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-wide">
               JOURNAL
             </h2>
@@ -197,10 +197,10 @@ export default async function HomePage() {
       {/* ========================================
           SECTION 4: FOR SALE
           ======================================== */}
-      <section className="py-24 lg:py-32 px-4 bg-[#1a1a1a]">
+      <section className="py-20 lg:py-24 px-4 bg-[#0a0a0a]">
         <div className="container mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-wide">
               FOR SALE
             </h2>
@@ -243,10 +243,10 @@ export default async function HomePage() {
       {/* ========================================
           SECTION 5: FOR RENT
           ======================================== */}
-      <section className="py-24 lg:py-32 px-4 bg-[#0a0a0a]">
+      <section className="py-20 lg:py-24 px-4 bg-[#1a1a1a]">
         <div className="container mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-wide">
               FOR RENT
             </h2>
@@ -289,10 +289,10 @@ export default async function HomePage() {
       {/* ========================================
           SECTION 6: SOLD (INFORMATIVE)
           ======================================== */}
-      <section className="py-24 lg:py-32 px-4 bg-[#1a1a1a]">
+      <section className="py-20 lg:py-24 px-4 bg-[#0a0a0a]">
         <div className="container mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-wide">
               SOLD
             </h2>
@@ -315,10 +315,10 @@ export default async function HomePage() {
       {/* ========================================
           SECTION 7: RENTED (INFORMATIVE)
           ======================================== */}
-      <section className="py-24 lg:py-32 px-4 bg-[#0a0a0a]">
+      <section className="py-20 lg:py-24 px-4 bg-[#1a1a1a]">
         <div className="container mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-wide">
               RENTED
             </h2>
@@ -343,7 +343,7 @@ export default async function HomePage() {
           ======================================== */}
       <section className="bg-[#0a0a0a]">
         {/* Section Header */}
-        <div className="py-16 text-center">
+        <div className="py-12 lg:py-16 text-center">
           <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-wide">
             LOCATIONS
           </h2>
@@ -365,7 +365,7 @@ export default async function HomePage() {
       {/* ========================================
           SECTION 9: CONTACT CTA
           ======================================== */}
-      <section className="py-24 lg:py-32 px-4 bg-[#1a1a1a]">
+      <section className="py-20 lg:py-24 px-4 bg-[#1a1a1a]">
         <div className="container mx-auto text-center">
           <h2 className="font-serif text-4xl sm:text-5xl font-semibold text-white mb-6 tracking-wide">
             LET&apos;S CONNECT
