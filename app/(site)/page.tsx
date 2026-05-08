@@ -232,13 +232,11 @@ export default async function HomePage() {
           )}
 
           {/* View More Button */}
-          {propertiesForSale.length > 6 && (
-            <div className="text-center mt-12">
-              <Link href="/property?status=active-sale">
-                <Button variant="secondary">View More Properties</Button>
-              </Link>
-            </div>
-          )}
+          <div className="text-center mt-12">
+            <Link href="/property?status=active-sale">
+              <Button variant="secondary">View More Properties</Button>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -278,13 +276,11 @@ export default async function HomePage() {
           )}
 
           {/* View More Button */}
-          {propertiesForRent.length > 3 && (
-            <div className="text-center mt-12">
-              <Link href="/property?status=active-rental">
-                <Button variant="secondary">View More Rentals</Button>
-              </Link>
-            </div>
-          )}
+          <div className="text-center mt-12">
+            <Link href="/property?status=active-rental">
+              <Button variant="secondary">View More Rentals</Button>
+            </Link>
+          </div>
         </div>
       </section>
 
