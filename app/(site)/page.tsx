@@ -231,11 +231,11 @@ export default async function HomePage() {
             </div>
           )}
 
-          {/* View All Button */}
+          {/* View More Button */}
           {propertiesForSale.length > 6 && (
             <div className="text-center mt-12">
               <Link href="/property?status=active-sale">
-                <Button variant="secondary">View All</Button>
+                <Button variant="secondary">View More Properties</Button>
               </Link>
             </div>
           )}
@@ -257,7 +257,7 @@ export default async function HomePage() {
           {/* Property Grid */}
           {propertiesForRent.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {propertiesForRent.slice(0, 6).map((property) => (
+              {propertiesForRent.slice(0, 3).map((property) => (
                 <PropertyCard
                   key={property._id}
                   property={property}
@@ -277,11 +277,11 @@ export default async function HomePage() {
             </div>
           )}
 
-          {/* View All Button */}
-          {propertiesForRent.length > 6 && (
+          {/* View More Button */}
+          {propertiesForRent.length > 3 && (
             <div className="text-center mt-12">
               <Link href="/property?status=active-rental">
-                <Button variant="secondary">View All</Button>
+                <Button variant="secondary">View More Rentals</Button>
               </Link>
             </div>
           )}
