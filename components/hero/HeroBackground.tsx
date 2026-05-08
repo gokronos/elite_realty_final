@@ -13,7 +13,7 @@ export interface SlideMedia {
 
 export const slides: SlideMedia[] = [
   {
-    video: "/videos/hero-1.mp4",
+    video: "/videos/hero-1.1.mp4",
     image: "/images/hero-beach.jpg",
     poster: "/images/hero-beach.jpg",
     label: "Luxury Real Estate",
@@ -43,6 +43,14 @@ export const slides: SlideMedia[] = [
     label: "Personalized Service",
     heading: "Your Dream Home Awaits",
     subheading: "Let Alexandra guide you home",
+  },
+  {
+    video: "/videos/hero-5.mp4",
+    image: "/images/hero-beach.jpg",
+    poster: "/images/hero-beach.jpg",
+    label: "Exclusive Living",
+    heading: "Where Luxury Meets Lifestyle",
+    subheading: "Premier properties in the Caribbean & Miami",
   },
 ];
 
@@ -81,10 +89,27 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
   }, []);
 
   // Rotate slides
+  const goToSlide = useCallback((index: number) => {
+    if (index === currentIndex) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentIndex(index);
+      setIsTransitioning(false);
+    }, FADE_DURATION / 2);
+  }, [currentIndex]);
+
   const nextSlide = useCallback(() => {
     setIsTransitioning(true);
     setTimeout(() => {
       setCurrentIndex((prev) => (prev + 1) % slides.length);
+      setIsTransitioning(false);
+    }, FADE_DURATION);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
       setIsTransitioning(false);
     }, FADE_DURATION);
   }, []);
@@ -161,20 +186,34 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/60 z-10" />
 
+      {/* Arrow: Previous */}
+      <button
+        onClick={prevSlide}
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-black/30 border border-white/20 text-white hover:bg-black/60 hover:border-white/50 transition-all duration-300"
+        aria-label="Previous slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+      </button>
+
+      {/* Arrow: Next */}
+      <button
+        onClick={nextSlide}
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-black/30 border border-white/20 text-white hover:bg-black/60 hover:border-white/50 transition-all duration-300"
+        aria-label="Next slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </button>
+
       {/* Slide Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
         {slides.map((_, index) => (
           <button
             key={index}
-            onClick={() => {
-              if (index !== currentIndex) {
-                setIsTransitioning(true);
-                setTimeout(() => {
-                  setCurrentIndex(index);
-                  setIsTransitioning(false);
-                }, FADE_DURATION / 2);
-              }
-            }}
+            onClick={() => goToSlide(index)}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
               index === currentIndex
                 ? "bg-white w-6"
