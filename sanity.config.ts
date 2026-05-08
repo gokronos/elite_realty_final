@@ -27,7 +27,100 @@ export default defineConfig({
             S.listItem()
               .title("Properties")
               .schemaType("property")
-              .child(S.documentTypeList("property").title("Properties")),
+              .child(
+                S.list()
+                  .title("Properties")
+                  .items([
+                    S.listItem()
+                      .title("All Properties")
+                      .schemaType("property")
+                      .child(S.documentTypeList("property").title("All Properties")),
+
+                    S.divider(),
+
+                    S.listItem()
+                      .title("By Status")
+                      .child(
+                        S.list()
+                          .title("By Status")
+                          .items([
+                            S.listItem()
+                              .title("For Sale")
+                              .schemaType("property")
+                              .child(
+                                S.documentTypeList("property")
+                                  .title("For Sale")
+                                  .filter('_type == "property" && status == "active-sale"')
+                              ),
+                            S.listItem()
+                              .title("For Rent")
+                              .schemaType("property")
+                              .child(
+                                S.documentTypeList("property")
+                                  .title("For Rent")
+                                  .filter('_type == "property" && status == "active-rental"')
+                              ),
+                            S.listItem()
+                              .title("Sold")
+                              .schemaType("property")
+                              .child(
+                                S.documentTypeList("property")
+                                  .title("Sold")
+                                  .filter('_type == "property" && status == "sold"')
+                              ),
+                            S.listItem()
+                              .title("Rented")
+                              .schemaType("property")
+                              .child(
+                                S.documentTypeList("property")
+                                  .title("Rented")
+                                  .filter('_type == "property" && status == "rented"')
+                              ),
+                          ])
+                      ),
+
+                    S.listItem()
+                      .title("By Property Type")
+                      .child(
+                        S.list()
+                          .title("By Property Type")
+                          .items([
+                            S.listItem()
+                              .title("Condo")
+                              .schemaType("property")
+                              .child(
+                                S.documentTypeList("property")
+                                  .title("Condo")
+                                  .filter('_type == "property" && propertyType == "condo"')
+                              ),
+                            S.listItem()
+                              .title("Residential")
+                              .schemaType("property")
+                              .child(
+                                S.documentTypeList("property")
+                                  .title("Residential")
+                                  .filter('_type == "property" && propertyType == "residential"')
+                              ),
+                            S.listItem()
+                              .title("Commercial")
+                              .schemaType("property")
+                              .child(
+                                S.documentTypeList("property")
+                                  .title("Commercial")
+                                  .filter('_type == "property" && propertyType == "commercial"')
+                              ),
+                            S.listItem()
+                              .title("Land")
+                              .schemaType("property")
+                              .child(
+                                S.documentTypeList("property")
+                                  .title("Land")
+                                  .filter('_type == "property" && propertyType == "land"')
+                              ),
+                          ])
+                      ),
+                  ])
+              ),
 
             // Blog section
             S.listItem()
