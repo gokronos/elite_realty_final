@@ -113,7 +113,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="mt-16 pt-8 border-t border-[#2d2d2d]">
           <p className="text-center text-[#6b6b6b] text-sm">
-            &copy; {currentYear} Elite Realty. All rights reserved.
+            © 2026 Elite Realty. All rights reserved. Diseño y Desarrollo por ImagenPlusAMD
           </p>
         </div>
       </div>
