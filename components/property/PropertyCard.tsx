@@ -66,7 +66,7 @@ export function PropertyCard({
   const cardContent = (
     <article
       className={cn(
-        "group rounded-sm overflow-hidden",
+        "group h-full rounded-sm overflow-hidden flex flex-col",
         "bg-[#111111] border border-[#1e1e1e]",
         disableLink
           ? "cursor-default"
@@ -113,7 +113,7 @@ export function PropertyCard({
         </div>
 
         {/* Content */}
-        <div className="px-4 pt-4 pb-5">
+        <div className="px-4 pt-4 pb-5 flex flex-col flex-1">
           {/* Location */}
           <p className="text-[10px] uppercase tracking-[0.2em] text-[#8a8a8a] font-sans mb-2">
             {formatPropertyLocation(property.location)}
@@ -122,7 +122,7 @@ export function PropertyCard({
           {/* Title */}
           <h3 className={cn(
             titleClassName,
-            "font-doulos text-lg font-normal !text-[#a5a4a4] leading-snug mb-3",
+            "font-doulos text-lg font-normal !text-[#a5a4a4] leading-snug mb-3 line-clamp-2 min-h-[3.25rem]",
             !disableLink && "group-hover:!text-[#d4af37] transition-colors duration-200"
           )}
           style={{ fontFamily: '"Doulos SIL", "Cormorant Garamond", Georgia, serif' }}>
@@ -141,7 +141,7 @@ export function PropertyCard({
 
           {/* Specs */}
           {hasSpecs && (
-            <div className="flex items-center gap-4 text-xs text-[#a0a0a0] border-t border-[#2a2a2a] pt-3">
+            <div className="mt-auto flex items-center gap-4 text-xs text-[#a0a0a0] border-t border-[#2a2a2a] pt-3">
               {hasBeds && (
                 <span className="flex items-center gap-1.5">
                   <Bed className="w-3.5 h-3.5 text-[#6b6b6b]" />
