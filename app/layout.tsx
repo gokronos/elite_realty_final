@@ -79,7 +79,7 @@ export const metadata: Metadata = {
       "Alexandra Lugo, luxury real estate broker in Puerto Rico & Miami. Condado, Dorado, Brickell, Coral Gables. Act 60 specialists.",
     images: [
       {
-        url: `${baseUrl}/images/alexandra2.png`,
+        url: `${baseUrl}/images/alexandra-2026.jpg`,
         width: 1200,
         height: 1200,
         alt: "Elite Realty - Luxury Real Estate",
@@ -91,7 +91,7 @@ export const metadata: Metadata = {
     title: "Elite Realty | Luxury Real Estate in Puerto Rico & Miami",
     description:
       "Alexandra Lugo, luxury real estate broker in Puerto Rico & Miami. Condado, Dorado, Brickell, Coral Gables.",
-    images: [`${baseUrl}/images/alexandra2.png`],
+    images: [`${baseUrl}/images/alexandra-2026.jpg`],
     creator: "@eliterealty_pr",
   },
   robots: {

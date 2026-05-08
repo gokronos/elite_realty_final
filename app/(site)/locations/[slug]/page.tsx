@@ -124,7 +124,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
       description: data.description,
       images: [
         {
-          url: "https://eliterealtypr.com/images/alexandra2.png",
+          url: "https://eliterealtypr.com/images/alexandra-2026.jpg",
           width: 1200,
           height: 1200,
           alt: `${data.name} real estate | Elite Realty`,
@@ -135,7 +135,7 @@ export async function generateMetadata({ params }: LocationPageProps): Promise<M
       card: "summary_large_image",
       title,
       description: data.description,
-      images: ["https://eliterealtypr.com/images/alexandra2.png"],
+      images: ["https://eliterealtypr.com/images/alexandra-2026.jpg"],
     },
   };
 }

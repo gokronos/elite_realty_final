@@ -36,7 +36,7 @@ export function generateAgentSchema() {
     name: "Alexandra Lugo",
     url: baseUrl,
     logo: `${baseUrl}/logo.png`,
-    image: `${baseUrl}/alexandra-lugo.jpg`,
+    image: `${baseUrl}/images/alexandra-2026.jpg`,
     description:
       "Luxury real estate broker specializing in premium properties in Puerto Rico and Miami. Expert in Condado, Dorado, Coral Gables, and Act 60 investment properties.",
     telephone: "+1 (787) 308-3982",
@@ -98,7 +98,7 @@ export function generateBusinessSchema() {
     alternateName: "Elite Realty PR",
     url: baseUrl,
     logo: `${baseUrl}/logo.png`,
-    image: `${baseUrl}/images/alexandra2.png`,
+    image: `${baseUrl}/images/alexandra-2026.jpg`,
     description:
       "Premier luxury real estate brokerage serving Puerto Rico and Miami. Specializing in high-end condos, beachfront properties, and Act 60 investment opportunities.",
     telephone: "+1 (787) 308-3982",

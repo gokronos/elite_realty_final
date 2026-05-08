@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: PropertyPageProps): Promise<M
   const locationLabel = formatPropertyLocation(property.location);
   const title = `${property.title} | Elite Realty`;
   const description = `${property.title}${locationLabel ? ` in ${locationLabel}` : ""}. ${formatPrice(property.price)}${property.priceType === "rent" ? " per month" : ""}. Explore this ${property.propertyType || "luxury"} property with Elite Realty.`;
-  const ogImage = property.featuredImage?.asset?.url || "https://eliterealtypr.com/images/alexandra2.png";
+  const ogImage = property.featuredImage?.asset?.url || "https://eliterealtypr.com/images/alexandra-2026.jpg";
 
   return {
     title,

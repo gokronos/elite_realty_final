@@ -78,7 +78,7 @@ export default async function HomePage() {
             {/* Image - Left */}
             <div className="aspect-[3/4] relative overflow-hidden">
               <Image
-                src="/images/alexandra2.png"
+                src="/images/alexandra-2026.jpg"
                 alt="Alexandra Lugo - Luxury Real Estate Broker"
                 fill
                 className="object-cover object-top"

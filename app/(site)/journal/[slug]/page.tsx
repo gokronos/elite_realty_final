@@ -31,7 +31,7 @@ export async function generateMetadata({
   const description = post?.excerpt || `Read ${post?.title || "this article"} on Elite Realty Journal`;
   const ogImage = post?.featuredImage
     ? urlFor(post.featuredImage)?.width(1200).height(630).url()
-    : "https://eliterealtypr.com/images/alexandra2.png";
+    : "https://eliterealtypr.com/images/alexandra-2026.jpg";
 
   if (!post) {
     return {
