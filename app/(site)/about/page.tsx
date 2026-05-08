@@ -147,17 +147,14 @@ export default function AboutPage() {
             Real Estate Is Personal
           </h2>
           <p className="text-[#a0a0a0] text-lg leading-relaxed mb-6">
-            Alexandra&apos;s approach to real estate begins long before a listing
-            goes live and extends well after the keys are handed over. She believes
-            that buying or selling a home is one of the most significant decisions
-            a person makes—and that decision deserves a partner who is fully present,
-            deeply informed, and genuinely invested in the outcome.
+            Alexandra believes real estate is never just a transaction.
+            It is timing, trust, negotiation, intuition, and understanding how people truly want to live.
+          </p>
+          <p className="text-[#a0a0a0] text-lg leading-relaxed mb-6">
+            Her approach is rooted in discretion, strategy, and long-term relationships — guiding clients through every stage of the process with clarity and intention.
           </p>
           <p className="text-[#a0a0a0] text-lg leading-relaxed">
-            Her philosophy is simple: listen first, advise second, and always put
-            the client&apos;s vision at the center of every strategy. The result is a
-            client experience that feels less like a transaction and more like a
-            collaboration.
+            Whether buying, selling, or investing, the goal remains the same: to create an experience that feels seamless, thoughtful, and deeply personalized.
           </p>
         </div>
       </section>
