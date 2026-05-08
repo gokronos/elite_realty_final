@@ -70,6 +70,7 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
   const [preloadedVideos, setPreloadedVideos] = useState<Set<number>>(new Set([0]));
   const [isClient, setIsClient] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Notify parent of slide changes
   useEffect(() => {
@@ -89,6 +90,17 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
   }, []);
 
   // Rotate slides
+  const startInterval = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % slides.length);
+        setIsTransitioning(false);
+      }, FADE_DURATION);
+    }, SLIDE_DURATION);
+  }, []);
+
   const goToSlide = useCallback((index: number) => {
     if (index === currentIndex) return;
     setIsTransitioning(true);
@@ -96,7 +108,8 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
       setCurrentIndex(index);
       setIsTransitioning(false);
     }, FADE_DURATION / 2);
-  }, [currentIndex]);
+    startInterval();
+  }, [currentIndex, startInterval]);
 
   const nextSlide = useCallback(() => {
     setIsTransitioning(true);
@@ -104,7 +117,8 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
       setCurrentIndex((prev) => (prev + 1) % slides.length);
       setIsTransitioning(false);
     }, FADE_DURATION);
-  }, []);
+    startInterval();
+  }, [startInterval]);
 
   const prevSlide = useCallback(() => {
     setIsTransitioning(true);
@@ -112,12 +126,13 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
       setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
       setIsTransitioning(false);
     }, FADE_DURATION);
-  }, []);
+    startInterval();
+  }, [startInterval]);
 
   useEffect(() => {
-    const interval = setInterval(nextSlide, SLIDE_DURATION);
-    return () => clearInterval(interval);
-  }, [nextSlide]);
+    startInterval();
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [startInterval]);
 
   // Play current video when it becomes active
   useEffect(() => {

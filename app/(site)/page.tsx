@@ -49,12 +49,14 @@ export default async function HomePage() {
         <HeroBackground />
 
         {/* Content overlay */}
-        <div className="relative z-20 flex flex-col items-center justify-center min-h-screen gap-6 px-6 text-center">
+        <div className="relative z-20 flex flex-col items-center justify-center min-h-screen gap-6 px-6 text-center pointer-events-none">
           {/* Animated Slide Text */}
-          <HeroContent slides={slides} fadeDuration={HERO_FADE_DURATION} />
+          <div className="pointer-events-auto">
+            <HeroContent slides={slides} fadeDuration={HERO_FADE_DURATION} />
+          </div>
 
           {/* Buttons always at the bottom */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pointer-events-auto">
             <Link href="/property">
               <Button variant="secondary" size="lg">
                 View Properties
