@@ -135,7 +135,7 @@ Create `/lib/schema.ts` with JSON-LD generators:
   "@type": "RealEstateAgent",
   "name": "Alexandra Lugo",
   "description": "Luxury real estate broker specializing in Puerto Rico and Miami",
-  "url": "https://elite-realty.vercel.app",
+  "url": "https://eliterealtypr.com",
   "telephone": "+1 (787) 308-3982",
   "email": "info@eliterealty.com",
   "address": { "@type": "PostalAddress", "addressLocality": "San Juan", "addressRegion": "PR" },
@@ -147,7 +147,7 @@ Create `/lib/schema.ts` with JSON-LD generators:
 {
   "@type": "RealEstateAgent", // or LocalBusiness
   "name": "Elite Realty",
-  "@id": "https://elite-realty.vercel.app/#business",
+  "@id": "https://eliterealtypr.com/#business",
   // ... similar fields
 }
 
@@ -200,7 +200,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Elite Realty | Luxury Real Estate in Puerto Rico & Miami",
     description: "Premium properties curated by Alexandra Lugo",
-    url: "https://elite-realty.vercel.app",
+    url: "https://eliterealtypr.com",
     siteName: "Elite Realty",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630 }],
     locale: "en_US",
@@ -213,7 +213,7 @@ export const metadata: Metadata = {
     images: ["/og-image.jpg"],
   },
   robots: { index: true, follow: true },
-  alternates: { canonical: "https://elite-realty.vercel.app" },
+  alternates: { canonical: "https://eliterealtypr.com" },
 };
 ```
 
@@ -227,22 +227,22 @@ import { MetadataRoute } from 'next'
 import { getPropertyPaths, getBlogPostPaths } from '@/lib/sanity/queries'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://elite-realty.vercel.app'
+  const baseUrl = 'https://eliterealtypr.com'
   
   // Static pages
   const staticPages = [
     { url: baseUrl, lastModified: new Date(), priority: 1.0 },
     { url: `${baseUrl}/about`, lastModified: new Date(), priority: 0.8 },
-    { url: `${baseUrl}/portfolio`, lastModified: new Date(), priority: 0.9 },
+    { url: `${baseUrl}/property`, lastModified: new Date(), priority: 0.9 },
     { url: `${baseUrl}/journal`, lastModified: new Date(), priority: 0.7 },
     { url: `${baseUrl}/contact`, lastModified: new Date(), priority: 0.8 },
-    { url: `${baseUrl}/neighborhoods`, lastModified: new Date(), priority: 0.7 },
+    { url: `${baseUrl}/locations`, lastModified: new Date(), priority: 0.7 },
   ]
   
-  // Dynamic property pages (if we add /portfolio/[slug])
+  // Dynamic property pages (if we add /property/[slug])
   const propertySlugs = await getPropertyPaths()
   const propertyPages = propertySlugs.map(slug => ({
-    url: `${baseUrl}/portfolio/${slug}`,
+    url: `${baseUrl}/property/${slug}`,
     lastModified: new Date(),
     priority: 0.8,
   }))
@@ -272,7 +272,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/studio/',
     },
-    sitemap: 'https://elite-realty.vercel.app/sitemap.xml',
+    sitemap: 'https://eliterealtypr.com/sitemap.xml',
   }
 }
 ```

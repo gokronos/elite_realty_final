@@ -1060,7 +1060,7 @@ export default defineConfig({
 
 ### 8.1 For Alexandra
 
-1. **Login:** Go to `eliterealty.vercel.app/studio` → Sign in with Google
+1. **Login:** Go to `eliterealtypr.com/studio` → Sign in with Google
 2. **Add Property:**
    - Click "Properties" → "Create new"
    - Fill required fields (title, status, location, featured image)

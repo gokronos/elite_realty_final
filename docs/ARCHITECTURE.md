@@ -181,7 +181,7 @@ C:\Users\sergi\Desktop\ALEX\
 │         │                                                           │
 │         ▼                                                           │
 │   ┌─────────────────┐                                               │
-│   │  Sanity Studio  │  eliterealty.vercel.app/studio                │
+│   │  Sanity Studio  │  eliterealtypr.com/studio                     │
 │   │  (/studio)      │                                               │
 │   └────────┬────────┘                                               │
 │            │                                                        │
@@ -220,9 +220,9 @@ C:\Users\sergi\Desktop\ALEX\
 | Route | Strategy | Revalidation | Reason |
 |-------|----------|--------------|--------|
 | `/` (Homepage) | SSG + ISR | 60s + on-demand | Featured properties change occasionally |
-| `/portfolio` | SSG + ISR | 60s + on-demand | Property listings need freshness |
-| `/blog` | SSG + ISR | 60s + on-demand | New posts added periodically |
-| `/blog/[slug]` | SSG + ISR | 60s + on-demand | Content may be updated |
+| `/property` | SSG + ISR | 60s + on-demand | Property listings need freshness |
+| `/journal` | SSG + ISR | 60s + on-demand | New posts added periodically |
+| `/journal/[slug]` | SSG + ISR | 60s + on-demand | Content may be updated |
 | `/about` | SSG + ISR | 3600s | Rarely changes |
 | `/contact` | Static | None | No dynamic content |
 | `/studio` | Client-side | N/A | Sanity handles everything |
@@ -280,14 +280,14 @@ export async function POST(req: Request) {
     // Revalidate based on content type
     switch (body._type) {
       case 'property':
-        revalidatePath('/portfolio')
+        revalidatePath('/property')
         revalidatePath('/')
         revalidateTag('properties')
         break
       case 'blogPost':
-        revalidatePath('/blog')
+        revalidatePath('/journal')
         if (body.slug?.current) {
-          revalidatePath(`/blog/${body.slug.current}`)
+          revalidatePath(`/journal/${body.slug.current}`)
         }
         revalidateTag('blog')
         break
@@ -325,7 +325,7 @@ export async function POST(req: Request) {
 |--------|---------|
 | `http://localhost:3000` | Local development |
 | `https://elite-realty-*.vercel.app` | Preview deployments |
-| `https://eliterealty.pr` | Production (when ready) |
+| `https://eliterealtypr.com` | Production |
 
 ### 4.3 Webhook Configuration
 
@@ -334,7 +334,7 @@ Configure in Sanity Dashboard → API → Webhooks:
 | Setting | Value |
 |---------|-------|
 | Name | `Vercel Revalidation` |
-| URL | `https://[deployment].vercel.app/api/revalidate` |
+| URL | `https://eliterealtypr.com/api/revalidate` |
 | Trigger on | Create, Update, Delete |
 | Filter | `_type in ["property", "blogPost", "siteSettings"]` |
 | Secret | `[SANITY_WEBHOOK_SECRET]` |
@@ -358,7 +358,7 @@ NEXT_PUBLIC_SANITY_API_VERSION=2024-01-01
 SANITY_WEBHOOK_SECRET=your-webhook-secret-here
 
 # Site
-NEXT_PUBLIC_SITE_URL=https://elite-realty.vercel.app
+NEXT_PUBLIC_SITE_URL=https://eliterealtypr.com
 
 # Email (Resend)
 RESEND_API_KEY=re_xxxxxxxxxxxx

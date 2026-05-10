@@ -125,7 +125,7 @@ NEXT_PUBLIC_SANITY_PROJECT_ID=6ostes35
 NEXT_PUBLIC_SANITY_DATASET=production
 NEXT_PUBLIC_SANITY_API_VERSION=2024-01-01
 SANITY_WEBHOOK_SECRET=<generate-secret>
-NEXT_PUBLIC_SITE_URL=https://elite-realty.vercel.app
+NEXT_PUBLIC_SITE_URL=https://eliterealtypr.com
 RESEND_API_KEY=<from-resend-dashboard>
 ```
 
