@@ -8,12 +8,15 @@ import type { FeaturedProperty } from "@/types";
 interface InformativePropertyCarouselProps {
   properties: FeaturedProperty[];
   ariaLabel: string;
+  groupByYear?: boolean;
 }
 
-export function InformativePropertyCarousel({
-  properties,
-  ariaLabel,
-}: InformativePropertyCarouselProps) {
+interface CarouselTrackProps {
+  properties: FeaturedProperty[];
+  ariaLabel: string;
+}
+
+function CarouselTrack({ properties, ariaLabel }: CarouselTrackProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -22,7 +25,6 @@ export function InformativePropertyCarousel({
     if (!container) return 320;
     const card = container.querySelector("[data-carousel-card]") as HTMLElement | null;
     if (!card) return 320;
-    // offsetWidth of card + gap (gap-6 = 24px)
     return card.offsetWidth + 24;
   };
 
@@ -36,7 +38,6 @@ export function InformativePropertyCarousel({
 
   return (
     <div className="relative">
-      {/* Arrow controls */}
       <div className="flex items-center justify-end gap-2 mb-5">
         <button
           type="button"
@@ -58,7 +59,6 @@ export function InformativePropertyCarousel({
         </button>
       </div>
 
-      {/* Scrollable track — no snap to allow reliable programmatic scroll */}
       <div
         ref={containerRef}
         className="no-scrollbar flex gap-6 overflow-x-auto pb-3"
@@ -79,6 +79,53 @@ export function InformativePropertyCarousel({
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+function groupPropertiesByYear(properties: FeaturedProperty[]) {
+  const groups = new Map<string, FeaturedProperty[]>();
+
+  for (const property of properties) {
+    const key = property.yearTransacted ? String(property.yearTransacted) : "Past Transactions";
+    const existing = groups.get(key);
+    if (existing) {
+      existing.push(property);
+      continue;
+    }
+    groups.set(key, [property]);
+  }
+
+  return Array.from(groups.entries()).map(([label, items]) => ({
+    label,
+    items,
+  }));
+}
+
+export function InformativePropertyCarousel({
+  properties,
+  ariaLabel,
+  groupByYear = false,
+}: InformativePropertyCarouselProps) {
+  if (!groupByYear) {
+    return <CarouselTrack properties={properties} ariaLabel={ariaLabel} />;
+  }
+
+  const groups = groupPropertiesByYear(properties);
+
+  return (
+    <div className="space-y-12">
+      {groups.map((group) => (
+        <div key={group.label}>
+          <div className="mb-5 flex items-center justify-between gap-4 border-b border-[#2b2b2b] pb-3">
+            <h3 className="font-serif text-2xl text-white tracking-wide">{group.label}</h3>
+          </div>
+          <CarouselTrack
+            properties={group.items}
+            ariaLabel={`${ariaLabel} - ${group.label}`}
+          />
+        </div>
+      ))}
     </div>
   );
 }

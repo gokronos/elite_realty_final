@@ -80,6 +80,22 @@ export const siteSettings = defineType({
       type: "string",
       description: "Copyright or additional footer text",
     }),
+
+    defineField({
+      name: "historicalPropertiesLayout",
+      title: "Historical Properties Layout",
+      type: "string",
+      description:
+        "Controls how sold and rented historical properties are organized on the website.",
+      options: {
+        list: [
+          { title: "Standard Layout", value: "default" },
+          { title: "Group Historical Properties by Year", value: "by-year" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "default",
+    }),
   ],
 
   preview: {

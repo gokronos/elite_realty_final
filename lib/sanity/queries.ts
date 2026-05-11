@@ -357,7 +357,8 @@ export const siteSettingsQuery = groq`
     phone,
     address,
     socialLinks,
-    footerText
+    footerText,
+    historicalPropertiesLayout
   }
 `;
 

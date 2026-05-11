@@ -9,9 +9,10 @@ import type { Property, PropertyStatus, PropertyType, State } from "@/types";
 
 interface PropertyClientProps {
   properties: Property[];
+  groupHistoricalByYear?: boolean;
 }
 
-function PropertyClientContent({ properties }: PropertyClientProps) {
+function PropertyClientContent({ properties, groupHistoricalByYear = false }: PropertyClientProps) {
   const searchParams = useSearchParams();
 
   // Initialize status filter from URL ?status= param
@@ -86,6 +87,10 @@ function PropertyClientContent({ properties }: PropertyClientProps) {
           />
 
           <PropertyGrid properties={filteredProperties} />
+          <PropertyGrid
+            properties={filteredProperties}
+            groupHistoricalByYear={groupHistoricalByYear}
+          />
         </div>
       </section>
 
@@ -99,10 +104,13 @@ function PropertyClientContent({ properties }: PropertyClientProps) {
   );
 }
 
-export function PropertyClient({ properties }: PropertyClientProps) {
+export function PropertyClient({ properties, groupHistoricalByYear = false }: PropertyClientProps) {
   return (
     <Suspense fallback={<div className="min-h-screen bg-[#0a0a0a]" />}>
-      <PropertyClientContent properties={properties} />
+      <PropertyClientContent
+        properties={properties}
+        groupHistoricalByYear={groupHistoricalByYear}
+      />
     </Suspense>
   );
 }

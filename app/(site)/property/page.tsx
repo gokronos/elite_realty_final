@@ -1,4 +1,4 @@
-import { getAllProperties } from "@/lib/sanity/queries";
+import { getAllProperties, getSiteSettings } from "@/lib/sanity/queries";
 import { PropertyClient } from "./PropertyClient";
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -30,13 +30,20 @@ export const metadata: Metadata = {
 };
 
 export default async function PropertyPage() {
-  const properties = await getAllProperties();
+  const [properties, siteSettings] = await Promise.all([
+    getAllProperties(),
+    getSiteSettings(),
+  ]);
   const schemaData = generatePropertyListingPageSchema(properties);
+  const groupHistoricalByYear = siteSettings?.historicalPropertiesLayout === "by-year";
 
   return (
     <>
       <JsonLd data={schemaData} />
-      <PropertyClient properties={properties} />
+      <PropertyClient
+        properties={properties}
+        groupHistoricalByYear={groupHistoricalByYear}
+      />
     </>
   );
 }

@@ -24,6 +24,9 @@ export type PriceType = "sale" | "rent";
 /** Social media platforms */
 export type SocialPlatform = "instagram" | "linkedin" | "facebook" | "twitter";
 
+/** Historical property display layout */
+export type HistoricalPropertiesLayout = "default" | "by-year";
+
 // =============================================================================
 // SANITY BASE TYPES
 // =============================================================================
@@ -168,7 +171,15 @@ export interface PropertyCard
 export interface FeaturedProperty
   extends Pick<
     Property,
-    "_id" | "title" | "slug" | "status" | "price" | "priceType" | "location" | "featuredImage"
+    | "_id"
+    | "title"
+    | "slug"
+    | "status"
+    | "price"
+    | "priceType"
+    | "location"
+    | "featuredImage"
+    | "yearTransacted"
   > {}
 
 // =============================================================================
@@ -230,6 +241,7 @@ export interface SiteSettings {
   address?: string;
   socialLinks?: SocialLink[];
   footerText?: string;
+  historicalPropertiesLayout?: HistoricalPropertiesLayout;
 }
 
 // =============================================================================
