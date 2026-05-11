@@ -203,7 +203,7 @@ export const propertiesForRentQuery = groq`
 
 /** Sold properties (most recent) */
 export const soldPropertiesQuery = groq`
-  *[_type == "property" && status == "sold"] | order(yearTransacted desc, _createdAt desc) [0...12] {
+  *[_type == "property" && status == "sold"] | order(yearTransacted desc, _createdAt desc) {
     _id,
     title,
     slug,
@@ -222,7 +222,7 @@ export const soldPropertiesQuery = groq`
 
 /** Rented properties (most recent) */
 export const rentedPropertiesQuery = groq`
-  *[_type == "property" && status == "rented"] | order(yearTransacted desc, _createdAt desc) [0...12] {
+  *[_type == "property" && status == "rented"] | order(yearTransacted desc, _createdAt desc) {
     _id,
     title,
     slug,
