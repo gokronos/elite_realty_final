@@ -4,9 +4,9 @@ import { Instagram, Facebook, Linkedin } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const socialLinks = [
-  { href: "https://instagram.com", icon: Instagram, label: "Instagram" },
-  { href: "https://facebook.com", icon: Facebook, label: "Facebook" },
-  { href: "https://linkedin.com", icon: Linkedin, label: "LinkedIn" },
+  { href: "https://www.instagram.com/eliterealtyllc/", icon: Instagram, label: "Instagram" },
+  { href: "https://www.facebook.com/p/Elite-Realty-100057346372543/", icon: Facebook, label: "Facebook" },
+  { href: "https://www.linkedin.com/in/alexandra-lugo-317b7880/", icon: Linkedin, label: "LinkedIn" },
 ];
 
 const navLinks = [

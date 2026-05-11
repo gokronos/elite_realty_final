@@ -79,9 +79,9 @@ export function generateAgentSchema() {
       "Investment Properties",
     ],
     sameAs: [
-      "https://www.instagram.com/eliterealty_pr", // Update with real links
-      "https://www.facebook.com/eliterealtypr",
-      "https://www.linkedin.com/in/alexandralugo",
+      "https://www.instagram.com/eliterealtyllc/",
+      "https://www.facebook.com/p/Elite-Realty-100057346372543/",
+      "https://www.linkedin.com/in/alexandra-lugo-317b7880/",
     ],
   };
 }

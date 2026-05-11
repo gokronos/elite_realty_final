@@ -182,9 +182,9 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <a href="mailto:info@eliterealtypr.com" className="block text-sm text-[#a0a0a0] hover:text-[#d4af37] transition-colors">info@eliterealtypr.com</a>
           </div>
           <div className="flex items-center gap-4">
-            <a href="https://instagram.com/eliterealtypr" target="_blank" rel="noopener noreferrer" className="text-[#a0a0a0] hover:text-[#d4af37] transition-colors" aria-label="Instagram"><Instagram className="w-5 h-5" /></a>
-            <a href="https://facebook.com/eliterealtypr" target="_blank" rel="noopener noreferrer" className="text-[#a0a0a0] hover:text-[#d4af37] transition-colors" aria-label="Facebook"><Facebook className="w-5 h-5" /></a>
-            <a href="https://linkedin.com/in/alexandralugo" target="_blank" rel="noopener noreferrer" className="text-[#a0a0a0] hover:text-[#d4af37] transition-colors" aria-label="LinkedIn"><Linkedin className="w-5 h-5" /></a>
+            <a href="https://www.instagram.com/eliterealtyllc/" target="_blank" rel="noopener noreferrer" className="text-[#a0a0a0] hover:text-[#d4af37] transition-colors" aria-label="Instagram"><Instagram className="w-5 h-5" /></a>
+            <a href="https://www.facebook.com/p/Elite-Realty-100057346372543/" target="_blank" rel="noopener noreferrer" className="text-[#a0a0a0] hover:text-[#d4af37] transition-colors" aria-label="Facebook"><Facebook className="w-5 h-5" /></a>
+            <a href="https://www.linkedin.com/in/alexandra-lugo-317b7880/" target="_blank" rel="noopener noreferrer" className="text-[#a0a0a0] hover:text-[#d4af37] transition-colors" aria-label="LinkedIn"><Linkedin className="w-5 h-5" /></a>
           </div>
           <p className="mt-4 text-xs text-[#6b6b6b]">PR Lic. C-19793 | FL 3507350</p>
         </div>
