@@ -26,7 +26,7 @@ function getStatusLabel(status: string): string {
     case "active-sale":   return "FOR SALE";
     case "active-rental": return "FOR RENT";
     case "sold":          return "SOLD";
-    case "rented":        return "LEASED";
+    case "rented":        return "RENTED";
     default:              return status.toUpperCase();
   }
 }
@@ -113,7 +113,7 @@ export function PropertyCard({
         </div>
 
         {/* Content */}
-        <div className="px-4 pt-4 pb-5 flex flex-col flex-1">
+        <div className="px-4 pt-4 pb-5 flex flex-col flex-1 items-center text-center">
           {/* Location */}
           <p className="text-[10px] uppercase tracking-[0.2em] text-[#8a8a8a] font-sans mb-2">
             {formatPropertyLocation(property.location)}
@@ -141,7 +141,7 @@ export function PropertyCard({
 
           {/* Specs */}
           {hasSpecs && (
-            <div className="mt-auto flex items-center gap-4 text-xs text-[#a0a0a0] border-t border-[#2a2a2a] pt-3">
+            <div className="mt-auto flex items-center justify-center flex-wrap gap-4 text-xs text-[#a0a0a0] border-t border-[#2a2a2a] pt-3 w-full">
               {hasBeds && (
                 <span className="flex items-center gap-1.5">
                   <Bed className="w-3.5 h-3.5 text-[#6b6b6b]" />

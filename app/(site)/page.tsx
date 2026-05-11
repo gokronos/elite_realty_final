@@ -12,6 +12,7 @@ import {
   getPropertiesForRent,
   getRentedProperties,
   getAllBlogPosts,
+  getSiteSettings,
 } from "@/lib/sanity/queries";
 import { urlFor } from "@/lib/sanity/image";
 import { formatDate } from "@/lib/utils";
@@ -23,19 +24,21 @@ const locations = [
   { name: "Dorado", slug: "dorado", image: "/images/locations/dorado.png" },
   { name: "Guaynabo", slug: "guaynabo", image: "/images/locations/guaynabo.jpg" },
   { name: "Miramar", slug: "miramar", image: "/images/locations/miramar.png" },
-  { name: "Ocean Park", slug: "ocean-park", image: "/images/locations/ocean-park.png" },
+  { name: "Santurce", slug: "santurce", image: "/images/locations/santurce.png" },
   { name: "Hato Rey", slug: "hato-rey", image: "/images/locations/hato-rey.png" },
 ];
 
 export default async function HomePage() {
-  const [propertiesForSale, propertiesForRent, soldProperties, rentedProperties, blogPosts] = await Promise.all([
+  const [propertiesForSale, propertiesForRent, soldProperties, rentedProperties, blogPosts, siteSettings] = await Promise.all([
     getPropertiesForSale(),
     getPropertiesForRent(),
     getSoldProperties(),
     getRentedProperties(),
     getAllBlogPosts(),
+    getSiteSettings(),
   ]);
   const schemaData = generateHomePageSchema();
+  const groupHistoricalByYear = siteSettings?.historicalPropertiesLayout === "by-year";
 
   return (
     <>
@@ -301,6 +304,7 @@ export default async function HomePage() {
             <InformativePropertyCarousel
               properties={soldProperties}
               ariaLabel="Sold properties carousel"
+              groupByYear={groupHistoricalByYear}
             />
           ) : (
             <div className="text-center py-12">
@@ -327,6 +331,7 @@ export default async function HomePage() {
             <InformativePropertyCarousel
               properties={rentedProperties}
               ariaLabel="Rented properties carousel"
+              groupByYear={groupHistoricalByYear}
             />
           ) : (
             <div className="text-center py-12">

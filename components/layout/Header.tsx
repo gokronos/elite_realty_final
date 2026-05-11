@@ -49,7 +49,7 @@ export const navLinks: NavLink[] = [
         ],
       },
       { label: "Sold",   href: "/property?status=sold",   children: null },
-      { label: "Leased", href: "/property?status=rented", children: null },
+      { label: "Rented", href: "/property?status=rented", children: null },
     ],
   },
   {
@@ -170,7 +170,7 @@ export function Header() {
                               </div>
                             </div>
                           ) : (
-                            /* Direct links: Sold / Leased */
+                            /* Direct links: Sold / Rented */
                             <Link
                               key={item.label}
                               href={item.href!}
