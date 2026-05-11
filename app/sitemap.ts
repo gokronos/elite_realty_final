@@ -3,8 +3,6 @@ import { client } from "@/lib/sanity/client";
 import { groq } from "next-sanity";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://eliterealtypr.com";
-export const revalidate = 60 * 60;
-export const dynamic = "force-dynamic";
 
 // Get all property slugs
 async function getPropertySlugs(): Promise<string[]> {

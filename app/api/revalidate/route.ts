@@ -25,8 +25,9 @@ export async function POST(request: Request) {
     // Revalidate based on content type
     switch (body._type) {
       case "property":
-        revalidatePath("/portfolio");
+        revalidatePath("/property");
         revalidatePath("/");
+        revalidatePath("/sitemap.xml");
         break;
 
       case "blogPost":
@@ -34,20 +35,24 @@ export async function POST(request: Request) {
         if (body.slug?.current) {
           revalidatePath(`/journal/${body.slug.current}`);
         }
+        revalidatePath("/sitemap.xml");
         break;
 
       case "author":
         revalidatePath("/journal");
+        revalidatePath("/sitemap.xml");
         break;
 
       case "siteSettings":
         // Revalidate all pages when site settings change
         revalidatePath("/", "layout");
+        revalidatePath("/sitemap.xml");
         break;
 
       default:
         // Revalidate homepage for unknown types
         revalidatePath("/");
+        revalidatePath("/sitemap.xml");
     }
 
     return NextResponse.json({
