@@ -90,17 +90,25 @@ export function getPropertySquareFeet(property: Pick<Property, "squareFeet" | "s
 export function formatPropertyLocationFromProperty(
   property: Pick<
     Property,
-    "market" | "communityOrBuilding" | "city" | "state" | "location"
+    "title" | "market" | "communityOrBuilding" | "city" | "state" | "location"
   >
 ): string {
+  const communityAlreadyInTitle =
+    property.communityOrBuilding &&
+    normalizedText(property.title).includes(normalizedText(property.communityOrBuilding));
+
   const parts = uniqueLocationParts([
-    property.communityOrBuilding,
+    communityAlreadyInTitle ? undefined : property.communityOrBuilding,
     property.market ?? property.location?.neighborhood,
     property.city ?? property.location?.city,
     property.state ?? property.location?.state,
   ]);
 
   return parts.length > 0 ? parts.join(", ") : "Location on file";
+}
+
+function normalizedText(value: string | undefined): string {
+  return value?.trim().toLowerCase() ?? "";
 }
 
 function uniqueLocationParts(parts: Array<string | undefined>): string[] {
