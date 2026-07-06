@@ -54,7 +54,11 @@ export function formatPropertyLocation(location?: {
 }): string {
   if (!location) return "Location on file";
 
-  const parts = [location.neighborhood, location.city, location.state].filter(Boolean);
+  const parts = uniqueLocationParts([
+    location.neighborhood,
+    location.city,
+    location.state,
+  ]);
 
   if (parts.length === 0) {
     return "Location on file";
@@ -89,12 +93,24 @@ export function formatPropertyLocationFromProperty(
     "market" | "communityOrBuilding" | "city" | "state" | "location"
   >
 ): string {
-  const parts = [
+  const parts = uniqueLocationParts([
     property.communityOrBuilding,
     property.market ?? property.location?.neighborhood,
     property.city ?? property.location?.city,
     property.state ?? property.location?.state,
-  ].filter(Boolean);
+  ]);
 
   return parts.length > 0 ? parts.join(", ") : "Location on file";
+}
+
+function uniqueLocationParts(parts: Array<string | undefined>): string[] {
+  const seen = new Set<string>();
+
+  return parts.filter((part): part is string => {
+    if (!part) return false;
+    const normalized = part.trim().toLowerCase();
+    if (seen.has(normalized)) return false;
+    seen.add(normalized);
+    return true;
+  });
 }
