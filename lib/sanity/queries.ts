@@ -132,11 +132,12 @@ export const featuredPropertiesQuery = groq`
 
 /** Single property by slug */
 export const propertyBySlugQuery = groq`
-  *[_type == "property" && slug.current == $slug][0] {
+  *[_type == "property" && (slug.current == $slug || $slug in legacySlugs)][0] {
     _id,
     _createdAt,
     title,
     slug,
+    legacySlugs,
     status,
     propertyType,
     price,
@@ -186,6 +187,7 @@ export const propertyByIdQuery = groq`
     _createdAt,
     title,
     slug,
+    legacySlugs,
     status,
     propertyType,
     price,
@@ -230,7 +232,9 @@ export const propertyByIdQuery = groq`
 
 /** Property slugs for static generation */
 export const propertyPathsQuery = groq`
-  *[_type == "property" && defined(slug.current)][].slug.current
+  *[_type == "property" && defined(slug.current)]{
+    "slugs": array::compact([slug.current] + coalesce(legacySlugs, []))
+  }.slugs[]
 `;
 
 /** Properties for sale (active-sale status) */

@@ -96,10 +96,14 @@ export function formatPropertyLocationFromProperty(
   const communityAlreadyInTitle =
     property.communityOrBuilding &&
     normalizedText(property.title).includes(normalizedText(property.communityOrBuilding));
+  const marketAlreadyInCommunity =
+    property.communityOrBuilding &&
+    property.market &&
+    normalizedText(property.communityOrBuilding).startsWith(normalizedText(property.market));
 
   const parts = uniqueLocationParts([
     communityAlreadyInTitle ? undefined : property.communityOrBuilding,
-    property.market ?? property.location?.neighborhood,
+    marketAlreadyInCommunity ? undefined : property.market ?? property.location?.neighborhood,
     property.city ?? property.location?.city,
     property.state ?? property.location?.state,
   ]);

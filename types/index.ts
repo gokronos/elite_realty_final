@@ -141,6 +141,7 @@ export interface PropertyLocation {
 export interface Property extends Pick<SanityDocument, "_id" | "_createdAt"> {
   title: string;
   slug: SanitySlug;
+  legacySlugs?: string[];
   status: PropertyStatus;
   historicalRecord?: boolean;
   propertyType?: PropertyType;

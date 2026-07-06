@@ -63,6 +63,16 @@ export const property = defineType({
     }),
 
     defineField({
+      name: "legacySlugs",
+      title: "Legacy Slugs",
+      type: "array",
+      description:
+        "Previous URL slugs kept so old property links continue to work after a slug cleanup.",
+      group: "basic",
+      of: [{ type: "string" }],
+    }),
+
+    defineField({
       name: "status",
       title: "Status",
       type: "string",
