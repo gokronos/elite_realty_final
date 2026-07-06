@@ -6,8 +6,8 @@ const ACCESS_QUERY_PARAM = "clientAccess";
 const PUBLIC_FILE = /\.(.*)$/;
 
 export function proxy(request: NextRequest) {
-  const lockEnabled = process.env.SITE_LOCK_ENABLED === "true";
-  const accessSecret = process.env.SITE_LOCK_SECRET;
+  const lockEnabled = process.env.SITE_LOCK_ENABLED !== "false";
+  const accessSecret = process.env.SITE_LOCK_SECRET || "elite-preview-2026";
 
   if (!lockEnabled || !accessSecret) {
     return NextResponse.next();
