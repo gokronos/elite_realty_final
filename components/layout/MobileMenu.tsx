@@ -29,14 +29,18 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     setOpenSubSubmenus((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const handleClose = () => {
+    setOpenDropdowns({});
+    setOpenSubmenus({});
+    setOpenSubSubmenus({});
+    onClose();
+  };
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
-      setOpenDropdowns({});
-      setOpenSubmenus({});
-      setOpenSubSubmenus({});
     }
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
@@ -49,7 +53,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           "fixed inset-0 z-50 bg-black/80 transition-opacity duration-300",
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
-        onClick={onClose}
+        onClick={handleClose}
         aria-hidden="true"
       />
 
@@ -65,10 +69,10 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       >
         {/* Header with Close Button */}
         <div className="flex items-center justify-between p-6">
-          <Link href="/" onClick={onClose} className="relative h-10 w-12 block">
+          <Link href="/" onClick={handleClose} className="relative h-10 w-12 block">
             <Image src="/images/unnamed.jpg" alt="Elite Realty" fill className="object-contain" sizes="48px" />
           </Link>
-          <button onClick={onClose} className="p-2 text-white hover:text-[#d4af37] transition-colors" aria-label="Close menu">
+          <button onClick={handleClose} className="p-2 text-white hover:text-[#d4af37] transition-colors" aria-label="Close menu">
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -142,14 +146,14 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                         )}
                                       >
                                         {child.subChildren.map((sub) => (
-                                          <Link key={sub.href} href={sub.href} onClick={onClose} className="block pl-12 py-1.5 text-xs uppercase tracking-[0.1em] text-white/50 hover:text-[#d4af37] transition-colors">
+                                          <Link key={sub.href} href={sub.href} onClick={handleClose} className="block pl-12 py-1.5 text-xs uppercase tracking-[0.1em] text-white/50 hover:text-[#d4af37] transition-colors">
                                             {sub.label}
                                           </Link>
                                         ))}
                                       </div>
                                     </div>
                                   ) : (
-                                    <Link key={child.href} href={child.href!} onClick={onClose} className="block pl-8 py-1.5 text-sm uppercase tracking-[0.1em] text-white/60 hover:text-[#d4af37] transition-colors">
+                                    <Link key={child.href} href={child.href!} onClick={handleClose} className="block pl-8 py-1.5 text-sm uppercase tracking-[0.1em] text-white/60 hover:text-[#d4af37] transition-colors">
                                       {child.label}
                                     </Link>
                                   )
@@ -157,7 +161,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                               </div>
                             </div>
                           ) : (
-                            <Link href={item.href!} onClick={onClose} className="block pl-4 py-1.5 text-sm uppercase tracking-[0.12em] text-white/80 hover:text-[#d4af37] transition-colors">
+                            <Link href={item.href!} onClick={handleClose} className="block pl-4 py-1.5 text-sm uppercase tracking-[0.12em] text-white/80 hover:text-[#d4af37] transition-colors">
                               {item.label}
                             </Link>
                           )}
@@ -166,7 +170,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     </div>
                   </div>
                 ) : (
-                  <Link href={link.href} onClick={onClose} className="block text-lg uppercase tracking-[0.15em] text-white hover:text-[#d4af37] transition-colors duration-200 py-1">
+                  <Link href={link.href} onClick={handleClose} className="block text-lg uppercase tracking-[0.15em] text-white hover:text-[#d4af37] transition-colors duration-200 py-1">
                     {link.label}
                   </Link>
                 )}

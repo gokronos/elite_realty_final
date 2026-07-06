@@ -32,9 +32,21 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
+
+# sanity generated output
+.sanity/
+sanity/dist/
+
+# npm local cache
+.npm-cache/
+
+# local backups
+*.bak
+*.bak2
 
 # staging content
 _staging/
@@ -46,3 +58,7 @@ next-env.d.ts
 # local duplicate project folders
 /elite_realty_3-main-2026/
 /elite_realty_final/
+
+# local AI/tooling state
+.claude/
+.github/workflows/claude*.yml

@@ -42,21 +42,6 @@ async function fetchDraftProperties() {
 }
 
 async function publishDocuments(draftIds) {
-  // Create mutations to publish each document
-  const mutations = draftIds.map(draftId => {
-    // Extract the actual ID without "drafts." prefix
-    const publishedId = draftId.replace('drafts.', '');
-
-    return {
-      patch: {
-        id: draftId,
-        set: { _id: publishedId },
-      }
-    };
-  });
-
-  // Actually, publishing requires a different approach in Sanity
-  // We need to use the publish action
   const publishMutations = draftIds.map(draftId => {
     const publishedId = draftId.replace('drafts.', '');
     return { id: publishedId, draftId };

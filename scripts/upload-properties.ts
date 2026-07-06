@@ -195,19 +195,6 @@ async function createPropertyDocument(
   return { _id: doc._id, title: row.title };
 }
 
-async function publishDocument(documentId: string): Promise<void> {
-  // Remove "drafts." prefix if present to get the published ID
-  const publishedId = documentId.replace(/^drafts\./, "");
-  const draftId = `drafts.${publishedId}`;
-
-  // Use the correct publish transaction
-  await client
-    .transaction()
-    .createIfNotExists({ _id: publishedId, _type: "property" })
-    .patch(draftId, (p) => p.unset(["_id"])) // Remove draft
-    .commit();
-}
-
 // ============================================================================
 // Main Execution
 // ============================================================================

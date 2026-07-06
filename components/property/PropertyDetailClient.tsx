@@ -19,13 +19,18 @@ import { cn, formatPrice, formatPropertyLocation, formatWholeNumber } from "@/li
 import { urlFor } from "@/lib/sanity/image";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { PropertyCard } from "@/components/property/PropertyCard";
 import type { Property } from "@/types";
 
 interface PropertyDetailClientProps {
   property: Property;
+  relatedProperties?: Property[];
 }
 
-export function PropertyDetailClient({ property }: PropertyDetailClientProps) {
+export function PropertyDetailClient({
+  property,
+  relatedProperties = [],
+}: PropertyDetailClientProps) {
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -256,6 +261,36 @@ export function PropertyDetailClient({ property }: PropertyDetailClientProps) {
           </div>
         </div>
       </section>
+
+      {relatedProperties.length > 0 && (
+        <section className="px-4 py-16 border-t border-[#2d2d2d] bg-[#111111]">
+          <div className="container mx-auto">
+            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-10">
+              <div>
+                <h2 className="font-serif text-3xl md:text-4xl text-white mb-3">
+                  Related Properties
+                </h2>
+                <p className="text-[#a0a0a0]">
+                  Explore similar active listings in Puerto Rico and Miami
+                </p>
+              </div>
+
+              <Link href="/property">
+                <Button variant="secondary">View All Properties</Button>
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {relatedProperties.map((relatedProperty) => (
+                <PropertyCard
+                  key={relatedProperty._id}
+                  property={relatedProperty}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="px-4 py-16 border-t border-[#2d2d2d]">
         <div className="container mx-auto text-center">

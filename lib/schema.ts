@@ -11,11 +11,6 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://eliterealtypr.com";
 // TYPES
 // =============================================================================
 
-interface SchemaBase {
-  "@context": "https://schema.org";
-  "@type": string;
-}
-
 interface BreadcrumbItem {
   name: string;
   url: string;

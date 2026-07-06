@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useMemo, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PropertyGrid } from "@/components/property/PropertyGrid";
 import { PropertyFilter } from "@/components/property/PropertyFilter";
 import { PropertyModal } from "@/components/property/PropertyModal";
@@ -12,40 +12,31 @@ interface PropertyClientProps {
   groupHistoricalByYear?: boolean;
 }
 
-function PropertyClientContent({ properties, groupHistoricalByYear = false }: PropertyClientProps) {
+interface PropertyClientViewProps extends PropertyClientProps {
+  initialStatus: PropertyStatus | "all";
+  initialPropertyType: PropertyType | "all";
+}
+
+function PropertyClientView({
+  properties,
+  groupHistoricalByYear = false,
+  initialStatus,
+  initialPropertyType,
+}: PropertyClientViewProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Initialize status filter from URL ?status= param
-  const urlStatus = searchParams.get("status") as PropertyStatus | null;
-  const urlType = searchParams.get("type") as PropertyType | null;
-  const [status, setStatus] = useState<PropertyStatus | "all">(
-    urlStatus ?? "all"
-  );
-  const [propertyType, setPropertyType] = useState<PropertyType | "all">(
-    urlType ?? "all"
-  );
+  const [status, setStatus] = useState<PropertyStatus | "all">(initialStatus);
+  const [propertyType, setPropertyType] = useState<PropertyType | "all">(initialPropertyType);
   const [state, setState] = useState<State | "all">("all");
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
 
-  // Sync status and type filters when URL params change
-  useEffect(() => {
-    const s = searchParams.get("status") as PropertyStatus | null;
-    const t = searchParams.get("type") as PropertyType | null;
-    setStatus(s ?? "all");
-    setPropertyType(t ?? "all");
-  }, [searchParams]);
-
-  // Open modal if property slug is in URL query
-  useEffect(() => {
+  const selectedProperty = useMemo(() => {
     const propertySlug = searchParams.get("property");
-    if (propertySlug) {
-      const property = properties.find(
-        (p) => p.slug?.current === propertySlug || p._id === propertySlug
-      );
-      if (property) {
-        setSelectedProperty(property);
-      }
-    }
+    if (!propertySlug) return null;
+
+    return properties.find(
+      (property) => property.slug?.current === propertySlug || property._id === propertySlug
+    ) ?? null;
   }, [searchParams, properties]);
 
   const filteredProperties = useMemo(() => {
@@ -86,7 +77,6 @@ function PropertyClientContent({ properties, groupHistoricalByYear = false }: Pr
             onStateChange={setState}
           />
 
-          <PropertyGrid properties={filteredProperties} />
           <PropertyGrid
             properties={filteredProperties}
             groupHistoricalByYear={groupHistoricalByYear}
@@ -96,11 +86,33 @@ function PropertyClientContent({ properties, groupHistoricalByYear = false }: Pr
 
       {/* Property Modal */}
       <PropertyModal
+        key={selectedProperty?._id ?? "empty-property-modal"}
         property={selectedProperty}
         isOpen={!!selectedProperty}
-        onClose={() => setSelectedProperty(null)}
+        onClose={() => {
+          const params = new URLSearchParams(searchParams.toString());
+          params.delete("property");
+          const query = params.toString();
+          router.replace(query ? `/property?${query}` : "/property", { scroll: false });
+        }}
       />
     </div>
+  );
+}
+
+function PropertyClientContent({ properties, groupHistoricalByYear = false }: PropertyClientProps) {
+  const searchParams = useSearchParams();
+  const urlStatus = searchParams.get("status") as PropertyStatus | null;
+  const urlType = searchParams.get("type") as PropertyType | null;
+
+  return (
+    <PropertyClientView
+      key={`${urlStatus ?? "all"}-${urlType ?? "all"}`}
+      properties={properties}
+      groupHistoricalByYear={groupHistoricalByYear}
+      initialStatus={urlStatus ?? "all"}
+      initialPropertyType={urlType ?? "all"}
+    />
   );
 }
 

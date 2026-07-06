@@ -25,7 +25,6 @@ export function PropertyModal({ property, isOpen, onClose }: PropertyModalProps)
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      setCurrentImageIndex(0);
     } else {
       document.body.style.overflow = "";
     }
@@ -45,21 +44,19 @@ export function PropertyModal({ property, isOpen, onClose }: PropertyModalProps)
   const currentImage = allImages[currentImageIndex];
   const imageUrl = urlFor(currentImage)?.width(1200).height(800).url();
 
-  const handleNextImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const showNextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
   };
 
-  const handlePrevImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const showPrevImage = () => {
     setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowRight") {
-      handleNextImage(e as any);
+      showNextImage();
     } else if (e.key === "ArrowLeft") {
-      handlePrevImage(e as any);
+      showPrevImage();
     }
   };
 
@@ -115,7 +112,10 @@ export function PropertyModal({ property, isOpen, onClose }: PropertyModalProps)
               <>
                 {/* Previous Button */}
                 <button
-                  onClick={handlePrevImage}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    showPrevImage();
+                  }}
                   className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/50 hover:bg-black/80 text-white transition-all rounded-full"
                   aria-label="Previous image"
                 >
@@ -124,7 +124,10 @@ export function PropertyModal({ property, isOpen, onClose }: PropertyModalProps)
 
                 {/* Next Button */}
                 <button
-                  onClick={handleNextImage}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    showNextImage();
+                  }}
                   className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-black/50 hover:bg-black/80 text-white transition-all rounded-full"
                   aria-label="Next image"
                 >

@@ -3,8 +3,7 @@
  */
 
 import { createClient } from "@sanity/client";
-import { readFileSync, writeFileSync } from "fs";
-import { parse } from "csv-parse/sync";
+import { readFileSync } from "fs";
 import path from "path";
 import convert from "heic-convert";
 

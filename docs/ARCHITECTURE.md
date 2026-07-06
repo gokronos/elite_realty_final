@@ -12,12 +12,12 @@
 
 | Layer | Technology | Version | Notes |
 |-------|------------|---------|-------|
-| Framework | Next.js | 15.x | App Router |
+| Framework | Next.js | 16.x | App Router |
 | Language | TypeScript | 5.x | Strict mode enabled |
-| Styling | Tailwind CSS | 3.4.x | Custom theme |
-| CMS | Sanity.io | 3.x | Embedded Studio |
+| Styling | Tailwind CSS | 4.x | Custom theme |
+| CMS | Sanity.io | 5.x | Embedded Studio |
 | Deployment | Vercel | - | Auto-deploy from GitHub |
-| Package Manager | bun | 1.x | Faster than npm |
+| Package Manager | npm | 10.x+ | package-lock.json committed |
 
 ### 1.2 Dependencies
 
@@ -312,7 +312,7 @@ export async function POST(req: Request) {
 
 | Setting | Value |
 |---------|-------|
-| Project ID | `6ostes35` |
+| Project ID | `gn3kobnn` |
 | Dataset | `production` |
 | API Version | `2024-01-01` |
 | Studio Path | `/studio` |

@@ -261,6 +261,33 @@ export const propertiesByNeighborhoodQuery = groq`
   }
 `;
 
+/** Related active properties for a property detail page */
+export const relatedPropertiesQuery = groq`
+  *[
+    _type == "property" &&
+    _id != $id &&
+    status in ["active-sale", "active-rental"]
+  ] | order(_createdAt desc) [0...24] {
+    _id,
+    _createdAt,
+    title,
+    slug,
+    status,
+    propertyType,
+    price,
+    priceType,
+    location,
+    bedrooms,
+    bathrooms,
+    sqft,
+    "featuredImage": featuredImage {
+      asset->,
+      alt
+    },
+    "featuredImageUrl": featuredImage.asset->url
+  }
+`;
+
 
 // =============================================================================
 // BLOG QUERIES
@@ -501,6 +528,44 @@ export async function getPropertiesByNeighborhood(
     { neighborhoods },
     { next: { revalidate: revalidateSeconds } }
   );
+}
+
+export async function getRelatedProperties(property: Property): Promise<Property[]> {
+  const candidates = await fetchWithFallback(
+    "getRelatedProperties",
+    relatedPropertiesQuery,
+    [],
+    {
+      id: property._id,
+      neighborhood: property.location?.neighborhood ?? "",
+      propertyType: property.propertyType ?? "",
+      state: property.location?.state ?? "",
+    },
+    { next: { revalidate: revalidateSeconds } }
+  );
+
+  return candidates
+    .sort((a, b) => {
+      const score = (candidate: Property) => {
+        let value = 0;
+        if (
+          property.location?.neighborhood &&
+          candidate.location?.neighborhood === property.location.neighborhood
+        ) {
+          value += 4;
+        }
+        if (property.propertyType && candidate.propertyType === property.propertyType) {
+          value += 2;
+        }
+        if (property.location?.state && candidate.location?.state === property.location.state) {
+          value += 1;
+        }
+        return value;
+      };
+
+      return score(b) - score(a);
+    })
+    .slice(0, 3);
 }
 
 // Blog

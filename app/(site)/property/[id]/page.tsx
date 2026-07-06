@@ -3,7 +3,12 @@ import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PropertyDetailClient } from "@/components/property/PropertyDetailClient";
 import { generatePropertyPageSchema } from "@/lib/schema";
-import { getPropertyById, getPropertyBySlug, getPropertyPaths } from "@/lib/sanity/queries";
+import {
+  getPropertyById,
+  getPropertyBySlug,
+  getPropertyPaths,
+  getRelatedProperties,
+} from "@/lib/sanity/queries";
 import { formatPrice, formatPropertyLocation } from "@/lib/utils";
 
 interface PropertyPageProps {
@@ -87,12 +92,13 @@ export default async function PropertyDetailPage({ params }: PropertyPageProps) 
     notFound();
   }
 
+  const relatedProperties = await getRelatedProperties(property);
   const schemaData = generatePropertyPageSchema(property);
 
   return (
     <>
       <JsonLd data={schemaData} />
-      <PropertyDetailClient property={property} />
+      <PropertyDetailClient property={property} relatedProperties={relatedProperties} />
     </>
   );
 }

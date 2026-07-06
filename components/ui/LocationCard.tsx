@@ -51,6 +51,11 @@ export function LocationCard({
             <h3 className="font-serif text-2xl md:text-3xl lg:text-4xl font-light uppercase tracking-wider text-center mb-4">
               {name}
             </h3>
+            {description && (
+              <p className="mb-4 max-w-sm text-center text-sm leading-relaxed text-white/80">
+                {description}
+              </p>
+            )}
             <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-white text-white uppercase text-xs tracking-widest px-6 py-2 hover:bg-white hover:text-black">
               Explore
             </span>

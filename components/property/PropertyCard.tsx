@@ -31,10 +31,14 @@ function getStatusLabel(status: string): string {
   }
 }
 
-function handleShare(e: React.MouseEvent, title: string, slug: string) {
+function isActiveListing(status: string): boolean {
+  return status === "active-sale" || status === "active-rental";
+}
+
+function handleShare(e: React.MouseEvent, title: string, href: string) {
   e.preventDefault();
   e.stopPropagation();
-  const url = `${window.location.origin}/property?property=${slug}`;
+  const url = `${window.location.origin}${href}`;
   if (navigator.share) {
     navigator.share({ title, url }).catch(() => {});
   } else {
@@ -62,6 +66,9 @@ export function PropertyCard({
   const hasSqft  = fullProperty.sqft      !== undefined;
   const hasSpecs = hasBeds || hasBaths || hasSqft;
   const propertySlug = property.slug?.current || property._id;
+  const propertyHref = isActiveListing(property.status)
+    ? `/property/${encodeURIComponent(propertySlug)}`
+    : `/property?property=${encodeURIComponent(propertySlug)}`;
 
   const cardContent = (
     <article
@@ -103,7 +110,7 @@ export function PropertyCard({
           {/* Share button — top right */}
           {!hideShare && (
             <button
-              onClick={(e) => handleShare(e, property.title, propertySlug)}
+              onClick={(e) => handleShare(e, property.title, propertyHref)}
               className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-black/60 backdrop-blur-sm hover:bg-[#d4af37] hover:text-black text-white transition-colors duration-200 rounded-sm"
               aria-label="Compartir propiedad"
             >
@@ -170,5 +177,5 @@ export function PropertyCard({
     return cardContent;
   }
 
-  return <Link href={`/property?property=${propertySlug}`}>{cardContent}</Link>;
+  return <Link href={propertyHref}>{cardContent}</Link>;
 }

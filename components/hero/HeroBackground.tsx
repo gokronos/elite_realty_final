@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 
 export interface SlideMedia {
   video?: string;
@@ -12,22 +12,6 @@ export interface SlideMedia {
 }
 
 export const slides: SlideMedia[] = [
-  {
-    video: "/videos/hero-1.1.mp4",
-    image: "/images/hero-beach.jpg",
-    poster: "/images/hero-beach.jpg",
-    label: "Luxury Real Estate",
-    heading: "Elite Realty",
-    subheading: "Passion · Trust · Experience",
-  },
-  {
-    video: "/videos/hero-2.mp4",
-    image: "/images/hero-beach.jpg",
-    poster: "/images/hero-beach.jpg",
-    label: "Puerto Rico & Miami",
-    heading: "Luxury Living Redefined",
-    subheading: "Waterfront estates & premium residences",
-  },
   {
     video: "/videos/hero-3.mp4",
     image: "/images/hero-beach.jpg",
@@ -45,12 +29,12 @@ export const slides: SlideMedia[] = [
     subheading: "Let Alexandra guide you home",
   },
   {
-    video: "/videos/hero-5.mp4",
+    video: "/videos/hero-2.mp4",
     image: "/images/hero-beach.jpg",
     poster: "/images/hero-beach.jpg",
-    label: "Exclusive Living",
-    heading: "Where Luxury Meets Lifestyle",
-    subheading: "Premier properties in the Caribbean & Miami",
+    label: "Puerto Rico & Miami",
+    heading: "Luxury Living Redefined",
+    subheading: "Waterfront estates & premium residences",
   },
 ];
 
@@ -67,27 +51,18 @@ interface HeroBackgroundProps {
 export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [preloadedVideos, setPreloadedVideos] = useState<Set<number>>(new Set([0]));
-  const [isClient, setIsClient] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const preloadedVideos = useMemo(() => {
+    const nextIdx = (currentIndex + 1) % slides.length;
+    const prevIdx = (currentIndex - 1 + slides.length) % slides.length;
+    return new Set([currentIndex, nextIdx, prevIdx]);
+  }, [currentIndex]);
 
   // Notify parent of slide changes
   useEffect(() => {
     onSlideChange?.(currentIndex, isTransitioning);
   }, [currentIndex, isTransitioning, onSlideChange]);
-
-  // Preload adjacent videos
-  useEffect(() => {
-    const nextIdx = (currentIndex + 1) % slides.length;
-    const prevIdx = (currentIndex - 1 + slides.length) % slides.length;
-    setPreloadedVideos(current => new Set([...current, currentIndex, nextIdx, prevIdx]));
-  }, [currentIndex]);
-
-  // Hydration guard
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   // Rotate slides
   const startInterval = useCallback(() => {
@@ -136,30 +111,22 @@ export function HeroBackground({ onSlideChange }: HeroBackgroundProps) {
 
   // Play current video when it becomes active
   useEffect(() => {
-    if (isClient) {
-      videoRefs.current.forEach((video, index) => {
-        if (video) {
-          if (index === currentIndex) {
-            video.currentTime = 0;
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-              playPromise.catch(() => {
-                // Autoplay was prevented, try again after user interaction
-                console.log('Video autoplay prevented');
-              });
-            }
-          } else {
-            video.pause();
+    videoRefs.current.forEach((video, index) => {
+      if (video) {
+        if (index === currentIndex) {
+          video.currentTime = 0;
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              console.log("Video autoplay prevented");
+            });
           }
+        } else {
+          video.pause();
         }
-      });
-    }
-  }, [currentIndex, isClient]);
-
-  // Show dark background during SSR (prevents beach image flash)
-  if (!isClient) {
-    return <div className="absolute inset-0 z-0 bg-[#0a0a0a]" />;
-  }
+      }
+    });
+  }, [currentIndex]);
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden">

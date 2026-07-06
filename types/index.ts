@@ -154,33 +154,31 @@ export interface Property extends Pick<SanityDocument, "_id" | "_createdAt"> {
 }
 
 /** Property card (minimal data for listings) */
-export interface PropertyCard
-  extends Pick<
-    Property,
-    | "_id"
-    | "title"
-    | "slug"
-    | "status"
-    | "price"
-    | "priceType"
-    | "location"
-    | "featuredImage"
-  > {}
+export type PropertyCard = Pick<
+  Property,
+  | "_id"
+  | "title"
+  | "slug"
+  | "status"
+  | "price"
+  | "priceType"
+  | "location"
+  | "featuredImage"
+>;
 
 /** Featured property (homepage display) */
-export interface FeaturedProperty
-  extends Pick<
-    Property,
-    | "_id"
-    | "title"
-    | "slug"
-    | "status"
-    | "price"
-    | "priceType"
-    | "location"
-    | "featuredImage"
-    | "yearTransacted"
-  > {}
+export type FeaturedProperty = Pick<
+  Property,
+  | "_id"
+  | "title"
+  | "slug"
+  | "status"
+  | "price"
+  | "priceType"
+  | "location"
+  | "featuredImage"
+  | "yearTransacted"
+>;
 
 // =============================================================================
 // AUTHOR
@@ -195,7 +193,7 @@ export interface Author {
 }
 
 /** Author reference (minimal for blog cards) */
-export interface AuthorReference extends Pick<Author, "name" | "slug" | "image"> {}
+export type AuthorReference = Pick<Author, "name" | "slug" | "image">;
 
 // =============================================================================
 // BLOG POST

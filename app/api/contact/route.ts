@@ -5,6 +5,9 @@ import { contactFormSchema } from "@/lib/validation";
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT_MAX = 5;       // max submissions
 const RATE_LIMIT_WINDOW = 60_000; // per 1 minute
+const resendApiKey = process.env.RESEND_API_KEY;
+const contactEmailTo = process.env.CONTACT_EMAIL_TO || "info@eliterealtypr.com";
+const contactEmailFrom = process.env.CONTACT_EMAIL_FROM || "Elite Realty <onboarding@resend.dev>";
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
@@ -26,6 +29,50 @@ function escapeHtml(str: string): string {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+async function sendContactEmail({
+  safeName,
+  safeEmail,
+  safePhone,
+  safeMessage,
+}: {
+  safeName: string;
+  safeEmail: string;
+  safePhone: string;
+  safeMessage: string;
+}) {
+  if (!resendApiKey) {
+    console.warn("RESEND_API_KEY is not configured; contact form email was not sent.");
+    return;
+  }
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${resendApiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: contactEmailFrom,
+      to: contactEmailTo,
+      reply_to: safeEmail,
+      subject: `New Contact: ${safeName}`,
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${safeName}</p>
+        <p><strong>Email:</strong> ${safeEmail}</p>
+        <p><strong>Phone:</strong> ${safePhone}</p>
+        <p><strong>Message:</strong></p>
+        <p>${safeMessage.replace(/\n/g, "<br />")}</p>
+      `,
+    }),
+  });
+
+  if (!response.ok) {
+    const details = await response.text();
+    throw new Error(`Resend request failed: ${response.status} ${details}`);
+  }
 }
 
 export async function POST(request: Request) {
@@ -69,23 +116,7 @@ export async function POST(request: Request) {
     const safePhone   = escapeHtml(phone ?? "Not provided");
     const safeMessage = escapeHtml(message);
 
-    // TODO: Uncomment when Resend is configured
-    // const resend = new Resend(process.env.RESEND_API_KEY);
-    // await resend.emails.send({
-    //   from: 'Elite Realty <noreply@eliterealty.com>',
-    //   to: 'alexandra@eliterealty.com',
-    //   subject: `New Contact: ${safeName}`,
-    //   html: `
-    //     <h2>New Contact Form Submission</h2>
-    //     <p><strong>Name:</strong> ${safeName}</p>
-    //     <p><strong>Email:</strong> ${safeEmail}</p>
-    //     <p><strong>Phone:</strong> ${safePhone}</p>
-    //     <p><strong>Message:</strong></p>
-    //     <p>${safeMessage}</p>
-    //   `,
-    // });
-
-    console.log("Contact form submission:", { safeName, safeEmail, safePhone, safeMessage });
+    await sendContactEmail({ safeName, safeEmail, safePhone, safeMessage });
 
     return NextResponse.json({ success: true });
   } catch (error) {
