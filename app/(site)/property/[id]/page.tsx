@@ -9,7 +9,11 @@ import {
   getPropertyPaths,
   getRelatedProperties,
 } from "@/lib/sanity/queries";
-import { formatPrice, formatPropertyLocation } from "@/lib/utils";
+import {
+  formatPrice,
+  formatPropertyLocationFromProperty,
+  isMonthlyRentPrice,
+} from "@/lib/utils";
 
 interface PropertyPageProps {
   params: Promise<{ id: string }>;
@@ -50,9 +54,9 @@ export async function generateMetadata({ params }: PropertyPageProps): Promise<M
     };
   }
 
-  const locationLabel = formatPropertyLocation(property.location);
+  const locationLabel = formatPropertyLocationFromProperty(property);
   const title = `${property.title} | Elite Realty`;
-  const description = `${property.title}${locationLabel ? ` in ${locationLabel}` : ""}. ${formatPrice(property.price)}${property.priceType === "rent" ? " per month" : ""}. Explore this ${property.propertyType || "luxury"} property with Elite Realty.`;
+  const description = `${property.title}${locationLabel ? ` in ${locationLabel}` : ""}. ${formatPrice(property.price)}${isMonthlyRentPrice(property.priceType) ? " per month" : ""}. Explore this ${property.propertyType || "luxury"} property with Elite Realty.`;
   const ogImage = property.featuredImage?.asset?.url || "https://eliterealtypr.com/images/alexandra-2026.jpg";
 
   return {

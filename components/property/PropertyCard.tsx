@@ -4,7 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { Bed, Bath, Ruler, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { formatPrice, formatPropertyLocation, formatWholeNumber } from "@/lib/utils";
+import {
+  formatPrice,
+  formatPropertyLocationFromProperty,
+  formatWholeNumber,
+  getPropertySquareFeet,
+  isActivePropertyStatus,
+  isForRentStatus,
+  isMonthlyRentPrice,
+} from "@/lib/utils";
 import { urlFor } from "@/lib/sanity/image";
 import type { Property, PropertyCard as PropertyCardType } from "@/types";
 
@@ -23,16 +31,14 @@ export interface PropertyCardProps {
 
 function getStatusLabel(status: string): string {
   switch (status) {
+    case "forSale":
     case "active-sale":   return "FOR SALE";
+    case "forRent":
     case "active-rental": return "FOR RENT";
     case "sold":          return "SOLD";
     case "rented":        return "RENTED";
     default:              return status.toUpperCase();
   }
-}
-
-function isActiveListing(status: string): boolean {
-  return status === "active-sale" || status === "active-rental";
 }
 
 function handleShare(e: React.MouseEvent, title: string, href: string) {
@@ -61,12 +67,13 @@ export function PropertyCard({
     "";
 
   const fullProperty = property as Property;
-  const hasBeds  = fullProperty.bedrooms  !== undefined;
-  const hasBaths = fullProperty.bathrooms !== undefined;
-  const hasSqft  = fullProperty.sqft      !== undefined;
+  const squareFeet = getPropertySquareFeet(fullProperty);
+  const hasBeds  = fullProperty.propertyType !== "commercial" && fullProperty.propertyType !== "land" && fullProperty.bedrooms  !== undefined;
+  const hasBaths = fullProperty.propertyType !== "land" && fullProperty.bathrooms !== undefined;
+  const hasSqft  = fullProperty.propertyType !== "land" && squareFeet !== undefined;
   const hasSpecs = hasBeds || hasBaths || hasSqft;
   const propertySlug = property.slug?.current || property._id;
-  const propertyHref = isActiveListing(property.status)
+  const propertyHref = isActivePropertyStatus(property.status)
     ? `/property/${encodeURIComponent(propertySlug)}`
     : `/property?property=${encodeURIComponent(propertySlug)}`;
 
@@ -123,7 +130,7 @@ export function PropertyCard({
         <div className="px-4 pt-4 pb-5 flex flex-col flex-1 items-center text-center">
           {/* Location */}
           <p className="text-[10px] uppercase tracking-[0.2em] text-[#8a8a8a] font-sans mb-2">
-            {formatPropertyLocation(property.location)}
+            {formatPropertyLocationFromProperty(property as Property)}
           </p>
 
           {/* Title */}
@@ -140,9 +147,9 @@ export function PropertyCard({
           {!hidePrice && (
             <p className="text-2xl font-bold font-sans text-[#d4af37] mb-4">
               {formatPrice(property.price)}
-              {property.priceType === "rent" && (
+              {isForRentStatus(property.status) || isMonthlyRentPrice(property.priceType) ? (
                 <span className="text-sm text-[#a0a0a0] font-normal ml-1">/mo</span>
-              )}
+              ) : null}
             </p>
           )}
 
@@ -164,7 +171,7 @@ export function PropertyCard({
               {hasSqft && (
                 <span className="flex items-center gap-1.5">
                   <Ruler className="w-3.5 h-3.5 text-[#6b6b6b]" />
-                  {formatWholeNumber(fullProperty.sqft)} SF
+                  {formatWholeNumber(squareFeet)} SF
                 </span>
               )}
             </div>

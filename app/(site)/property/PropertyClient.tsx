@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { PropertyGrid } from "@/components/property/PropertyGrid";
 import { PropertyFilter } from "@/components/property/PropertyFilter";
 import { PropertyModal } from "@/components/property/PropertyModal";
+import { isForRentStatus, isForSaleStatus } from "@/lib/utils";
 import type { Property, PropertyStatus, PropertyType, State } from "@/types";
 
 interface PropertyClientProps {
@@ -41,9 +42,13 @@ function PropertyClientView({
 
   const filteredProperties = useMemo(() => {
     return properties.filter((property) => {
-      if (status !== "all" && property.status !== status) return false;
+      if (status !== "all") {
+        if (status === "forSale" && !isForSaleStatus(property.status)) return false;
+        else if (status === "forRent" && !isForRentStatus(property.status)) return false;
+        else if (status !== "forSale" && status !== "forRent" && property.status !== status) return false;
+      }
       if (propertyType !== "all" && property.propertyType !== propertyType) return false;
-      if (state !== "all" && property.location.state !== state) return false;
+      if (state !== "all" && (property.state ?? property.location?.state) !== state) return false;
       return true;
     });
   }, [properties, status, propertyType, state]);

@@ -236,7 +236,7 @@ export default async function HomePage() {
 
           {/* View More Button */}
           <div className="text-center mt-12">
-            <Link href="/property?status=active-sale">
+            <Link href="/property?status=forSale">
               <Button variant="secondary">View More Properties</Button>
             </Link>
           </div>
@@ -280,7 +280,7 @@ export default async function HomePage() {
 
           {/* View More Button */}
           <div className="text-center mt-12">
-            <Link href="/property?status=active-rental">
+            <Link href="/property?status=forRent">
               <Button variant="secondary">View More Rentals</Button>
             </Link>
           </div>

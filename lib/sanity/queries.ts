@@ -19,18 +19,31 @@ import type {
 
 /** All active properties (for sale or rent) */
 export const activePropertiesQuery = groq`
-  *[_type == "property" && status in ["active-sale", "active-rental"]] | order(_createdAt desc) {
+  *[_type == "property" && status in ["active-sale", "active-rental", "forSale", "forRent"]] | order(_createdAt desc) {
     _id,
     _createdAt,
     title,
     slug,
     status,
+    historicalRecord,
     propertyType,
     price,
     priceType,
+    shortDescription,
+    streetAddress,
+    market,
+    communityOrBuilding,
+    city,
+    state,
+    zipCode,
+    country,
     bedrooms,
     bathrooms,
+    halfBathrooms,
     sqft,
+    squareFeet,
+    lotSize,
+    yearBuilt,
     location,
     "featuredImage": featuredImage {
       asset->,
@@ -41,7 +54,8 @@ export const activePropertiesQuery = groq`
       alt
     },
     "featuredImageUrl": featuredImage.asset->url,
-    externalUrl
+    externalUrl,
+    externalListingUrl
   }
 `;
 
@@ -53,12 +67,25 @@ export const allPropertiesQuery = groq`
     title,
     slug,
     status,
+    historicalRecord,
     propertyType,
     price,
     priceType,
+    shortDescription,
+    streetAddress,
+    market,
+    communityOrBuilding,
+    city,
+    state,
+    zipCode,
+    country,
     bedrooms,
     bathrooms,
+    halfBathrooms,
     sqft,
+    squareFeet,
+    lotSize,
+    yearBuilt,
     yearTransacted,
     location,
     "featuredImage": featuredImage {
@@ -70,19 +97,30 @@ export const allPropertiesQuery = groq`
       alt
     },
     "featuredImageUrl": featuredImage.asset->url,
-    externalUrl
+    externalUrl,
+    externalListingUrl
   }
 `;
 
 /** Featured properties for homepage (or recent active if none featured) */
 export const featuredPropertiesQuery = groq`
-  *[_type == "property" && (featured == true || status in ["active-sale", "active-rental"])] | order(featured desc, featuredOrder asc, _createdAt desc) [0...6] {
+  *[_type == "property" && (featured == true || featuredOnHomepage == true || status in ["active-sale", "active-rental", "forSale", "forRent"])] | order(featured desc, featuredOrder asc, _createdAt desc) [0...6] {
     _id,
     title,
     slug,
     status,
+    propertyType,
     price,
     priceType,
+    bedrooms,
+    bathrooms,
+    halfBathrooms,
+    sqft,
+    squareFeet,
+    market,
+    communityOrBuilding,
+    city,
+    state,
     location,
     "featuredImage": featuredImage {
       asset->,
@@ -103,9 +141,21 @@ export const propertyBySlugQuery = groq`
     propertyType,
     price,
     priceType,
+    shortDescription,
+    streetAddress,
+    market,
+    communityOrBuilding,
+    city,
+    state,
+    zipCode,
+    country,
     bedrooms,
     bathrooms,
+    halfBathrooms,
     sqft,
+    squareFeet,
+    lotSize,
+    yearBuilt,
     yearTransacted,
     description,
     location,
@@ -118,8 +168,14 @@ export const propertyBySlugQuery = groq`
       alt
     },
     externalUrl,
+    externalListingUrl,
+    virtualTourUrl,
+    videoUrl,
     featured,
-    featuredOrder
+    featuredOnHomepage,
+    featuredOrder,
+    seoTitle,
+    seoDescription
   }
 `;
 
@@ -134,9 +190,21 @@ export const propertyByIdQuery = groq`
     propertyType,
     price,
     priceType,
+    shortDescription,
+    streetAddress,
+    market,
+    communityOrBuilding,
+    city,
+    state,
+    zipCode,
+    country,
     bedrooms,
     bathrooms,
+    halfBathrooms,
     sqft,
+    squareFeet,
+    lotSize,
+    yearBuilt,
     yearTransacted,
     description,
     location,
@@ -149,8 +217,14 @@ export const propertyByIdQuery = groq`
       alt
     },
     externalUrl,
+    externalListingUrl,
+    virtualTourUrl,
+    videoUrl,
     featured,
-    featuredOrder
+    featuredOnHomepage,
+    featuredOrder,
+    seoTitle,
+    seoDescription
   }
 `;
 
@@ -161,17 +235,26 @@ export const propertyPathsQuery = groq`
 
 /** Properties for sale (active-sale status) */
 export const propertiesForSaleQuery = groq`
-  *[_type == "property" && status == "active-sale"] | order(_createdAt desc) {
+  *[_type == "property" && status in ["active-sale", "forSale"]] | order(_createdAt desc) {
     _id,
     title,
     slug,
     status,
+    propertyType,
     price,
     priceType,
+    market,
+    communityOrBuilding,
+    city,
+    state,
     location,
     bedrooms,
     bathrooms,
+    halfBathrooms,
     sqft,
+    squareFeet,
+    lotSize,
+    yearBuilt,
     "featuredImage": featuredImage {
       asset->,
       alt
@@ -182,17 +265,26 @@ export const propertiesForSaleQuery = groq`
 
 /** Properties for rent (active-rental status) */
 export const propertiesForRentQuery = groq`
-  *[_type == "property" && status == "active-rental"] | order(_createdAt desc) {
+  *[_type == "property" && status in ["active-rental", "forRent"]] | order(_createdAt desc) {
     _id,
     title,
     slug,
     status,
+    propertyType,
     price,
     priceType,
+    market,
+    communityOrBuilding,
+    city,
+    state,
     location,
     bedrooms,
     bathrooms,
+    halfBathrooms,
     sqft,
+    squareFeet,
+    lotSize,
+    yearBuilt,
     "featuredImage": featuredImage {
       asset->,
       alt
@@ -208,8 +300,13 @@ export const soldPropertiesQuery = groq`
     title,
     slug,
     status,
+    propertyType,
     price,
     priceType,
+    market,
+    communityOrBuilding,
+    city,
+    state,
     location,
     yearTransacted,
     "featuredImage": featuredImage {
@@ -227,8 +324,13 @@ export const rentedPropertiesQuery = groq`
     title,
     slug,
     status,
+    propertyType,
     price,
     priceType,
+    market,
+    communityOrBuilding,
+    city,
+    state,
     location,
     yearTransacted,
     "featuredImage": featuredImage {
@@ -239,19 +341,28 @@ export const rentedPropertiesQuery = groq`
   }
 `;
 
-/** Properties by neighborhood */
+/** Properties by neighborhood or market */
 export const propertiesByNeighborhoodQuery = groq`
-  *[_type == "property" && location.neighborhood in $neighborhoods] | order(status asc, _createdAt desc) {
+  *[_type == "property" && (location.neighborhood in $neighborhoods || market in $neighborhoods)] | order(status asc, _createdAt desc) {
     _id,
     title,
     slug,
     status,
+    propertyType,
     price,
     priceType,
+    market,
+    communityOrBuilding,
+    city,
+    state,
     location,
     bedrooms,
     bathrooms,
+    halfBathrooms,
     sqft,
+    squareFeet,
+    lotSize,
+    yearBuilt,
     yearTransacted,
     "featuredImage": featuredImage {
       asset->,
@@ -266,7 +377,7 @@ export const relatedPropertiesQuery = groq`
   *[
     _type == "property" &&
     _id != $id &&
-    status in ["active-sale", "active-rental"]
+    status in ["active-sale", "active-rental", "forSale", "forRent"]
   ] | order(_createdAt desc) [0...24] {
     _id,
     _createdAt,
@@ -276,10 +387,22 @@ export const relatedPropertiesQuery = groq`
     propertyType,
     price,
     priceType,
+    shortDescription,
+    streetAddress,
+    market,
+    communityOrBuilding,
+    city,
+    state,
+    zipCode,
+    country,
     location,
     bedrooms,
     bathrooms,
+    halfBathrooms,
     sqft,
+    squareFeet,
+    lotSize,
+    yearBuilt,
     "featuredImage": featuredImage {
       asset->,
       alt
@@ -531,15 +654,18 @@ export async function getPropertiesByNeighborhood(
 }
 
 export async function getRelatedProperties(property: Property): Promise<Property[]> {
+  const propertyMarket = property.market ?? property.location?.neighborhood ?? "";
+  const propertyState = property.state ?? property.location?.state ?? "";
+
   const candidates = await fetchWithFallback(
     "getRelatedProperties",
     relatedPropertiesQuery,
     [],
     {
       id: property._id,
-      neighborhood: property.location?.neighborhood ?? "",
+      market: propertyMarket,
       propertyType: property.propertyType ?? "",
-      state: property.location?.state ?? "",
+      state: propertyState,
     },
     { next: { revalidate: revalidateSeconds } }
   );
@@ -548,16 +674,16 @@ export async function getRelatedProperties(property: Property): Promise<Property
     .sort((a, b) => {
       const score = (candidate: Property) => {
         let value = 0;
-        if (
-          property.location?.neighborhood &&
-          candidate.location?.neighborhood === property.location.neighborhood
-        ) {
+        const candidateMarket = candidate.market ?? candidate.location?.neighborhood;
+        const candidateState = candidate.state ?? candidate.location?.state;
+
+        if (propertyMarket && candidateMarket === propertyMarket) {
           value += 4;
         }
         if (property.propertyType && candidate.propertyType === property.propertyType) {
           value += 2;
         }
-        if (property.location?.state && candidate.location?.state === property.location.state) {
+        if (propertyState && candidateState === propertyState) {
           value += 1;
         }
         return value;

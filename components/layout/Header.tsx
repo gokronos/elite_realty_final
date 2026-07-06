@@ -34,16 +34,16 @@ export const navLinks: NavLink[] = [
             href: null,
             label: "For Sale",
             subChildren: [
-              { href: "/property?status=active-sale&type=residential", label: "Residential" },
-              { href: "/property?status=active-sale&type=commercial", label: "Commercial" },
+              { href: "/property?status=forSale&type=residential", label: "Residential" },
+              { href: "/property?status=forSale&type=commercial", label: "Commercial" },
             ],
           },
           {
             href: null,
             label: "For Rent",
             subChildren: [
-              { href: "/property?status=active-rental&type=residential", label: "Residential" },
-              { href: "/property?status=active-rental&type=commercial", label: "Commercial" },
+              { href: "/property?status=forRent&type=residential", label: "Residential" },
+              { href: "/property?status=forRent&type=commercial", label: "Commercial" },
             ],
           },
         ],

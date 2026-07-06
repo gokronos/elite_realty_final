@@ -4,6 +4,12 @@
  */
 
 import type { Property, BlogPost, BlogPostCard } from "@/types";
+import {
+  formatPropertyLocationFromProperty,
+  getPropertySquareFeet,
+  isForRentStatus,
+  isForSaleStatus,
+} from "@/lib/utils";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://eliterealtypr.com";
 
@@ -132,37 +138,41 @@ export function generatePropertySchema(property: Property) {
   const schemaType = getPropertySchemaType(property.propertyType);
 
   // Determine offer type based on status
-  const isForSale = property.status === "active-sale";
-  const isForRent = property.status === "active-rental";
+  const isForSale = isForSaleStatus(property.status);
+  const isForRent = isForRentStatus(property.status);
   const isSold = property.status === "sold";
   const isRented = property.status === "rented";
+  const squareFeet = getPropertySquareFeet(property);
 
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": schemaType,
     "@id": propertyUrl,
     name: property.title,
-    description: `${property.title} - ${getPropertyTypeLabel(property.propertyType)}${property.location?.neighborhood || property.location?.city || property.location?.state ? ` in ${[property.location?.neighborhood, property.location?.city, property.location?.state].filter(Boolean).join(", ")}` : ""}`,
+    description: `${property.title} - ${getPropertyTypeLabel(property.propertyType)} in ${formatPropertyLocationFromProperty(property)}`,
     url: propertyUrl,
     image: imageUrl,
   };
 
-  if (property.location?.city || property.location?.state) {
+  if (property.city || property.state || property.location?.city || property.location?.state) {
     schema.address = {
       "@type": "PostalAddress",
-      addressLocality: property.location?.city,
-      addressRegion: property.location?.state,
-      addressCountry: property.location?.state === "FL" ? "US" : "PR",
+      streetAddress: property.streetAddress ?? property.location?.address,
+      addressLocality: property.city ?? property.location?.city,
+      addressRegion: property.state ?? property.location?.state,
+      postalCode: property.zipCode,
+      addressCountry: "US",
     };
   }
 
   // Add geo if we have city data
-  if (property.location?.city) {
+  if (property.city || property.location?.city) {
+    const state = property.state ?? property.location?.state;
     schema.geo = {
       "@type": "GeoCoordinates",
       // Note: Would need actual coordinates per property
-      latitude: property.location.state === "FL" ? 25.7617 : 18.4655,
-      longitude: property.location.state === "FL" ? -80.1918 : -66.1057,
+      latitude: state === "FL" ? 25.7617 : 18.4655,
+      longitude: state === "FL" ? -80.1918 : -66.1057,
     };
   }
 
@@ -174,10 +184,10 @@ export function generatePropertySchema(property: Property) {
   if (property.bathrooms) {
     schema.numberOfBathroomsTotal = property.bathrooms;
   }
-  if (property.sqft) {
+  if (squareFeet) {
     schema.floorSize = {
       "@type": "QuantitativeValue",
-      value: property.sqft,
+      value: squareFeet,
       unitCode: "FTK", // Square feet
     };
   }

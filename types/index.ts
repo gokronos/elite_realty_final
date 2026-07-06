@@ -10,7 +10,13 @@
 // =============================================================================
 
 /** Property listing status */
-export type PropertyStatus = "active-sale" | "active-rental" | "sold" | "rented";
+export type PropertyStatus =
+  | "forSale"
+  | "forRent"
+  | "active-sale"
+  | "active-rental"
+  | "sold"
+  | "rented";
 
 /** Type of property */
 export type PropertyType = "condo" | "residential" | "commercial" | "land";
@@ -19,7 +25,7 @@ export type PropertyType = "condo" | "residential" | "commercial" | "land";
 export type State = "PR" | "FL";
 
 /** Price classification */
-export type PriceType = "sale" | "rent";
+export type PriceType = "salePrice" | "monthlyRent" | "sale" | "rent";
 
 /** Social media platforms */
 export type SocialPlatform = "instagram" | "linkedin" | "facebook" | "twitter";
@@ -142,15 +148,33 @@ export interface Property extends Pick<SanityDocument, "_id" | "_createdAt"> {
   priceType?: PriceType;
   bedrooms?: number;
   bathrooms?: number;
+  halfBathrooms?: number;
   sqft?: number;
+  squareFeet?: number;
+  lotSize?: string;
+  yearBuilt?: number;
   yearTransacted?: number;
   description?: PortableTextContent;
+  shortDescription?: string;
+  streetAddress?: string;
+  market?: string;
+  communityOrBuilding?: string;
+  city?: string;
+  state?: State;
+  zipCode?: string;
+  country?: string;
   location: PropertyLocation;
   featuredImage: SanityImage;
   gallery?: SanityImage[];
   externalUrl?: string;
+  externalListingUrl?: string;
+  virtualTourUrl?: string;
+  videoUrl?: string;
   featured?: boolean;
+  featuredOnHomepage?: boolean;
   featuredOrder?: number;
+  seoTitle?: string;
+  seoDescription?: string;
 }
 
 /** Property card (minimal data for listings) */
@@ -160,8 +184,18 @@ export type PropertyCard = Pick<
   | "title"
   | "slug"
   | "status"
+  | "propertyType"
   | "price"
   | "priceType"
+  | "bedrooms"
+  | "bathrooms"
+  | "halfBathrooms"
+  | "sqft"
+  | "squareFeet"
+  | "market"
+  | "communityOrBuilding"
+  | "city"
+  | "state"
   | "location"
   | "featuredImage"
 >;
@@ -173,8 +207,18 @@ export type FeaturedProperty = Pick<
   | "title"
   | "slug"
   | "status"
+  | "propertyType"
   | "price"
   | "priceType"
+  | "bedrooms"
+  | "bathrooms"
+  | "halfBathrooms"
+  | "sqft"
+  | "squareFeet"
+  | "market"
+  | "communityOrBuilding"
+  | "city"
+  | "state"
   | "location"
   | "featuredImage"
   | "yearTransacted"

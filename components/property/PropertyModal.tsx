@@ -5,7 +5,14 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { X, ExternalLink, Bed, Bath, Maximize, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { formatPrice, formatPropertyLocation, formatWholeNumber } from "@/lib/utils";
+import {
+  formatPrice,
+  formatPropertyLocationFromProperty,
+  formatWholeNumber,
+  getPropertySquareFeet,
+  isForRentStatus,
+  isMonthlyRentPrice,
+} from "@/lib/utils";
 import { urlFor } from "@/lib/sanity/image";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -43,6 +50,16 @@ export function PropertyModal({ property, isOpen, onClose }: PropertyModalProps)
 
   const currentImage = allImages[currentImageIndex];
   const imageUrl = urlFor(currentImage)?.width(1200).height(800).url();
+  const squareFeet = getPropertySquareFeet(property);
+  const showBedrooms =
+    property.propertyType !== "commercial" &&
+    property.propertyType !== "land" &&
+    property.bedrooms !== undefined;
+  const showBathrooms =
+    property.propertyType !== "land" && property.bathrooms !== undefined;
+  const showSquareFeet = property.propertyType !== "land" && Boolean(squareFeet);
+  const showSpecs = showBedrooms || showBathrooms || showSquareFeet;
+  const externalListingUrl = property.externalListingUrl ?? property.externalUrl;
 
   const showNextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
@@ -201,37 +218,39 @@ export function PropertyModal({ property, isOpen, onClose }: PropertyModalProps)
             </h2>
 
             <p className="font-sans text-sm text-[#a0a0a0] uppercase tracking-widest mb-6">
-              {formatPropertyLocation(property.location)}
+              {formatPropertyLocationFromProperty(property)}
             </p>
 
             <p className="font-sans text-2xl text-white mb-8">
               {formatPrice(property.price)}
-              {property.priceType === "rent" && (
+              {(isForRentStatus(property.status) || isMonthlyRentPrice(property.priceType)) && (
                 <span className="text-[#a0a0a0] text-lg"> /month</span>
               )}
             </p>
 
             {/* Details */}
-            <div className="flex gap-6 mb-8">
-              {property.bedrooms !== undefined && (
-                <div className="flex items-center gap-2 text-[#a0a0a0] font-sans">
-                  <Bed className="w-5 h-5" />
-                  <span>{property.bedrooms} beds</span>
-                </div>
-              )}
-              {property.bathrooms !== undefined && (
-                <div className="flex items-center gap-2 text-[#a0a0a0] font-sans">
-                  <Bath className="w-5 h-5" />
-                  <span>{property.bathrooms} baths</span>
-                </div>
-              )}
-              {property.sqft && (
-                <div className="flex items-center gap-2 text-[#a0a0a0] font-sans">
-                  <Maximize className="w-5 h-5" />
-                  <span>{formatWholeNumber(property.sqft)} sqft</span>
-                </div>
-              )}
-            </div>
+            {showSpecs && (
+              <div className="flex gap-6 mb-8">
+                {showBedrooms && (
+                  <div className="flex items-center gap-2 text-[#a0a0a0] font-sans">
+                    <Bed className="w-5 h-5" />
+                    <span>{property.bedrooms} beds</span>
+                  </div>
+                )}
+                {showBathrooms && (
+                  <div className="flex items-center gap-2 text-[#a0a0a0] font-sans">
+                    <Bath className="w-5 h-5" />
+                    <span>{property.bathrooms} baths</span>
+                  </div>
+                )}
+                {showSquareFeet && (
+                  <div className="flex items-center gap-2 text-[#a0a0a0] font-sans">
+                    <Maximize className="w-5 h-5" />
+                    <span>{formatWholeNumber(squareFeet)} sqft</span>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Actions */}
             <div className="flex gap-4 mt-auto">
@@ -245,9 +264,9 @@ export function PropertyModal({ property, isOpen, onClose }: PropertyModalProps)
               >
                 More Information
               </Button>
-              {property.externalUrl && (
+              {externalListingUrl && (
                 <a
-                  href={property.externalUrl}
+                  href={externalListingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

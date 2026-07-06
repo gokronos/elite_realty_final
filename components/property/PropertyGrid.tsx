@@ -1,4 +1,5 @@
 import { PropertyCard } from "./PropertyCard";
+import { isActivePropertyStatus } from "@/lib/utils";
 import type { Property, PropertyCard as PropertyCardType } from "@/types";
 
 interface PropertyGridProps {
@@ -33,13 +34,13 @@ export function PropertyGrid({ properties, groupHistoricalByYear = false }: Prop
   }
 
   const currentListings = properties.filter(
-    (property) => property.status === "active-sale" || property.status === "active-rental"
+    (property) => isActivePropertyStatus(property.status)
   );
   const historicalByYear = new Map<string, (Property | PropertyCardType)[]>();
   const undatedHistorical: (Property | PropertyCardType)[] = [];
 
   for (const property of properties) {
-    if (property.status === "active-sale" || property.status === "active-rental") {
+    if (isActivePropertyStatus(property.status)) {
       continue;
     }
 

@@ -10,8 +10,8 @@ interface FilterOption<T> {
 
 const statusOptions: FilterOption<PropertyStatus>[] = [
   { value: "all", label: "All Status" },
-  { value: "active-sale", label: "For Sale" },
-  { value: "active-rental", label: "For Rent" },
+  { value: "forSale", label: "For Sale" },
+  { value: "forRent", label: "For Rent" },
   { value: "sold", label: "Sold" },
   { value: "rented", label: "Rented" },
 ];

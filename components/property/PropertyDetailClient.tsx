@@ -15,7 +15,15 @@ import {
   Mail,
 } from "lucide-react";
 import { PortableText } from "@portabletext/react";
-import { cn, formatPrice, formatPropertyLocation, formatWholeNumber } from "@/lib/utils";
+import {
+  cn,
+  formatPrice,
+  formatPropertyLocationFromProperty,
+  formatWholeNumber,
+  getPropertySquareFeet,
+  isForRentStatus,
+  isMonthlyRentPrice,
+} from "@/lib/utils";
 import { urlFor } from "@/lib/sanity/image";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -37,6 +45,44 @@ export function PropertyDetailClient({
   const allImages = [property.featuredImage, ...(property.gallery || [])].filter(Boolean);
   const currentImage = allImages[currentImageIndex];
   const imageUrl = urlFor(currentImage)?.width(1400).height(900).url();
+  const squareFeet = getPropertySquareFeet(property);
+  const showBedrooms =
+    property.propertyType !== "commercial" &&
+    property.propertyType !== "land" &&
+    property.bedrooms !== undefined;
+  const showBathrooms =
+    property.propertyType !== "land" && property.bathrooms !== undefined;
+  const showSquareFeet = property.propertyType !== "land" && Boolean(squareFeet);
+  const showFeatureSummary = showBedrooms || showBathrooms || showSquareFeet;
+  const externalListingUrl = property.externalListingUrl ?? property.externalUrl;
+  const addressParts = [
+    property.streetAddress ?? property.location?.address,
+    property.city ?? property.location?.city,
+    property.state ?? property.location?.state,
+    property.zipCode,
+  ].filter(Boolean);
+  const detailItems = [
+    property.propertyType
+      ? { label: "Property Type", value: property.propertyType }
+      : null,
+    property.communityOrBuilding
+      ? { label: "Community / Building", value: property.communityOrBuilding }
+      : null,
+    property.market ?? property.location?.neighborhood
+      ? { label: "Market", value: property.market ?? property.location?.neighborhood }
+      : null,
+    addressParts.length > 0
+      ? { label: "Address", value: addressParts.join(", ") }
+      : null,
+    property.propertyType !== "land" && property.halfBathrooms !== undefined
+      ? { label: "Half Bathrooms", value: property.halfBathrooms }
+      : null,
+    property.lotSize ? { label: "Lot Size", value: property.lotSize } : null,
+    property.yearBuilt ? { label: "Year Built", value: property.yearBuilt } : null,
+    property.yearTransacted
+      ? { label: "Year", value: property.yearTransacted }
+      : null,
+  ].filter(Boolean) as { label: string; value: string | number }[];
 
   const handleNextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
@@ -146,68 +192,73 @@ export function PropertyDetailClient({
                 <h1 className="font-serif text-4xl lg:text-5xl text-white mb-4">{property.title}</h1>
 
                 <p className="font-sans text-sm text-[#a0a0a0] uppercase tracking-widest mb-6">
-                  {formatPropertyLocation(property.location)}
+                  {formatPropertyLocationFromProperty(property)}
                 </p>
 
                 <p className="font-sans text-3xl lg:text-4xl text-white font-semibold mb-4">
                   {formatPrice(property.price)}
-                  {property.priceType === "rent" && (
+                  {(isForRentStatus(property.status) || isMonthlyRentPrice(property.priceType)) && (
                     <span className="text-[#a0a0a0] text-lg ml-2"> /month</span>
                   )}
                 </p>
               </div>
 
-              <div className="bg-[#1a1a1a] border border-[#2d2d2d] rounded-lg p-8 mb-8">
-                <h3 className="font-serif text-2xl text-white mb-6">Property Features</h3>
+              {showFeatureSummary && (
+                <div className="bg-[#1a1a1a] border border-[#2d2d2d] rounded-lg p-8 mb-8">
+                  <h3 className="font-serif text-2xl text-white mb-6">Property Features</h3>
 
-                <div className="grid grid-cols-3 gap-6">
-                  {property.bedrooms !== undefined && (
-                    <div>
-                      <div className="flex items-center gap-3 mb-2">
-                        <Bed className="w-5 h-5 text-[#d4af37]" />
-                        <span className="text-[#a0a0a0]">Bedrooms</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    {showBedrooms && (
+                      <div>
+                        <div className="flex items-center gap-3 mb-2">
+                          <Bed className="w-5 h-5 text-[#d4af37]" />
+                          <span className="text-[#a0a0a0]">Bedrooms</span>
+                        </div>
+                        <p className="text-white text-2xl font-semibold">{property.bedrooms}</p>
                       </div>
-                      <p className="text-white text-2xl font-semibold">{property.bedrooms}</p>
-                    </div>
-                  )}
+                    )}
 
-                  {property.bathrooms !== undefined && (
-                    <div>
-                      <div className="flex items-center gap-3 mb-2">
-                        <Bath className="w-5 h-5 text-[#d4af37]" />
-                        <span className="text-[#a0a0a0]">Bathrooms</span>
+                    {showBathrooms && (
+                      <div>
+                        <div className="flex items-center gap-3 mb-2">
+                          <Bath className="w-5 h-5 text-[#d4af37]" />
+                          <span className="text-[#a0a0a0]">Bathrooms</span>
+                        </div>
+                        <p className="text-white text-2xl font-semibold">{property.bathrooms}</p>
                       </div>
-                      <p className="text-white text-2xl font-semibold">{property.bathrooms}</p>
-                    </div>
-                  )}
+                    )}
 
-                  {property.sqft && (
-                    <div>
-                      <div className="flex items-center gap-3 mb-2">
-                        <Maximize className="w-5 h-5 text-[#d4af37]" />
-                        <span className="text-[#a0a0a0]">Square Feet</span>
+                    {showSquareFeet && (
+                      <div>
+                        <div className="flex items-center gap-3 mb-2">
+                          <Maximize className="w-5 h-5 text-[#d4af37]" />
+                          <span className="text-[#a0a0a0]">Square Feet</span>
+                        </div>
+                        <p className="text-white text-2xl font-semibold">{formatWholeNumber(squareFeet)}</p>
                       </div>
-                      <p className="text-white text-2xl font-semibold">{formatWholeNumber(property.sqft)}</p>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              <div className="grid grid-cols-2 gap-6 mb-8">
-                {property.propertyType && (
-                  <div>
-                    <p className="text-[#a0a0a0] text-sm mb-2">Property Type</p>
-                    <p className="text-white text-lg font-semibold capitalize">{property.propertyType}</p>
-                  </div>
-                )}
+              {detailItems.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                  {detailItems.map((item) => (
+                    <div key={item.label}>
+                      <p className="text-[#a0a0a0] text-sm mb-2">{item.label}</p>
+                      <p className="text-white text-lg font-semibold capitalize">{item.value}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
 
-                {property.yearTransacted && (
-                  <div>
-                    <p className="text-[#a0a0a0] text-sm mb-2">Year</p>
-                    <p className="text-white text-lg font-semibold">{property.yearTransacted}</p>
-                  </div>
-                )}
-              </div>
+              {property.shortDescription && (
+                <div className="mb-8">
+                  <p className="font-sans text-[#cfcfcf] text-lg leading-relaxed">
+                    {property.shortDescription}
+                  </p>
+                </div>
+              )}
 
               {property.description && (
                 <div className="mb-8">
@@ -249,10 +300,26 @@ export function PropertyDetailClient({
                   </div>
                 </div>
 
-                {property.externalUrl && (
-                  <a href={property.externalUrl} target="_blank" rel="noopener noreferrer">
+                {externalListingUrl && (
+                  <a href={externalListingUrl} target="_blank" rel="noopener noreferrer">
                     <Button variant="secondary" className="w-full">
                       View On Listing Site
+                    </Button>
+                  </a>
+                )}
+
+                {property.virtualTourUrl && (
+                  <a href={property.virtualTourUrl} target="_blank" rel="noopener noreferrer">
+                    <Button variant="secondary" className="w-full">
+                      Virtual Tour
+                    </Button>
+                  </a>
+                )}
+
+                {property.videoUrl && (
+                  <a href={property.videoUrl} target="_blank" rel="noopener noreferrer">
+                    <Button variant="secondary" className="w-full">
+                      Video
                     </Button>
                   </a>
                 )}

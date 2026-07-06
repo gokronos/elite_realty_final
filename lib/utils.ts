@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import type { PriceType, Property, PropertyStatus } from "@/types";
 
 /**
  * Merge Tailwind CSS classes with clsx
@@ -60,4 +61,40 @@ export function formatPropertyLocation(location?: {
   }
 
   return parts.join(", ");
+}
+
+export function isForSaleStatus(status?: PropertyStatus | string): boolean {
+  return status === "forSale" || status === "active-sale";
+}
+
+export function isForRentStatus(status?: PropertyStatus | string): boolean {
+  return status === "forRent" || status === "active-rental";
+}
+
+export function isActivePropertyStatus(status?: PropertyStatus | string): boolean {
+  return isForSaleStatus(status) || isForRentStatus(status);
+}
+
+export function isMonthlyRentPrice(priceType?: PriceType | string): boolean {
+  return priceType === "monthlyRent" || priceType === "rent";
+}
+
+export function getPropertySquareFeet(property: Pick<Property, "squareFeet" | "sqft">): number | undefined {
+  return property.squareFeet ?? property.sqft;
+}
+
+export function formatPropertyLocationFromProperty(
+  property: Pick<
+    Property,
+    "market" | "communityOrBuilding" | "city" | "state" | "location"
+  >
+): string {
+  const parts = [
+    property.communityOrBuilding,
+    property.market ?? property.location?.neighborhood,
+    property.city ?? property.location?.city,
+    property.state ?? property.location?.state,
+  ].filter(Boolean);
+
+  return parts.length > 0 ? parts.join(", ") : "Location on file";
 }

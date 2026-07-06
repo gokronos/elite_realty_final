@@ -10,9 +10,17 @@ const statusConfig: Record<
   PropertyStatus,
   { label: string; className: string }
 > = {
+  forSale: {
+    label: "For Sale",
+    className: "bg-white text-black",
+  },
   "active-sale": {
     label: "For Sale",
     className: "bg-white text-black",
+  },
+  forRent: {
+    label: "For Rent",
+    className: "bg-[#d4af37] text-black",
   },
   "active-rental": {
     label: "For Rent",
