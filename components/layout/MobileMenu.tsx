@@ -142,7 +142,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                       <div
                                         className={cn(
                                           "overflow-hidden transition-all duration-300",
-                                          openSubSubmenus[`${link.label}-${item.label}-${child.label}`] ? "max-h-40 mb-1" : "max-h-0"
+                                          openSubSubmenus[`${link.label}-${item.label}-${child.label}`] ? "max-h-80 mb-1" : "max-h-0"
                                         )}
                                       >
                                         {child.subChildren.map((sub) => (

@@ -19,6 +19,22 @@ export type NavLink = {
   dropdown?: DropdownItem[];
 };
 
+const forSaleLinks: DropdownSubChild[] = [
+  { href: "/property?status=forSale", label: "All For Sale" },
+  { href: "/property?status=forSale&type=condo", label: "Condo" },
+  { href: "/property?status=forSale&type=residential", label: "Residential" },
+  { href: "/property?status=forSale&type=commercial", label: "Commercial" },
+  { href: "/property?status=forSale&type=land", label: "Land" },
+];
+
+const forRentLinks: DropdownSubChild[] = [
+  { href: "/property?status=forRent", label: "All For Rent" },
+  { href: "/property?status=forRent&type=condo", label: "Condo" },
+  { href: "/property?status=forRent&type=residential", label: "Residential" },
+  { href: "/property?status=forRent&type=commercial", label: "Commercial" },
+  { href: "/property?status=forRent&type=land", label: "Land" },
+];
+
 export const navLinks: NavLink[] = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
@@ -33,18 +49,12 @@ export const navLinks: NavLink[] = [
           {
             href: null,
             label: "For Sale",
-            subChildren: [
-              { href: "/property?status=forSale&type=residential", label: "Residential" },
-              { href: "/property?status=forSale&type=commercial", label: "Commercial" },
-            ],
+            subChildren: forSaleLinks,
           },
           {
             href: null,
             label: "For Rent",
-            subChildren: [
-              { href: "/property?status=forRent&type=residential", label: "Residential" },
-              { href: "/property?status=forRent&type=commercial", label: "Commercial" },
-            ],
+            subChildren: forRentLinks,
           },
         ],
       },
