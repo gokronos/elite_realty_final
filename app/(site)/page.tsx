@@ -121,10 +121,10 @@ export default async function HomePage() {
       {/* ========================================
           SECTION 3: JOURNAL
           ======================================== */}
-      <section className="py-20 lg:py-24 px-4 bg-[#1a1a1a]">
+      <section className="py-16 lg:py-20 px-4 bg-[#1a1a1a]">
         <div className="container mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-wide">
               JOURNAL
             </h2>
@@ -132,7 +132,7 @@ export default async function HomePage() {
 
           {/* Blog Posts Grid */}
           {blogPosts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
               {blogPosts.slice(0, 3).map((post) => {
                 const imageUrl = post.featuredImage
                   ? urlFor(post.featuredImage)?.width(600).height(450).url()
@@ -144,8 +144,8 @@ export default async function HomePage() {
                     className="group bg-[#0a0a0a] border border-[#2d2d2d] hover:border-[#8a8a8a] transition-colors overflow-hidden"
                   >
                     <Link href={`/journal/${post.slug.current}`}>
-                      {/* Image - Vertical */}
-                      <div className="aspect-[4/5] bg-[#2d2d2d] relative overflow-hidden">
+                      {/* Image */}
+                      <div className="aspect-[4/3] bg-[#2d2d2d] relative overflow-hidden">
                         {imageUrl ? (
                           <Image
                             src={imageUrl}
@@ -162,7 +162,7 @@ export default async function HomePage() {
                       </div>
 
                       {/* Content */}
-                      <div className="p-6">
+                      <div className="p-5">
                         <p className="text-xs uppercase tracking-[0.15em] text-[#d4af37] mb-3">
                           {formatDate(post.publishedAt)}
                           {post.author?.name && ` · ${post.author.name}`}
