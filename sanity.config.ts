@@ -50,7 +50,7 @@ export default defineConfig({
                               .child(
                                 S.documentTypeList("property")
                                   .title("For Sale")
-                                  .filter('_type == "property" && status == "active-sale"')
+                                  .filter('_type == "property" && status in ["forSale", "active-sale"]')
                               ),
                             S.listItem()
                               .title("For Rent")
@@ -58,7 +58,7 @@ export default defineConfig({
                               .child(
                                 S.documentTypeList("property")
                                   .title("For Rent")
-                                  .filter('_type == "property" && status == "active-rental"')
+                                  .filter('_type == "property" && status in ["forRent", "active-rental"]')
                               ),
                             S.listItem()
                               .title("Sold")
