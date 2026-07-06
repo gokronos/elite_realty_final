@@ -26,6 +26,9 @@ export async function POST(request: Request) {
     switch (body._type) {
       case "property":
         revalidatePath("/property");
+        if (body.slug?.current) {
+          revalidatePath(`/property/${body.slug.current}`);
+        }
         revalidatePath("/");
         revalidatePath("/sitemap.xml");
         break;
