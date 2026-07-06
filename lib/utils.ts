@@ -97,6 +97,7 @@ export function formatPropertyLocationFromProperty(
     property.communityOrBuilding &&
     normalizedText(property.title).includes(normalizedText(property.communityOrBuilding));
   const marketAlreadyInCommunity =
+    !communityAlreadyInTitle &&
     property.communityOrBuilding &&
     property.market &&
     normalizedText(property.communityOrBuilding).startsWith(normalizedText(property.market));
