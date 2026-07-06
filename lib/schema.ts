@@ -111,20 +111,6 @@ export function generateBusinessSchema() {
       latitude: 18.4533,
       longitude: -66.0729,
     },
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        opens: "09:00",
-        closes: "18:00",
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: "Saturday",
-        opens: "10:00",
-        closes: "14:00",
-      },
-    ],
     priceRange: "$$$",
     currenciesAccepted: "USD",
     paymentAccepted: "Cash, Check, Wire Transfer",
@@ -417,20 +403,6 @@ export function generateContactPageSchema() {
         addressRegion: "PR",
         addressCountry: "US",
       },
-      openingHoursSpecification: [
-        {
-          "@type": "OpeningHoursSpecification",
-          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-          opens: "09:00",
-          closes: "18:00",
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          dayOfWeek: "Saturday",
-          opens: "10:00",
-          closes: "16:00",
-        },
-      ],
     },
   };
 }
