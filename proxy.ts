@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const ACCESS_COOKIE = "elite_site_access";
 const ACCESS_QUERY_PARAM = "clientAccess";
+const ACCESS_PATH_PREFIX = "/client-preview/";
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -30,9 +31,15 @@ export function proxy(request: NextRequest) {
 
   const queryAccess = searchParams.get(ACCESS_QUERY_PARAM);
   const cookieAccess = request.cookies.get(ACCESS_COOKIE)?.value;
+  const pathAccess = pathname.startsWith(ACCESS_PATH_PREFIX)
+    ? decodeURIComponent(pathname.slice(ACCESS_PATH_PREFIX.length))
+    : null;
 
-  if (queryAccess === accessSecret) {
+  if (queryAccess === accessSecret || pathAccess === accessSecret) {
     const cleanUrl = request.nextUrl.clone();
+    if (pathAccess === accessSecret) {
+      cleanUrl.pathname = "/";
+    }
     cleanUrl.searchParams.delete(ACCESS_QUERY_PARAM);
 
     const response = NextResponse.redirect(cleanUrl);
