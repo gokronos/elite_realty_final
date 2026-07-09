@@ -61,7 +61,12 @@ export function proxy(request: NextRequest) {
   constructionUrl.pathname = "/under-construction";
   constructionUrl.search = "";
 
-  return NextResponse.rewrite(constructionUrl);
+  const response = NextResponse.rewrite(constructionUrl);
+  response.headers.set(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, max-age=0"
+  );
+  return response;
 }
 
 export const config = {

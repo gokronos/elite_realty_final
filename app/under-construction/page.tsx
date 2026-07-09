@@ -4,6 +4,9 @@ import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
 import { ClientAccessForm } from "./ClientAccessForm";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Elite Realty | Site in Progress",
   description:
@@ -56,7 +59,9 @@ export default function UnderConstructionPage() {
             Lugo directly.
           </p>
 
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <ClientAccessForm />
+
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href="tel:+17873083982"
               className="inline-flex min-h-12 items-center gap-3 border border-[#d4af37] px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-[#d4af37] transition-colors hover:bg-[#d4af37] hover:text-black"
@@ -73,8 +78,6 @@ export default function UnderConstructionPage() {
               Email
             </Link>
           </div>
-
-          <ClientAccessForm />
         </div>
       </section>
     </main>
