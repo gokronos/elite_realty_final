@@ -101,6 +101,16 @@ export const property = defineType({
     }),
 
     defineField({
+      name: "hiddenFromWebsite",
+      title: "Hidden from Website",
+      type: "boolean",
+      description:
+        "Keep this property in Sanity but hide it from the public website. Useful when only a limited number of properties should be shown.",
+      group: "settings",
+      initialValue: false,
+    }),
+
+    defineField({
       name: "propertyType",
       title: "Property Type",
       type: "string",

@@ -144,6 +144,7 @@ export interface Property extends Pick<SanityDocument, "_id" | "_createdAt"> {
   legacySlugs?: string[];
   status: PropertyStatus;
   historicalRecord?: boolean;
+  hiddenFromWebsite?: boolean;
   propertyType?: PropertyType;
   price?: number;
   priceType?: PriceType;

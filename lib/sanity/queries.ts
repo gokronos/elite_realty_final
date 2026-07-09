@@ -17,15 +17,55 @@ import type {
 // PROPERTY QUERIES
 // =============================================================================
 
+const publicPropertySlugs = [
+  "plantation-village-building-ii-unit-404-for-rent",
+  "mirador-del-parque-ph-1702-for-rent",
+  "waymouth-st-550-miramar-pr-for-rent",
+  "14-ave-delcasse-unit-703-for-rent",
+  "14-ave-delcasse-unit-703",
+  "la-villa-de-torrimar-rey-gustavo-201",
+  "mirador-del-parque-ph-1702-hato-rey-pr",
+  "waymouth-st-550-miramar-pr",
+  "plantation-village-building-ii-unit-404",
+  "costa-dorada-k4",
+  "dorado-del-mar-dorado-pr",
+  "riviera-village-68-bayamon",
+  "1519-parada-23-ave-ponce-de-leon-esq-calle-del-parque",
+  "dorado-beach-east-28",
+  "condado-plaza-unit-7a-sold",
+  "ciudadela-800-unit-842-sold",
+  "aquablue-2806-sold",
+  "estancias-de-torrimar-calle-8-j7-lot-sold",
+  "escuela-cupey-sold",
+  "cond-treasure-point-unit-362-sold",
+  "cond-ridgetop-c210-sold",
+  "kings-court-playa-unit-104",
+  "torrimar-calle-barcelona-17-rented",
+  "sabanera-616-rented",
+  "paseo-caribe-bahia-plaza-unit-409-rented",
+  "mirador-del-parque-torre-1-apt-904-rented",
+  "mirador-del-parque-ph-1701-rented",
+  "metro-plaza-unit-502-rented",
+  "garden-hills-estates-calle-1-2-rented",
+  "gallery-plaza-unit-1201-rented",
+];
+
+const publicPropertiesFilter = groq`
+  _type == "property" &&
+  hiddenFromWebsite != true &&
+  slug.current in ${JSON.stringify(publicPropertySlugs)}
+`;
+
 /** All active properties (for sale or rent) */
 export const activePropertiesQuery = groq`
-  *[_type == "property" && status in ["active-sale", "active-rental", "forSale", "forRent"]] | order(_createdAt desc) {
+  *[${publicPropertiesFilter} && status in ["active-sale", "active-rental", "forSale", "forRent"]] | order(_createdAt desc) {
     _id,
     _createdAt,
     title,
     slug,
     status,
     historicalRecord,
+    hiddenFromWebsite,
     propertyType,
     price,
     priceType,
@@ -61,13 +101,14 @@ export const activePropertiesQuery = groq`
 
 /** All properties (including sold/rented) - ordered by year transacted */
 export const allPropertiesQuery = groq`
-  *[_type == "property"] | order(yearTransacted desc, _createdAt desc) {
+  *[${publicPropertiesFilter}] | order(yearTransacted desc, _createdAt desc) {
     _id,
     _createdAt,
     title,
     slug,
     status,
     historicalRecord,
+    hiddenFromWebsite,
     propertyType,
     price,
     priceType,
@@ -104,11 +145,12 @@ export const allPropertiesQuery = groq`
 
 /** Featured properties for homepage (or recent active if none featured) */
 export const featuredPropertiesQuery = groq`
-  *[_type == "property" && (featured == true || featuredOnHomepage == true || status in ["active-sale", "active-rental", "forSale", "forRent"])] | order(featured desc, featuredOrder asc, _createdAt desc) [0...6] {
+  *[${publicPropertiesFilter} && (featured == true || featuredOnHomepage == true || status in ["active-sale", "active-rental", "forSale", "forRent"])] | order(featured desc, featuredOrder asc, _createdAt desc) [0...6] {
     _id,
     title,
     slug,
     status,
+    hiddenFromWebsite,
     propertyType,
     price,
     priceType,
@@ -132,13 +174,14 @@ export const featuredPropertiesQuery = groq`
 
 /** Single property by slug */
 export const propertyBySlugQuery = groq`
-  *[_type == "property" && (slug.current == $slug || $slug in legacySlugs)][0] {
+  *[${publicPropertiesFilter} && (slug.current == $slug || $slug in legacySlugs)][0] {
     _id,
     _createdAt,
     title,
     slug,
     legacySlugs,
     status,
+    hiddenFromWebsite,
     propertyType,
     price,
     priceType,
@@ -182,13 +225,14 @@ export const propertyBySlugQuery = groq`
 
 /** Single property by ID */
 export const propertyByIdQuery = groq`
-  *[_type == "property" && _id == $id][0] {
+  *[${publicPropertiesFilter} && _id == $id][0] {
     _id,
     _createdAt,
     title,
     slug,
     legacySlugs,
     status,
+    hiddenFromWebsite,
     propertyType,
     price,
     priceType,
@@ -232,18 +276,19 @@ export const propertyByIdQuery = groq`
 
 /** Property slugs for static generation */
 export const propertyPathsQuery = groq`
-  *[_type == "property" && defined(slug.current)]{
+  *[${publicPropertiesFilter} && defined(slug.current)]{
     "slugs": array::compact([slug.current] + coalesce(legacySlugs, []))
   }.slugs[]
 `;
 
 /** Properties for sale (active-sale status) */
 export const propertiesForSaleQuery = groq`
-  *[_type == "property" && status in ["active-sale", "forSale"]] | order(_createdAt desc) {
+  *[${publicPropertiesFilter} && status in ["active-sale", "forSale"]] | order(_createdAt desc) {
     _id,
     title,
     slug,
     status,
+    hiddenFromWebsite,
     propertyType,
     price,
     priceType,
@@ -269,11 +314,12 @@ export const propertiesForSaleQuery = groq`
 
 /** Properties for rent (active-rental status) */
 export const propertiesForRentQuery = groq`
-  *[_type == "property" && status in ["active-rental", "forRent"]] | order(_createdAt desc) {
+  *[${publicPropertiesFilter} && status in ["active-rental", "forRent"]] | order(_createdAt desc) {
     _id,
     title,
     slug,
     status,
+    hiddenFromWebsite,
     propertyType,
     price,
     priceType,
@@ -299,11 +345,12 @@ export const propertiesForRentQuery = groq`
 
 /** Sold properties (most recent) */
 export const soldPropertiesQuery = groq`
-  *[_type == "property" && status == "sold"] | order(yearTransacted desc, _createdAt desc) {
+  *[${publicPropertiesFilter} && status == "sold"] | order(yearTransacted desc, _createdAt desc) {
     _id,
     title,
     slug,
     status,
+    hiddenFromWebsite,
     propertyType,
     price,
     priceType,
@@ -323,11 +370,12 @@ export const soldPropertiesQuery = groq`
 
 /** Rented properties (most recent) */
 export const rentedPropertiesQuery = groq`
-  *[_type == "property" && status == "rented"] | order(yearTransacted desc, _createdAt desc) {
+  *[${publicPropertiesFilter} && status == "rented"] | order(yearTransacted desc, _createdAt desc) {
     _id,
     title,
     slug,
     status,
+    hiddenFromWebsite,
     propertyType,
     price,
     priceType,
@@ -347,11 +395,12 @@ export const rentedPropertiesQuery = groq`
 
 /** Properties by neighborhood or market */
 export const propertiesByNeighborhoodQuery = groq`
-  *[_type == "property" && (location.neighborhood in $neighborhoods || market in $neighborhoods)] | order(status asc, _createdAt desc) {
+  *[${publicPropertiesFilter} && (location.neighborhood in $neighborhoods || market in $neighborhoods)] | order(status asc, _createdAt desc) {
     _id,
     title,
     slug,
     status,
+    hiddenFromWebsite,
     propertyType,
     price,
     priceType,
@@ -379,7 +428,7 @@ export const propertiesByNeighborhoodQuery = groq`
 /** Related active properties for a property detail page */
 export const relatedPropertiesQuery = groq`
   *[
-    _type == "property" &&
+    ${publicPropertiesFilter} &&
     _id != $id &&
     status in ["active-sale", "active-rental", "forSale", "forRent"]
   ] | order(_createdAt desc) [0...24] {
@@ -388,6 +437,7 @@ export const relatedPropertiesQuery = groq`
     title,
     slug,
     status,
+    hiddenFromWebsite,
     propertyType,
     price,
     priceType,
