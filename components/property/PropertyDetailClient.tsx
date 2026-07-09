@@ -19,6 +19,7 @@ import {
   cn,
   formatPrice,
   formatPropertyLocationFromProperty,
+  formatPropertyTitle,
   formatWholeNumber,
   getPropertySquareFeet,
   isForRentStatus,
@@ -45,7 +46,9 @@ export function PropertyDetailClient({
   const allImages = [property.featuredImage, ...(property.gallery || [])].filter(Boolean);
   const currentImage = allImages[currentImageIndex];
   const imageUrl = urlFor(currentImage)?.width(1400).height(900).url();
+  const displayTitle = formatPropertyTitle(property.title);
   const squareFeet = getPropertySquareFeet(property);
+  const isHistoricalProperty = property.status === "sold" || property.status === "rented";
   const showBedrooms =
     property.propertyType !== "commercial" &&
     property.propertyType !== "land" &&
@@ -53,7 +56,7 @@ export function PropertyDetailClient({
   const showBathrooms =
     property.propertyType !== "land" && property.bathrooms !== undefined;
   const showSquareFeet = property.propertyType !== "land" && Boolean(squareFeet);
-  const showFeatureSummary = showBedrooms || showBathrooms || showSquareFeet;
+  const showFeatureSummary = !isHistoricalProperty && (showBedrooms || showBathrooms || showSquareFeet);
   const externalListingUrl = property.externalListingUrl ?? property.externalUrl;
   const addressParts = [
     property.streetAddress ?? property.location?.address,
@@ -117,7 +120,7 @@ export function PropertyDetailClient({
             {imageUrl ? (
               <Image
                 src={imageUrl}
-                alt={currentImage?.alt || property.title}
+                alt={currentImage?.alt || displayTitle}
                 fill
                 className="object-cover"
                 priority
@@ -189,18 +192,20 @@ export function PropertyDetailClient({
               <div className="mb-8">
                 <Badge status={property.status} className="mb-4" />
 
-                <h1 className="font-serif text-4xl lg:text-5xl text-white mb-4">{property.title}</h1>
+                <h1 className="font-serif text-4xl lg:text-5xl text-white mb-4">{displayTitle}</h1>
 
                 <p className="font-sans text-sm text-[#a0a0a0] uppercase tracking-widest mb-6">
                   {formatPropertyLocationFromProperty(property)}
                 </p>
 
-                <p className="font-sans text-3xl lg:text-4xl text-white font-semibold mb-4">
-                  {formatPrice(property.price)}
-                  {(isForRentStatus(property.status) || isMonthlyRentPrice(property.priceType)) && (
-                    <span className="text-[#a0a0a0] text-lg ml-2"> /month</span>
-                  )}
-                </p>
+                {!isHistoricalProperty && (
+                  <p className="font-sans text-3xl lg:text-4xl text-white font-semibold mb-4">
+                    {formatPrice(property.price)}
+                    {(isForRentStatus(property.status) || isMonthlyRentPrice(property.priceType)) && (
+                      <span className="text-[#a0a0a0] text-lg ml-2"> /month</span>
+                    )}
+                  </p>
+                )}
               </div>
 
               {showFeatureSummary && (

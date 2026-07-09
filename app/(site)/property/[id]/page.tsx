@@ -12,6 +12,7 @@ import {
 import {
   formatPrice,
   formatPropertyLocationFromProperty,
+  formatPropertyTitle,
   isMonthlyRentPrice,
 } from "@/lib/utils";
 
@@ -55,8 +56,13 @@ export async function generateMetadata({ params }: PropertyPageProps): Promise<M
   }
 
   const locationLabel = formatPropertyLocationFromProperty(property);
-  const title = `${property.title} | Elite Realty`;
-  const description = `${property.title}${locationLabel ? ` in ${locationLabel}` : ""}. ${formatPrice(property.price)}${isMonthlyRentPrice(property.priceType) ? " per month" : ""}. Explore this ${property.propertyType || "luxury"} property with Elite Realty.`;
+  const displayTitle = formatPropertyTitle(property.title);
+  const isHistoricalProperty = property.status === "sold" || property.status === "rented";
+  const priceDescription = isHistoricalProperty
+    ? ""
+    : ` ${formatPrice(property.price)}${isMonthlyRentPrice(property.priceType) ? " per month" : ""}.`;
+  const title = `${displayTitle} | Elite Realty`;
+  const description = `${displayTitle}${locationLabel ? ` in ${locationLabel}` : ""}.${priceDescription} Explore this ${property.propertyType || "luxury"} property with Elite Realty.`;
   const ogImage = property.featuredImage?.asset?.url || "https://eliterealtypr.com/images/alexandra-2026.jpg";
 
   return {
@@ -75,7 +81,7 @@ export async function generateMetadata({ params }: PropertyPageProps): Promise<M
           url: ogImage,
           width: 1200,
           height: 675,
-          alt: property.title,
+          alt: displayTitle,
         },
       ],
     },

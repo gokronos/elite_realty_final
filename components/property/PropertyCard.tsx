@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import {
   formatPrice,
   formatPropertyLocationFromProperty,
+  formatPropertyTitle,
   formatWholeNumber,
   getPropertySquareFeet,
   isActivePropertyStatus,
@@ -65,6 +66,7 @@ export function PropertyCard({
     urlFor(property.featuredImage)?.width(800).height(600).url() ||
     propertyWithUrl.featuredImageUrl ||
     "";
+  const displayTitle = formatPropertyTitle(property.title);
 
   const fullProperty = property as Property;
   const squareFeet = getPropertySquareFeet(fullProperty);
@@ -96,7 +98,7 @@ export function PropertyCard({
           {imageUrl ? (
             <Image
               src={imageUrl}
-              alt={property.featuredImage?.alt || property.title}
+              alt={property.featuredImage?.alt || displayTitle}
               fill
               className={cn(
                 "object-cover transition-transform duration-500",
@@ -120,7 +122,7 @@ export function PropertyCard({
           {/* Share button — top right */}
           {!hideShare && (
             <button
-              onClick={(e) => handleShare(e, property.title, propertyHref)}
+              onClick={(e) => handleShare(e, displayTitle, propertyHref)}
               className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-black/60 backdrop-blur-sm hover:bg-[#d4af37] hover:text-black text-white transition-colors duration-200 rounded-sm"
               aria-label="Compartir propiedad"
             >
@@ -146,7 +148,7 @@ export function PropertyCard({
             !disableLink && "group-hover:!text-[#d4af37] transition-colors duration-200"
           )}
           style={{ fontFamily: '"Doulos SIL", "Cormorant Garamond", Georgia, serif' }}>
-            {property.title}
+            {displayTitle}
           </h3>
 
           {/* Price */}

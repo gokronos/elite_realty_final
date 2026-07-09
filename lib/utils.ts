@@ -87,6 +87,10 @@ export function getPropertySquareFeet(property: Pick<Property, "squareFeet" | "s
   return property.squareFeet ?? property.sqft;
 }
 
+export function formatPropertyTitle(title: string): string {
+  return title.replace(/\s+(SOLD|RENTED)\s*$/i, "").trim();
+}
+
 export function formatPropertyLocationFromProperty(
   property: Pick<
     Property,

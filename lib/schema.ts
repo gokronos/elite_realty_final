@@ -6,6 +6,7 @@
 import type { Property, BlogPost, BlogPostCard } from "@/types";
 import {
   formatPropertyLocationFromProperty,
+  formatPropertyTitle,
   getPropertySquareFeet,
   isForRentStatus,
   isForSaleStatus,
@@ -133,6 +134,7 @@ export function generateBusinessSchema() {
 export function generatePropertySchema(property: Property) {
   const propertyUrl = `${baseUrl}/property/${property.slug?.current || ""}`;
   const imageUrl = property.featuredImage?.asset?.url || `${baseUrl}/og-image.jpg`;
+  const displayTitle = formatPropertyTitle(property.title);
 
   // Determine property type for schema
   const schemaType = getPropertySchemaType(property.propertyType);
@@ -148,8 +150,8 @@ export function generatePropertySchema(property: Property) {
     "@context": "https://schema.org",
     "@type": schemaType,
     "@id": propertyUrl,
-    name: property.title,
-    description: `${property.title} - ${getPropertyTypeLabel(property.propertyType)} in ${formatPropertyLocationFromProperty(property)}`,
+    name: displayTitle,
+    description: `${displayTitle} - ${getPropertyTypeLabel(property.propertyType)} in ${formatPropertyLocationFromProperty(property)}`,
     url: propertyUrl,
     image: imageUrl,
   };
@@ -238,7 +240,7 @@ export function generatePropertyListSchema(properties: Property[]) {
       "@type": "ListItem",
       position: index + 1,
       url: `${baseUrl}/property/${property.slug?.current || ""}`,
-      name: property.title,
+      name: formatPropertyTitle(property.title),
     })),
   };
 }
@@ -589,12 +591,14 @@ export function generatePropertyListingPageSchema(properties: Property[]) {
  * Generate combined schema for single property page
  */
 export function generatePropertyPageSchema(property: Property) {
+  const displayTitle = formatPropertyTitle(property.title);
+
   return [
     generatePropertySchema(property),
     generateBreadcrumbSchema([
       { name: "Home", url: baseUrl },
       { name: "Property", url: `${baseUrl}/property` },
-      { name: property.title, url: `${baseUrl}/property/${property.slug?.current}` },
+      { name: displayTitle, url: `${baseUrl}/property/${property.slug?.current}` },
     ]),
   ];
 }
