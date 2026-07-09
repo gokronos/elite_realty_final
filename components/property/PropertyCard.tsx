@@ -72,6 +72,9 @@ export function PropertyCard({
   const hasBaths = fullProperty.propertyType !== "land" && fullProperty.bathrooms !== undefined;
   const hasSqft  = fullProperty.propertyType !== "land" && squareFeet !== undefined;
   const hasSpecs = hasBeds || hasBaths || hasSqft;
+  const isHistoricalCard = property.status === "sold" || property.status === "rented";
+  const showPrice = !hidePrice && !isHistoricalCard;
+  const showSpecs = hasSpecs && !isHistoricalCard;
   const propertySlug = property.slug?.current || property._id;
   const propertyHref = isActivePropertyStatus(property.status)
     ? `/property/${encodeURIComponent(propertySlug)}`
@@ -136,7 +139,10 @@ export function PropertyCard({
           {/* Title */}
           <h3 className={cn(
             titleClassName,
-            "font-doulos text-lg font-normal !text-[#a5a4a4] leading-snug mb-3 line-clamp-2 min-h-[3.25rem]",
+            "font-doulos font-normal leading-snug line-clamp-2",
+            isHistoricalCard
+              ? "text-2xl !text-[#d4af37] mb-1 min-h-[4rem]"
+              : "text-lg !text-[#a5a4a4] mb-3 min-h-[3.25rem]",
             !disableLink && "group-hover:!text-[#d4af37] transition-colors duration-200"
           )}
           style={{ fontFamily: '"Doulos SIL", "Cormorant Garamond", Georgia, serif' }}>
@@ -144,7 +150,7 @@ export function PropertyCard({
           </h3>
 
           {/* Price */}
-          {!hidePrice && (
+          {showPrice && (
             <p className="text-2xl font-bold font-sans text-[#d4af37] mb-4">
               {formatPrice(property.price)}
               {isForRentStatus(property.status) || isMonthlyRentPrice(property.priceType) ? (
@@ -154,7 +160,7 @@ export function PropertyCard({
           )}
 
           {/* Specs */}
-          {hasSpecs && (
+          {showSpecs && (
             <div className="mt-auto flex items-center justify-center flex-wrap gap-4 text-xs text-[#a0a0a0] border-t border-[#2a2a2a] pt-3 w-full">
               {hasBeds && (
                 <span className="flex items-center gap-1.5">
