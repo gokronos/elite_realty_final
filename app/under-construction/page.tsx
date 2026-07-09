@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
+import { ClientAccessForm } from "./ClientAccessForm";
 
 export const metadata: Metadata = {
   title: "Elite Realty | Site in Progress",
@@ -72,6 +73,8 @@ export default function UnderConstructionPage() {
               Email
             </Link>
           </div>
+
+          <ClientAccessForm />
         </div>
       </section>
     </main>
